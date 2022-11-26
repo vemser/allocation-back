@@ -1,4 +1,4 @@
-package br.com.allocation.controller.entity;
+package br.com.allocation.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

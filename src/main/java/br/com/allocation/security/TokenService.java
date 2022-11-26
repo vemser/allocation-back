@@ -1,6 +1,6 @@
 package br.com.allocation.security;
 
-import br.com.allocation.controller.entity.UsuarioEntity;
+import br.com.allocation.entity.UsuarioEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
