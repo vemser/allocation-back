@@ -14,9 +14,10 @@ import org.springframework.data.annotation.Id;
 @Setter
 @Entity(name = "Usuario")
 public class UsuarioEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USUARIO")
-    @SequenceGenerator(name = "SEQ_USUARIO", sequenceName = "seq_usuario", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
+    @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "seq_usuario", allocationSize = 1)
     @Column(name = "ID_USUARIO")
     private Integer idUsuario;
 
