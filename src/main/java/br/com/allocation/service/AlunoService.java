@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @RequiredArgsConstructor
 @Service
 public class AlunoService {
@@ -23,8 +25,7 @@ public class AlunoService {
         return objectMapper.convertValue(alunoCreateDTO, AlunoEntity.class);
     }
     private AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
-//       AlunoDTO alunoDTO = new AlunoDTO(alunoEntity.getNome(),
-//               alunoEntity.getArea(), alunoEntity.getEmail(),alunoEntity.ge)
+
         return objectMapper.convertValue(alunoEntity, AlunoDTO.class);
     }
 }
