@@ -2,6 +2,7 @@ package br.com.allocation.entity;
 
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.TipoAvaliacao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,14 +26,17 @@ public class AvaliacaoEntity {
     @Column(name = "codigo")
     private Integer codigo;
 
-    @Column(name = "id_aluno")
+    @Column(name = "id_aluno", insertable = false, updatable = false)
     private Integer idAluno;
 
-    @Column(name = "codigo_vaga")
+    @Column(name = "codigo_vaga", insertable = false, updatable = false)
     private Integer codigoVaga;
 
     @Column(name = "descricao")
     private String descricao;
+
+    @Column(name = "nota")
+    private Double nota;
 
     @Column(name = "tipo_avaliacao")
     private TipoAvaliacao tipoAvaliacao;
@@ -49,4 +55,19 @@ public class AvaliacaoEntity {
 
     @Column(name = "situacao")
     private Situacao situacao;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_aluno", referencedColumnName = "id_aluno")
+    private AlunoEntity aluno;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo_vaga", referencedColumnName = "codigo_vaga")
+    private VagaEntity vaga;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "avaliacao", fetch = FetchType.LAZY)
+    private Set<ReservaAlocacaoEntity> reservasAlocacoes = new HashSet<>();
+
 }

@@ -2,12 +2,15 @@ package br.com.allocation.entity;
 
 import br.com.allocation.enums.Situacao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -34,4 +37,8 @@ public class ClienteEntity {
 
     @Column(name = "situacao")
     private Situacao situacao;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<VagaEntity> vagas = new HashSet<>();
 }
