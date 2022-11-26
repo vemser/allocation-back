@@ -36,6 +36,7 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "senha")
     private String senha;
 
+    @Lob
     @Column(name = "foto")
     private String foto;
 

@@ -1,6 +1,7 @@
 package br.com.allocation.entity;
 
 import br.com.allocation.enums.Situacao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +22,7 @@ public class ProgramaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROGRAMA_SEQ")
     @SequenceGenerator(name = "PROGRAMA_SEQ", sequenceName = "seq_programa", allocationSize = 1)
-    @Column(name = "ID_PROGRAMA")
+    @Column(name = "id_programa")
     private Integer idPrograma;
 
     @Column(name = "nome")
@@ -36,4 +39,17 @@ public class ProgramaEntity {
 
     @Column(name = "situacao")
     private Situacao situacao;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
+    private Set<AlunoEntity> alunos = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "VAGA_PROGRAMA",
+            joinColumns = @JoinColumn(name = "id_programa"),
+            inverseJoinColumns = @JoinColumn(name = "codigo_vaga")
+    )
+    private Set<VagaEntity> vagas = new HashSet<>();
 }

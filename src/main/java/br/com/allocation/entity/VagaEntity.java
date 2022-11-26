@@ -1,6 +1,7 @@
 package br.com.allocation.entity;
 
 import br.com.allocation.enums.Situacao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +24,7 @@ public class VagaEntity {
     @Column(name = "codigo")
     private Integer codigo;
 
-    @Column(name = "id_cliente")
+    @Column(name = "id_cliente", insertable = false, updatable = false)
     private Integer idCliente;
 
     @Column(name = "nome")
@@ -44,4 +47,21 @@ public class VagaEntity {
 
     @Column(name = "situacao")
     private Situacao situacao;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+    private ClienteEntity cliente;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "vaga", fetch = FetchType.LAZY)
+    private Set<AvaliacaoEntity> avaliacoes = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "vagas", fetch = FetchType.LAZY)
+    private Set<ProgramaEntity> programas = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "vaga", fetch = FetchType.LAZY)
+    private Set<ReservaAlocacaoEntity> resevasAlocacoes;
 }

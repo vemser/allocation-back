@@ -1,12 +1,15 @@
 package br.com.allocation.entity;
 
 import br.com.allocation.enums.Area;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +24,7 @@ public class AlunoEntity {
     @Column(name = "id_aluno")
     private Integer idAluno;
 
-    @Column (name = "id_programa")
+    @Column (name = "id_programa", insertable = false, updatable = false)
     private Integer idPrograma;
 
     @Column(name = "nome")
@@ -44,4 +47,17 @@ public class AlunoEntity {
 
     @Column(name = "descricao")
     private String descricao;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
+    private Set<AvaliacaoEntity> avaliacoes = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_programa", referencedColumnName = "id_programa")
+    private ProgramaEntity programa;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "aluno")
+    private ReservaAlocacaoEntity reservaAlocacao;
 }
