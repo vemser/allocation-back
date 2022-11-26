@@ -45,8 +45,6 @@ public class AuthController {
 
         String token = tokenService.getToken(usuarioEntity);
         return new ResponseEntity<>(token, HttpStatus.OK);
-
-
     }
 
     @PostMapping("/register")
