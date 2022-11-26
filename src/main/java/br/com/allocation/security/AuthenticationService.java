@@ -1,6 +1,6 @@
-package com.allocation.security;
+package br.com.allocation.security;
 
-import com.allocation.service.UsuarioService;
+import br.com.allocation.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

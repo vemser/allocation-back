@@ -1,4 +1,4 @@
-package com.allocation.exceptions;
+package br.com.allocation.exceptions;
 
 public class InvalidTokenException extends RegraDeNegocioException {
     public InvalidTokenException(String message) {

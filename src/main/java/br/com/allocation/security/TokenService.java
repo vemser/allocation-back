@@ -1,6 +1,6 @@
-package com.allocation.security;
+package br.com.allocation.security;
 
-import com.allocation.entity.UsuarioEntity;
+import br.com.allocation.controller.entity.UsuarioEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,7 +27,7 @@ public class TokenService {
         Date hojeDT = Date.from(hojeLD.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date expDT = Date.from(hojeLD.plusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
-                .setIssuer("vemser-api")
+                .setIssuer("allocation")
                 .claim(Claims.ID, usuarioEntity.getIdUsuario().toString())
                 .setIssuedAt(hojeDT)
                 .setExpiration(expDT)

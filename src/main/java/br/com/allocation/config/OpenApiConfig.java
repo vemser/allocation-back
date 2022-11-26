@@ -1,4 +1,4 @@
-package com.allocation.config;
+package br.com.allocation.config;
 
 
 import io.swagger.v3.oas.models.Components;
