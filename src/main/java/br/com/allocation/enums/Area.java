@@ -1,5 +1,7 @@
 package br.com.allocation.enums;
 
 public enum Area {
-    JAVA
+    BACK,
+    FRONT,
+    QA
 }

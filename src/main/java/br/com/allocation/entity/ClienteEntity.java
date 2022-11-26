@@ -14,13 +14,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "Cliente")
+@Entity(name = "cliente")
 public class ClienteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CLIENTE_SEQ")
     @SequenceGenerator(name = "CLIENTE_SEQ", sequenceName = "seq_cliente", allocationSize = 1)
-    @Column(name = "ID_CLIENTE")
+    @Column(name = "id_cliente")
     private Integer idCliente;
 
     @Column(name = "nome")
