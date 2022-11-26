@@ -1,8 +1,9 @@
 package br.com.allocation.entity;
 
 import br.com.allocation.enums.Situacao;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 
 @Entity(name = "Cliente")
 public class ClienteEntity {
