@@ -1,4 +1,4 @@
-package br.com.allocation.dto;
+package br.com.allocation.dto.usuarioDTO;
 
 import lombok.*;
 

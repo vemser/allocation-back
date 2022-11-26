@@ -2,14 +2,12 @@ package br.com.allocation.entity;
 
 import br.com.allocation.enums.Situacao;
 
-import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 
 
 @AllArgsConstructor

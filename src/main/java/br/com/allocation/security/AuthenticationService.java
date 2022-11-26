@@ -1,6 +1,7 @@
 package br.com.allocation.security;
 
-import br.com.allocation.controller.entity.UsuarioEntity;
+
+import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

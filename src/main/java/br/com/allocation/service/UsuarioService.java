@@ -1,18 +1,14 @@
 package br.com.allocation.service;
 
 
-import br.com.allocation.dto.UsuarioCreateDTO;
-import br.com.allocation.dto.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import br.com.allocation.controller.entity.UsuarioEntity;
-import br.com.allocation.repository.UsuarioRepository;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
@@ -55,10 +51,5 @@ public class UsuarioService {
         return usuarioDTO;
 
 
-    private UsuarioRepository usuarioRepository;
-
-    public Optional<UsuarioEntity> findByEmail(String email){
-        return usuarioRepository.findByEmail(email);
     }
-
 }
