@@ -13,6 +13,5 @@ import java.time.LocalDate;
 public class ProgramaDTO {
     private String nome;
     private String descricao;
-    private LocalDate dataCriacao;
     private Situacao situacao;
 }

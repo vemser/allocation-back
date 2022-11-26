@@ -30,5 +30,7 @@ public class UsuarioCreateDTO {
     @Size(min = 8, max = 25)
     private String senha;
 
+    @NotBlank(message = "senha não pode ser vazio ou nulo.")
+    @Schema(description = "foto usuario ")
     private String foto;
 }

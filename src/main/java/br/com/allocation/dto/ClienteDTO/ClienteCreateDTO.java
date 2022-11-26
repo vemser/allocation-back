@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -20,6 +21,7 @@ public class ClienteCreateDTO {
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "email",example = "")
+    @Email
     private String email;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
