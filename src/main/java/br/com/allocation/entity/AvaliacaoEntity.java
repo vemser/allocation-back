@@ -23,7 +23,7 @@ public class AvaliacaoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AVALIACAO")
     @SequenceGenerator(name = "SEQ_AVALIACAO", sequenceName = "seq_avaliacao", allocationSize = 1)
-    @Column(name = "codigo")
+    @Column(name = "codigo_avaliacao")
     private Integer codigo;
 
     @Column(name = "id_aluno", insertable = false, updatable = false)

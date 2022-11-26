@@ -35,7 +35,7 @@ public class ClienteController {
             }
     )
     @PostMapping
-    public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
+    public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) {
         log.info("Adicionando o Usuário...");
         ClienteDTO cliente = clienteService.salvar(clienteCreate);
         log.info("Usuário adicionado com sucesso!");

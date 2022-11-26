@@ -2,10 +2,7 @@ package br.com.allocation.dto.Avaliacao;
 
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class AvaliacaoDTO extends AvaliacaoCreateDTO{
 
 }

@@ -36,10 +36,6 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "senha")
     private String senha;
 
-    @Lob
-    @Column(name = "foto")
-    private String foto;
-
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -83,4 +79,8 @@ public class UsuarioEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private FileEntity file;
 }
