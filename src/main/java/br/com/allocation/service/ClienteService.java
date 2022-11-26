@@ -1,8 +1,10 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.AlunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.ClienteDTO.ClienteCreateDTO;
 import br.com.allocation.dto.ClienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ClienteRepository;
@@ -24,27 +26,29 @@ public class ClienteService {
 
 
     public ClienteDTO salvar(ClienteCreateDTO clienteCreate) {
-        ClienteEntity clienteEntity = objectMapper.convertValue(clienteCreate, ClienteEntity.class);
-
-        return objectMapper.convertValue(clienteRepository.save(clienteEntity), ClienteDTO.class);
+        ClienteEntity clienteEntity = converterEntity(clienteCreate);
+        return converterEmDTO(clienteRepository.save(clienteEntity));
     }
 
     public PageDTO<ClienteDTO> listar(Integer pagina, Integer tamanho){
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAll(pageRequest);
 
-        List<ClienteDTO> ClientePagina = paginaRepository.getContent().stream()
-                .map(x -> objectMapper.convertValue(x, ClienteDTO.class))
+        List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
                 .toList();
 
-        return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                clienteDTOList);
     }
 
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
         ClienteEntity clienteEntity = findById(idCliente);
 
-        clienteEntity = objectMapper.convertValue(clienteCreate, ClienteEntity.class);
-
+        clienteEntity = converterEntity(clienteCreate);
         clienteEntity = clienteRepository.save(clienteEntity);
         return objectMapper.convertValue(clienteEntity, ClienteDTO.class);
     }
@@ -55,6 +59,13 @@ public class ClienteService {
     }
 
     public ClienteEntity findById(Integer id) throws RegraDeNegocioException {
-        return clienteRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
+    }
+    private ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {
+        return objectMapper.convertValue(clienteCreateDTO, ClienteEntity.class);
+    }
+    private ClienteDTO converterEmDTO(ClienteEntity clienteEntity) {
+        return objectMapper.convertValue(clienteEntity, ClienteDTO.class);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.allocation.controller;
 
+import br.com.allocation.controller.interfaces.AuthInterfaceController;
 import br.com.allocation.dto.loginDTO.LoginDTO;
 
 import br.com.allocation.dto.usuarioDTO.MensagemDTO;
@@ -25,7 +26,7 @@ import java.io.IOException;
 @RequestMapping("/auth")
 @Validated
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthInterfaceController {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
