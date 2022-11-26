@@ -29,8 +29,8 @@ public class SecurityConfiguration {
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/auth/**").permitAll()
-                                .anyRequest().authenticated()
+                        authz.antMatchers("/**").permitAll()
+
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 
