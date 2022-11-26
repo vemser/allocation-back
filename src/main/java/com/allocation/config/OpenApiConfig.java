@@ -18,7 +18,7 @@ public class OpenApiConfig {
         String securitySchemeName = "bearerAuth";
         return new OpenAPI()
                 .info(new Info().title("PokéStore API")
-                        .description("PokéStore API documentação")
+                        .description("Aloccation API documentação")
                         .version("v1.0.0")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
