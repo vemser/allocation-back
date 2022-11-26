@@ -2,18 +2,12 @@ package br.com.allocation.dto.ClienteDTO;
 
 import br.com.allocation.enums.Situacao;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class ClienteCreateDTO {
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nome do Cliente",example = "Sicred")
