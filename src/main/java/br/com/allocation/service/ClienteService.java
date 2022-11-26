@@ -43,11 +43,10 @@ public class ClienteService {
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
         ClienteEntity clienteEntity = findById(idCliente);
 
-        ClienteEntity clienteAtualizar = objectMapper.convertValue(clienteCreate, ClienteEntity.class);
-        clienteAtualizar.setIdCliente(idCliente);
+        clienteEntity = objectMapper.convertValue(clienteCreate, ClienteEntity.class);
 
-        clienteAtualizar = clienteRepository.save(clienteAtualizar);
-        return objectMapper.convertValue(clienteAtualizar, ClienteDTO.class);
+        clienteEntity = clienteRepository.save(clienteEntity);
+        return objectMapper.convertValue(clienteEntity, ClienteDTO.class);
     }
 
     public void deletar(Integer idCliente) throws RegraDeNegocioException {
