@@ -2,10 +2,9 @@ package br.com.allocation.controller;
 
 import br.com.allocation.dto.loginDTO.LoginDTO;
 
-import br.com.allocation.dto.usuarioDTO.MensagemDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
-import br.com.allocation.entity.FileEntity;
+import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.security.TokenService;
 import br.com.allocation.service.FileService;
@@ -17,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.IOException;
