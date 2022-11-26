@@ -35,7 +35,7 @@ public class ClienteController {
             }
     )
     @PostMapping
-    public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
+    public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) {
         log.info("Adicionando o Usuário...");
         ClienteDTO cliente = clienteService.salvar(clienteCreate);
         log.info("Usuário adicionado com sucesso!");
@@ -51,7 +51,7 @@ public class ClienteController {
             }
     )
     @GetMapping
-    public ResponseEntity<PageDTO<ClienteDTO>> listar(Integer pagina, Integer tamanho) throws RegraDeNegocioException {
+    public ResponseEntity<PageDTO<ClienteDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(clienteService.listar(pagina, tamanho));
     }
 
@@ -63,7 +63,7 @@ public class ClienteController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping("/${id}")
+    @PostMapping("/{id}")
     public ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate, @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Cliente...");
         ClienteDTO cliente = clienteService.editar(id, clienteCreate);

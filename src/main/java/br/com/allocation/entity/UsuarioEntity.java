@@ -36,13 +36,6 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "senha")
     private String senha;
 
-<<<<<<< Updated upstream
-    @Lob
-    @Column(name = "foto")
-    private String foto;
-
-=======
->>>>>>> Stashed changes
     @JsonIgnore
     @ManyToMany
     @JoinTable(

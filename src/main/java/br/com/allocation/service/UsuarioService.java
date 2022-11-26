@@ -52,8 +52,14 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
-    public UsuarioEntity findUsuarioByEmail(String email){
-        return usuarioRepository.findUsuarioEntityByEmail(email);
+    public UsuarioEntity findUsuarioByEmail(String email) throws RegraDeNegocioException {
+        UsuarioEntity usuario = usuarioRepository.findUsuarioEntityByEmail(email);
+        if(usuario == null) {
+            throw new RegraDeNegocioException("Usuario não encontrado!");
+        }
+        else{
+            return usuario;
+        }
     }
 
     private UsuarioEntity converterEntity(UsuarioCreateDTO usuarioCreateDTO) {

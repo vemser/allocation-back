@@ -30,5 +30,4 @@ public class UsuarioCreateDTO {
     @Size(min = 8, max = 25)
     private String senha;
 
-    @Schema(description = "foto usuario ")
 }
