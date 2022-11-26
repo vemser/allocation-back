@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "cliente")
+@Entity(name = "Cliente")
 public class ClienteEntity {
 
     @Id

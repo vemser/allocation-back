@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "reserva_alocacao")
+@Entity(name = "Reserva_Alocacao")
 public class ReservaAlocacaoEntity {
 
     @Id

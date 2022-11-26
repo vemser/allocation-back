@@ -32,13 +32,11 @@ public class UsuarioService {
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
-        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
-        return usuarioDTO;
+        return converterEmDTO(usuarioRepository.save(usuarioEntity));
     }
 
     public Optional<UsuarioEntity> findByEmail(String email) {
-        Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findByEmail(email);
-        return usuarioEntity;
+        return usuarioRepository.findByEmail(email);
     }
 
     private UsuarioEntity converterEntity(UsuarioCreateDTO usuarioCreateDTO) {
@@ -46,10 +44,6 @@ public class UsuarioService {
     }
 
     public UsuarioDTO converterEmDTO(UsuarioEntity usuarioEntity) {
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioEntity.getNomeCompleto(),
-                usuarioEntity.getEmail(), usuarioEntity.getFoto());
-        return usuarioDTO;
-
-
+        return objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
     }
 }

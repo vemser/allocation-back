@@ -1,5 +1,6 @@
 package br.com.allocation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -21,7 +24,7 @@ public class UsuarioEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
     @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "seq_usuario", allocationSize = 1)
-    @Column(name = "ID_USUARIO")
+    @Column(name = "id_usuario")
     private Integer idUsuario;
 
     @Column(name = "nome_completo")
@@ -36,9 +39,18 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "foto")
     private String foto;
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "USUARIO_CARGO",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_cargo")
+    )
+    private Set<CargoEntity> cargos = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return cargos;
     }
 
     @Override

@@ -3,6 +3,7 @@ package br.com.allocation.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,15 +24,16 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.headers().frameOptions().disable().and()
-                .cors().and()
-                .csrf().disable()
-                .authorizeHttpRequests((auth) ->
-                        auth.antMatchers("/auth","/auth/**").permitAll()
+        http.headers()
+                .frameOptions().disable()
+                .and().cors()
+                .and().csrf().disable()
+                .authorizeHttpRequests((authz) ->
+                        authz.antMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 );
-
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 

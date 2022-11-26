@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "Vaga")
+@Entity(name = "vaga")
 public class VagaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VAGA_SEQ")

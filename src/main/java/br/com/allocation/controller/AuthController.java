@@ -31,20 +31,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<String> auth(@RequestBody @Valid LoginDTO loginDTO) throws RegraDeNegocioException {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(
-                        loginDTO.getEmail(),
-                        loginDTO.getSenha()
-                );
-
-        Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-        // UsuarioEntity
-        Object principal = authenticate.getPrincipal();
-        UsuarioEntity usuarioEntity = (UsuarioEntity) principal;
-
-        String token = tokenService.getToken(usuarioEntity);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        return new ResponseEntity<>(tokenService.autenticarAcesso(loginDTO, authenticationManager), HttpStatus.OK);
     }
 
     @PostMapping("/register")

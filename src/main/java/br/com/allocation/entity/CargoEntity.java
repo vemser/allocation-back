@@ -1,4 +1,4 @@
-package com.dbc.vemser.pokestore.entity;
+package br.com.allocation.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
