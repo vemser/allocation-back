@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.AlunoInterfaceController;
-import br.com.allocation.dto.AlunoDTO.AlunoCreateDTO;
-import br.com.allocation.dto.AlunoDTO.AlunoDTO;
+import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
+import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.AlunoService;

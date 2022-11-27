@@ -4,6 +4,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+
+    private final CargoService cargoService;
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -29,18 +32,41 @@ public class UsuarioService {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
         validarSenha(usuarioCreateDTO);
         confirmarSenha(usuarioCreateDTO);
+
+        List<CargoEntity> cargos = usuarioCreateDTO.getCargos().stream()
+                        .map(cargo -> {
+                            try {
+                                return cargoService.findByNome(cargo.getNome());
+                            } catch (RegraDeNegocioException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }).toList();
+
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
+        cargos.forEach(cargo -> usuarioEntity.getCargos().add(cargo));
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
-        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
-        return usuarioDTO;
+        return converterEmDTO(usuarioRepository.save(usuarioEntity));
     }
+
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        this.findById(id);
+        findById(id);
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
-        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
-        return usuarioDTO;
+
+        List<CargoEntity> cargos = usuarioCreateDTO.getCargos().stream()
+                .map(cargo -> {
+                    try {
+                        return cargoService.findByNome(cargo.getNome());
+                    } catch (RegraDeNegocioException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toList();
+
+        cargos.forEach(cargo -> usuarioEntity.getCargos().add(cargo));
+        usuarioEntity.setIdUsuario(id);
+        return converterEmDTO(usuarioRepository.save(usuarioEntity));
     }
+
     public PageDTO<UsuarioDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<UsuarioEntity> paginaRepository = usuarioRepository.findAll(pageRequest);
@@ -90,9 +116,8 @@ public class UsuarioService {
     }
 
     public UsuarioEntity findById(Integer id) throws RegraDeNegocioException {
-        UsuarioEntity usuario = usuarioRepository.findById(id)
+        return usuarioRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado!"));
-        return usuario;
     }
 
     public Optional<UsuarioEntity> findByEmail(String email) {

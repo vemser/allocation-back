@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.ClienteInterfaceController;
-import br.com.allocation.dto.ClienteDTO.ClienteCreateDTO;
-import br.com.allocation.dto.ClienteDTO.ClienteDTO;
+import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
+import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ClienteService;

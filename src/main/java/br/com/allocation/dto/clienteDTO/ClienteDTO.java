@@ -1,4 +1,4 @@
-package br.com.allocation.dto.ClienteDTO;
+package br.com.allocation.dto.clienteDTO;
 
 import lombok.*;
 

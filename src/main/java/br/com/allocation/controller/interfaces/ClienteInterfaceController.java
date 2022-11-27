@@ -1,7 +1,7 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.ClienteDTO.ClienteCreateDTO;
-import br.com.allocation.dto.ClienteDTO.ClienteDTO;
+import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
+import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;

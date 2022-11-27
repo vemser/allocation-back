@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.ProgramaInterfaceController;
-import br.com.allocation.dto.ProgramaDTO.ProgramaCreateDTO;
-import br.com.allocation.dto.ProgramaDTO.ProgramaDTO;
+import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
+import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ProgramaService;
