@@ -43,7 +43,7 @@ public interface AlunoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping
+    @PutMapping
     ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                     @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
 
