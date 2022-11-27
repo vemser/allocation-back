@@ -14,7 +14,7 @@ public class LoginWithIdDTO {
     private Integer idUsuario;
 
     @NotBlank
-    private String nome;
+    private String nomeCompleto;
 
     @JsonIgnore
     @NotNull

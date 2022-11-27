@@ -8,5 +8,5 @@ import lombok.*;
 public class UsuarioDTO {
     private String nomeCompleto;
     private String email;
-    private String foto;
+
 }

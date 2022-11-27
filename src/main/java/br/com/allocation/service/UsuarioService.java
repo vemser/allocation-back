@@ -1,6 +1,7 @@
 package br.com.allocation.service;
 
 
+import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,23 +38,27 @@ public class UsuarioService {
         return usuarioDTO;
     }
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        this.findById(id);
-        UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
-        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
+        UsuarioEntity usuario = findById(id);
+        usuario.setEmail(usuarioCreateDTO.getEmail());
+        usuario.setSenha(passwordEncoder.encode(usuarioCreateDTO.getSenha()));
+        usuario.setNomeCompleto(usuarioCreateDTO.getNomeCompleto());
+        usuarioRepository.save(usuario);
+        UsuarioDTO usuarioDTO = converterEmDTO(usuario);
         return usuarioDTO;
     }
     public PageDTO<UsuarioDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
-        Page<UsuarioEntity> paginaRepository = usuarioRepository.findAll(pageRequest);
-
-        List<UsuarioDTO> usuarioDTOS = usuarioRepository.findAll().stream()
-                .map(this::converterEmDTO)
-                .collect(Collectors.toList());
-        return new PageDTO<>(paginaRepository.getTotalElements(),
-                paginaRepository.getTotalPages(),
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAll(pageRequest);
+        List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
+                .map(usuario -> objectMapper.convertValue(usuario, UsuarioDTO.class))
+                .toList();
+        return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
+                paginaDoRepositorio.getTotalPages(),
                 pagina,
                 tamanho,
-                usuarioDTOS);
+                usuarios
+        );
+
     }
     public void deletar(Integer id) throws RegraDeNegocioException {
         this.findById(id);
@@ -95,6 +101,15 @@ public class UsuarioService {
         return usuario;
     }
 
+    public Integer getIdLoggedUser() {
+        return Integer.parseInt((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
+    public LoginWithIdDTO getLoggedUser() throws RegraDeNegocioException {
+        UsuarioEntity userLogged = findById(getIdLoggedUser());
+        return objectMapper.convertValue(userLogged, LoginWithIdDTO.class);
+    }
+
     public Optional<UsuarioEntity> findByEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
@@ -115,4 +130,6 @@ public class UsuarioService {
     public UsuarioDTO converterEmDTO(UsuarioEntity usuarioEntity) {
         return objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
     }
+
+
 }
