@@ -36,6 +36,7 @@ public class VagaEntity {
     @Column(name = "quantidade_alocados")
     private Integer quantidadeAlocados;
 
+
     @Column(name = "data_abertura")
     private LocalDate dataAbertura;
 

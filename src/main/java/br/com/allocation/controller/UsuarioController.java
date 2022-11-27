@@ -21,7 +21,7 @@ import java.io.IOException;
 
 
 @RestController
-@RequestMapping("/Usuario")
+@RequestMapping("/usuario")
 @Validated
 @RequiredArgsConstructor
 @Slf4j

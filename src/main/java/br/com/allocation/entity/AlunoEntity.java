@@ -1,6 +1,7 @@
 package br.com.allocation.entity;
 
 import br.com.allocation.enums.Area;
+import br.com.allocation.enums.StatusAluno;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -58,6 +59,14 @@ public class AlunoEntity {
     private ProgramaEntity programa;
 
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ALUNO_TECNOLOGIA",joinColumns = @JoinColumn(name = "ID_ALUNO"),
+    inverseJoinColumns = @JoinColumn(name = "ID_TECNOLOGIA"))
+    private Set<TecnologiaEntity> tecnologiaEntities;
+
+    @JsonIgnore
     @OneToOne(mappedBy = "aluno")
     private ReservaAlocacaoEntity reservaAlocacao;
+
+    private StatusAluno statusAluno;
 }

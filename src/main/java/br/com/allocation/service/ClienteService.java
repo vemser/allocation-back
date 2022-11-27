@@ -48,7 +48,7 @@ public class ClienteService {
 
         clienteEntity = converterEntity(clienteCreate);
         clienteEntity = clienteRepository.save(clienteEntity);
-        return objectMapper.convertValue(clienteEntity, ClienteDTO.class);
+        return converterEmDTO(clienteEntity);
     }
 
     public void deletar(Integer idCliente) throws RegraDeNegocioException {
