@@ -1,7 +1,7 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.ReservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
-import br.com.allocation.dto.ReservaAlocacaoDTO.ReservaAlocacaoDTO;
+import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
+import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
 import br.com.allocation.entity.ReservaAlocacaoEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ReservaAlocacaoRepository;
