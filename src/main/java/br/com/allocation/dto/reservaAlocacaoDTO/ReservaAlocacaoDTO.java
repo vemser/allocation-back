@@ -1,4 +1,4 @@
-package br.com.allocation.dto.ReservaAlocacaoDTO;
+package br.com.allocation.dto.reservaAlocacaoDTO;
 
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.enums.Situacao;

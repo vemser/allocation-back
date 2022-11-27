@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.AlunoInterfaceController;
-import br.com.allocation.dto.AlunoDTO.AlunoCreateDTO;
-import br.com.allocation.dto.AlunoDTO.AlunoDTO;
+import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
+import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.AlunoService;
@@ -24,6 +24,7 @@ public class AlunoController implements AlunoInterfaceController {
 
     private final AlunoService alunoService;
 
+    @Override
     @PostMapping
     public ResponseEntity<AlunoDTO> salvar(@Valid @RequestBody AlunoCreateDTO alunoCreate) {
         log.info("Adicionando Aluno...");
@@ -31,11 +32,13 @@ public class AlunoController implements AlunoInterfaceController {
         log.info("Aluno adicionado com sucesso!");
         return new ResponseEntity<>(alunoDTO, HttpStatus.CREATED);
     }
+    @Override
     @GetMapping
     public ResponseEntity<PageDTO<AlunoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(alunoService.listar(pagina, tamanho));
     }
-    @PostMapping("/{id}")
+    @Override
+    @PutMapping("/{id}")
     public ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                            @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Aluno...");
@@ -43,6 +46,7 @@ public class AlunoController implements AlunoInterfaceController {
         log.info("Aluno editado com sucesso!");
         return new ResponseEntity<>(alunoDTO, HttpStatus.CREATED);
     }
+    @Override
     @DeleteMapping("/{idAluno}")
     public ResponseEntity<Void> deletar(@PathVariable(name = "idAluno")
                                         Integer id) throws RegraDeNegocioException {

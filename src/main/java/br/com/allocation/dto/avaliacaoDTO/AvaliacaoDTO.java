@@ -1,4 +1,4 @@
-package br.com.allocation.dto.Avaliacao;
+package br.com.allocation.dto.avaliacaoDTO;
 
 import lombok.*;
 

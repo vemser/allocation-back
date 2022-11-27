@@ -1,17 +1,19 @@
-package br.com.allocation.dto.ProgramaDTO;
+package br.com.allocation.dto.alunoDTO;
 
+import br.com.allocation.enums.Area;
 import br.com.allocation.enums.Situacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProgramaDTO {
+public class AlunoDTO {
     private String nome;
-    private String descricao;
+    private Area area;
+    private String email;
+    //private List<Tecnologia> tecnologias;
+    //private String emProcesso;
     private Situacao situacao;
 }

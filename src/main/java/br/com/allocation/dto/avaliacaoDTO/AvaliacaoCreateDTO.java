@@ -1,4 +1,4 @@
-package br.com.allocation.dto.Avaliacao;
+package br.com.allocation.dto.avaliacaoDTO;
 
 import br.com.allocation.enums.Situacao;
 import io.swagger.v3.oas.annotations.media.Schema;

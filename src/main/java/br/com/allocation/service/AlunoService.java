@@ -1,10 +1,9 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.AlunoDTO.AlunoCreateDTO;
-import br.com.allocation.dto.AlunoDTO.AlunoDTO;
+import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
+import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.AlunoEntity;
-import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

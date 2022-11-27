@@ -1,14 +1,11 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.ProgramaInterfaceController;
-import br.com.allocation.dto.ProgramaDTO.ProgramaCreateDTO;
-import br.com.allocation.dto.ProgramaDTO.ProgramaDTO;
+import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
+import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ProgramaService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,7 +24,7 @@ public class ProgramaController implements ProgramaInterfaceController {
 
     private final ProgramaService programaService;
 
-
+    @Override
     @PostMapping
     public ResponseEntity<ProgramaDTO> salvar(@Valid @RequestBody ProgramaCreateDTO programaCreate) {
         log.info("Adicionando o Usuário...");
@@ -36,14 +33,14 @@ public class ProgramaController implements ProgramaInterfaceController {
         return new ResponseEntity<>(programa, HttpStatus.CREATED);
     }
 
-
+    @Override
     @GetMapping
     public ResponseEntity<PageDTO<ProgramaDTO>> listar(Integer pagina, Integer tamanho){
         return ResponseEntity.ok(programaService.listar(pagina, tamanho));
     }
 
-
-    @PostMapping("/{id}")
+    @Override
+    @PutMapping("/{id}")
     public ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate,
                                               @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Programa...");
@@ -52,6 +49,7 @@ public class ProgramaController implements ProgramaInterfaceController {
         return new ResponseEntity<>(programa, HttpStatus.CREATED);
     }
 
+    @Override
     @DeleteMapping("/{idPrograma}")
     public ResponseEntity<Void> deletar(@PathVariable(name = "idPrograma") Integer idUsuario) throws RegraDeNegocioException {
         programaService.deletar(idUsuario);

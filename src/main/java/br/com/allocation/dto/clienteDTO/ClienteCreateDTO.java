@@ -1,4 +1,4 @@
-package br.com.allocation.dto.ClienteDTO;
+package br.com.allocation.dto.clienteDTO;
 
 import br.com.allocation.enums.Situacao;
 import io.swagger.v3.oas.annotations.media.Schema;
