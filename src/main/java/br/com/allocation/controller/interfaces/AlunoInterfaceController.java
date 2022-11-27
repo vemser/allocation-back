@@ -1,7 +1,7 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.AlunoDTO.AlunoCreateDTO;
-import br.com.allocation.dto.AlunoDTO.AlunoDTO;
+import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
+import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +43,7 @@ public interface AlunoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping
+    @PutMapping
     ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                     @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
 

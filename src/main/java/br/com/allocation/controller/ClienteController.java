@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.ClienteInterfaceController;
-import br.com.allocation.dto.ClienteDTO.ClienteCreateDTO;
-import br.com.allocation.dto.ClienteDTO.ClienteDTO;
+import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
+import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ClienteService;
@@ -24,6 +24,7 @@ public class ClienteController implements ClienteInterfaceController {
 
     private final ClienteService clienteService;
 
+    @Override
     @PostMapping
     public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) {
         log.info("Adicionando o Usuário...");
@@ -31,11 +32,15 @@ public class ClienteController implements ClienteInterfaceController {
         log.info("Usuário adicionado com sucesso!");
         return new ResponseEntity<>(cliente, HttpStatus.CREATED);
     }
+
+    @Override
     @GetMapping
     public ResponseEntity<PageDTO<ClienteDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(clienteService.listar(pagina, tamanho));
     }
-    @PostMapping("/{id}")
+
+    @Override
+    @PutMapping("/{id}")
     public ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate,
                                              @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Cliente...");
@@ -44,6 +49,7 @@ public class ClienteController implements ClienteInterfaceController {
         return new ResponseEntity<>(cliente, HttpStatus.CREATED);
     }
 
+    @Override
     @DeleteMapping("/{idCliente}")
     public ResponseEntity<Void> deletar(@PathVariable(name = "idCliente")
                                         Integer idUsuario) throws RegraDeNegocioException {

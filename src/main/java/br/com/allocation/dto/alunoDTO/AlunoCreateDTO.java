@@ -1,4 +1,4 @@
-package br.com.allocation.dto.AlunoDTO;
+package br.com.allocation.dto.alunoDTO;
 
 import br.com.allocation.enums.Area;
 import io.swagger.v3.oas.annotations.media.Schema;

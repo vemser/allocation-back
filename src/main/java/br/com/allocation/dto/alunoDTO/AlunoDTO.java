@@ -1,4 +1,4 @@
-package br.com.allocation.dto.AlunoDTO;
+package br.com.allocation.dto.alunoDTO;
 
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.enums.Area;

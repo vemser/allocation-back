@@ -2,6 +2,8 @@ package br.com.allocation.service;
 
 import br.com.allocation.dto.ClienteDTO.ClienteCreateDTO;
 import br.com.allocation.dto.ClienteDTO.ClienteDTO;
+import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
+import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -45,6 +47,7 @@ public class ClienteService {
 
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
         ClienteEntity clienteEntity = findById(idCliente);
+
         clienteEntity = converterEntity(clienteCreate);
         clienteEntity = clienteRepository.save(clienteEntity);
         return converterEmDTO(clienteEntity);

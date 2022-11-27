@@ -1,7 +1,7 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.ProgramaDTO.ProgramaCreateDTO;
-import br.com.allocation.dto.ProgramaDTO.ProgramaDTO;
+import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
+import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +43,7 @@ public interface ProgramaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping
+    @PutMapping
     ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate,
                                               @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
     @Operation(summary = "Deletar programa", description = "Deleta o programa no banco de dados")

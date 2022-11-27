@@ -1,9 +1,11 @@
 package br.com.allocation.service;
 
 
+import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
@@ -11,17 +13,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+
+    private final CargoService cargoService;
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -29,30 +33,58 @@ public class UsuarioService {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
         validarSenha(usuarioCreateDTO);
         confirmarSenha(usuarioCreateDTO);
+
+        List<CargoEntity> cargos = usuarioCreateDTO.getCargos().stream()
+                        .map(cargo -> {
+                            try {
+                                return cargoService.findByNome(cargo.getNome());
+                            } catch (RegraDeNegocioException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }).toList();
+
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
+        cargos.forEach(cargo -> usuarioEntity.getCargos().add(cargo));
+        
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
-        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
-        return usuarioDTO;
+        return converterEmDTO(usuarioRepository.save(usuarioEntity));
     }
+
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        this.findById(id);
-        UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
-        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
-        return usuarioDTO;
+        UsuarioEntity usuario = findById(id);
+
+        usuario.setEmail(usuarioCreateDTO.getEmail());
+        usuario.setSenha(passwordEncoder.encode(usuarioCreateDTO.getSenha()));
+        usuario.setNomeCompleto(usuarioCreateDTO.getNomeCompleto());
+
+        List<CargoEntity> cargos = usuarioCreateDTO.getCargos().stream()
+                .map(cargo -> {
+                    try {
+                        return cargoService.findByNome(cargo.getNome());
+                    } catch (RegraDeNegocioException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toList();
+        cargos.forEach(cargo -> usuario.getCargos().add(cargo));
+
+        usuarioRepository.save(usuario);
+        return converterEmDTO(usuario);
     }
+
     public PageDTO<UsuarioDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
-        Page<UsuarioEntity> paginaRepository = usuarioRepository.findAll(pageRequest);
-
-        List<UsuarioDTO> usuarioDTOS = usuarioRepository.findAll().stream()
-                .map(this::converterEmDTO)
-                .collect(Collectors.toList());
-        return new PageDTO<>(paginaRepository.getTotalElements(),
-                paginaRepository.getTotalPages(),
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAll(pageRequest);
+        List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
+                .map(usuario -> objectMapper.convertValue(usuario, UsuarioDTO.class))
+                .toList();
+        return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
+                paginaDoRepositorio.getTotalPages(),
                 pagina,
                 tamanho,
-                usuarioDTOS);
+                usuarios
+        );
+
     }
     public void deletar(Integer id) throws RegraDeNegocioException {
         this.findById(id);
@@ -90,9 +122,17 @@ public class UsuarioService {
     }
 
     public UsuarioEntity findById(Integer id) throws RegraDeNegocioException {
-        UsuarioEntity usuario = usuarioRepository.findById(id)
+        return usuarioRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado!"));
-        return usuario;
+    }
+
+    public Integer getIdLoggedUser() {
+        return Integer.parseInt((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
+    public LoginWithIdDTO getLoggedUser() throws RegraDeNegocioException {
+        UsuarioEntity userLogged = findById(getIdLoggedUser());
+        return objectMapper.convertValue(userLogged, LoginWithIdDTO.class);
     }
 
     public Optional<UsuarioEntity> findByEmail(String email) {
@@ -115,4 +155,6 @@ public class UsuarioService {
     public UsuarioDTO converterEmDTO(UsuarioEntity usuarioEntity) {
         return objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
     }
+
+
 }

@@ -1,7 +1,7 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.ProgramaDTO.ProgramaCreateDTO;
-import br.com.allocation.dto.ProgramaDTO.ProgramaDTO;
+import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
+import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
