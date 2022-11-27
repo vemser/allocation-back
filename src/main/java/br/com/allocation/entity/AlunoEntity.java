@@ -68,5 +68,6 @@ public class AlunoEntity {
     @OneToOne(mappedBy = "aluno")
     private ReservaAlocacaoEntity reservaAlocacao;
 
+    @Column(name = "status_aluno")
     private StatusAluno statusAluno;
 }
