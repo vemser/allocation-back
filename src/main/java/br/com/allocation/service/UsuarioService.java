@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +45,7 @@ public class UsuarioService {
 
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
         cargos.forEach(cargo -> usuarioEntity.getCargos().add(cargo));
+        
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
         return converterEmDTO(usuarioRepository.save(usuarioEntity));
@@ -53,12 +53,23 @@ public class UsuarioService {
 
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         UsuarioEntity usuario = findById(id);
+
         usuario.setEmail(usuarioCreateDTO.getEmail());
         usuario.setSenha(passwordEncoder.encode(usuarioCreateDTO.getSenha()));
         usuario.setNomeCompleto(usuarioCreateDTO.getNomeCompleto());
+
+        List<CargoEntity> cargos = usuarioCreateDTO.getCargos().stream()
+                .map(cargo -> {
+                    try {
+                        return cargoService.findByNome(cargo.getNome());
+                    } catch (RegraDeNegocioException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toList();
+        cargos.forEach(cargo -> usuario.getCargos().add(cargo));
+
         usuarioRepository.save(usuario);
-        UsuarioDTO usuarioDTO = converterEmDTO(usuario);
-        return usuarioDTO;
+        return converterEmDTO(usuario);
     }
 
     public PageDTO<UsuarioDTO> listar(Integer pagina, Integer tamanho) {
