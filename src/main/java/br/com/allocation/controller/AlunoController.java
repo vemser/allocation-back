@@ -31,10 +31,12 @@ public class AlunoController implements AlunoInterfaceController {
         log.info("Aluno adicionado com sucesso!");
         return new ResponseEntity<>(alunoDTO, HttpStatus.CREATED);
     }
+
     @GetMapping
     public ResponseEntity<PageDTO<AlunoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(alunoService.listar(pagina, tamanho));
     }
+
     @PostMapping("/{id}")
     public ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                            @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
@@ -43,6 +45,7 @@ public class AlunoController implements AlunoInterfaceController {
         log.info("Aluno editado com sucesso!");
         return new ResponseEntity<>(alunoDTO, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{idAluno}")
     public ResponseEntity<Void> deletar(@PathVariable(name = "idAluno")
                                         Integer id) throws RegraDeNegocioException {

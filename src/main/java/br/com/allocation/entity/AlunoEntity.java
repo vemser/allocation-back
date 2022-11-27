@@ -1,6 +1,7 @@
 package br.com.allocation.entity;
 
 import br.com.allocation.enums.Area;
+import br.com.allocation.enums.StatusAluno;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,4 +67,6 @@ public class AlunoEntity {
     @JsonIgnore
     @OneToOne(mappedBy = "aluno")
     private ReservaAlocacaoEntity reservaAlocacao;
+
+    private StatusAluno statusAluno;
 }

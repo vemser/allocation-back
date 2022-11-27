@@ -1,5 +1,6 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.AlunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.AlunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,7 +20,9 @@ import java.util.stream.Collectors;
 public class TecnologiaService {
     private final TecnologiaRepository tecnologiaRepository;
 
-    public PageDTO<TecnologiaDTO> buscar(String nomeTecnologia, PageRequest pageRequest){
+
+
+    public PageDTO<TecnologiaDTO> buscarPorTecnologia(String nomeTecnologia, PageRequest pageRequest){
 
         Page<TecnologiaEntity> tecnologiaEntities = tecnologiaRepository.findByNomeIsLikeIgnoreCase(nomeTecnologia, pageRequest);
         List<TecnologiaDTO> tecnologiaDTOS = tecnologiaEntities.getContent().stream().map(this::converterEmDTO).collect(Collectors.toList());
@@ -29,6 +33,9 @@ public class TecnologiaService {
                 pageRequest.getPageSize(),
                 tecnologiaDTOS
         );
+    }
+    public Set<TecnologiaEntity> findBySet(List<String> tecnologias){
+        return tecnologiaRepository.findAllByNomeIn(tecnologias);
     }
 
     public TecnologiaDTO converterEmDTO(TecnologiaEntity tecnologiaEntity) {

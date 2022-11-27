@@ -5,7 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.Set;
+
 public interface TecnologiaRepository extends JpaRepository<TecnologiaEntity,Integer> {
     Page<TecnologiaEntity> findByNomeIsLikeIgnoreCase(String nomeTecnologia, Pageable pageable);
-    //Page<TecnologiaEntity> findByNomeContainsIgnoreCase(String nomeTecnologia, Pageable pageable);
+    Set<TecnologiaEntity> findAllByNomeIn(List<String> tecnologias);
 }

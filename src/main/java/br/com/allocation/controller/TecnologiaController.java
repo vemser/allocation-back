@@ -1,5 +1,6 @@
 package br.com.allocation.controller;
 
+import br.com.allocation.controller.interfaces.TecnologiaInterfaceController;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.service.TecnologiaService;
@@ -17,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-public class TecnologiaController {
+public class TecnologiaController implements TecnologiaInterfaceController {
     private final TecnologiaService tecnologiaService;
 
     @GetMapping("/tecnologia-busca")
     public PageDTO<TecnologiaDTO> buscar(@RequestParam String nomeTecnologia,
                                          @RequestParam int page,
                                          @RequestParam int size){
-        return  tecnologiaService.buscar(nomeTecnologia,PageRequest.of(page,size));
+        return  tecnologiaService.buscarPorTecnologia(nomeTecnologia,PageRequest.of(page,size));
     }
 }
