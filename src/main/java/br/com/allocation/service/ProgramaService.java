@@ -4,6 +4,7 @@ import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.ProgramaEntity;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ProgramaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,9 +23,9 @@ public class ProgramaService {
     private final ObjectMapper objectMapper;
 
 
-    public ProgramaDTO salvar(ProgramaCreateDTO programaCreate) {
+    public ProgramaDTO salvar(ProgramaCreateDTO programaCreate, Situacao situacao) {
         ProgramaEntity programaEntity = objectMapper.convertValue(programaCreate, ProgramaEntity.class);
-
+        programaEntity.setSituacao(situacao);
         return objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
     }
 
@@ -39,12 +40,14 @@ public class ProgramaService {
         return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
     }
 
-    public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate) throws RegraDeNegocioException {
+    public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate, Situacao situacao) throws RegraDeNegocioException {
         ProgramaEntity programaEntity = findById(idPrograma);
-
-        programaEntity = objectMapper.convertValue(programaCreate, ProgramaEntity.class);
-
-        programaEntity = programaRepository.save(programaEntity);
+        programaEntity.setSituacao(situacao);
+        programaEntity.setNome(programaCreate.getNome());
+        programaEntity.setDescricao(programaCreate.getDescricao());
+        programaEntity.setDataCriacao(programaCreate.getDataCriacao());
+        programaEntity.setDataTermino(programaCreate.getDataTermino());
+        programaRepository.save(programaEntity);
         return objectMapper.convertValue(programaEntity, ProgramaDTO.class);
     }
 

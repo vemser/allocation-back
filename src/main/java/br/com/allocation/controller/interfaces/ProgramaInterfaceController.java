@@ -3,6 +3,7 @@ package br.com.allocation.controller.interfaces;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +23,8 @@ public interface ProgramaInterfaceController {
             }
     )
     @PostMapping
-    ResponseEntity<ProgramaDTO> salvar(@Valid @RequestBody ProgramaCreateDTO programaCreate);
+    ResponseEntity<ProgramaDTO> salvar(@RequestParam("situacao") Situacao situacao,
+            @Valid @RequestBody ProgramaCreateDTO programaCreate);
 
     @Operation(summary = "Listar pagina de programas", description = "Lista uma pagina de programas")
     @ApiResponses(
@@ -44,7 +46,8 @@ public interface ProgramaInterfaceController {
             }
     )
     @PutMapping
-    ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate,
+    ResponseEntity<ProgramaDTO> editar(@RequestParam("situacao") Situacao situacao,
+            @Valid @RequestBody ProgramaCreateDTO programaCreate,
                                               @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
     @Operation(summary = "Deletar programa", description = "Deleta o programa no banco de dados")
     @ApiResponses(

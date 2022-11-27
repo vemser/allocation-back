@@ -1,5 +1,6 @@
 package br.com.allocation.controller;
 
+import br.com.allocation.controller.interfaces.UsuarioInterfaceController;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.MensagemDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
@@ -24,7 +25,7 @@ import java.io.IOException;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-public class UsuarioController {
+public class UsuarioController implements UsuarioInterfaceController {
     private final UsuarioService usuarioService;
     private final FileService fileService;
 
