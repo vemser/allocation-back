@@ -58,6 +58,12 @@ public class AlunoEntity {
     private ProgramaEntity programa;
 
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ALUNO_TECNOLOGIA",joinColumns = @JoinColumn(name = "ID_ALUNO"),
+    inverseJoinColumns = @JoinColumn(name = "ID_TECNOLOGIA"))
+    private Set<TecnologiaEntity> tecnologiaEntities;
+
+    @JsonIgnore
     @OneToOne(mappedBy = "aluno")
     private ReservaAlocacaoEntity reservaAlocacao;
 }

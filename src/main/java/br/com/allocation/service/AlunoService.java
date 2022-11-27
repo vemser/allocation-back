@@ -3,8 +3,8 @@ package br.com.allocation.service;
 import br.com.allocation.dto.AlunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.AlunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
-import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,13 +14,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
 public class AlunoService {
     private final AlunoRepository alunoRepository;
     private final ObjectMapper objectMapper;
+
+    private final TecnologiaService tecnologiaService;
 
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) {
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
@@ -34,9 +38,22 @@ public class AlunoService {
     }
 
     private AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
-        AlunoDTO alunoDTO = new AlunoDTO(alunoEntity.getNome(), alunoEntity.getArea(), alunoEntity.getEmail(),
-                alunoEntity.getPrograma().getSituacao());
-        return objectMapper.convertValue(alunoDTO, AlunoDTO.class);
+        String emProcesso;
+        if (alunoEntity.getReservaAlocacao().getSituacao().equals("ATIVO")) {
+            emProcesso = "Sim";
+        } else {
+            emProcesso = "Não";
+        }
+//        Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologiaEntities()
+//                .stream()
+//                .map(tecnologiaEntity -> tecnologiaService.converterEmDTO(tecnologiaEntity));
+//
+//        AlunoDTO alunoDTO = new AlunoDTO(alunoEntity.getNome(),
+//                alunoEntity.getArea(),
+//                        tecnologiaDTOS,
+//                emProcesso,
+//                alunoEntity.getReservaAlocacao().getSituacao());
+        return null;
     }
 
     public AlunoDTO editar(Integer id, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
