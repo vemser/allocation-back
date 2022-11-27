@@ -43,7 +43,7 @@ public interface ClienteInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping
+    @PutMapping
     ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate,
                                       @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
 

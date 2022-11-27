@@ -43,7 +43,7 @@ public interface ProgramaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping
+    @PutMapping
     ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate,
                                               @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
     @Operation(summary = "Deletar programa", description = "Deleta o programa no banco de dados")
