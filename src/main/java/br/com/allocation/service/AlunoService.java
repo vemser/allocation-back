@@ -42,7 +42,6 @@ public class AlunoService {
     public AlunoDTO editar(Integer id, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
         this.findById(id);
         AlunoEntity alunoEntity = converterEntity(alunoCreateDTO);
-        alunoEntity.setIdAluno(id);
         AlunoDTO alunoDTO = converterEmDTO(alunoRepository.save(alunoEntity));
         return alunoDTO;
 
@@ -69,7 +68,7 @@ public class AlunoService {
     }
 
     public void deletar(Integer id) throws RegraDeNegocioException {
-        AlunoDTO alunoDeletado = converterEmDTO(findById(id));
+        this.findById(id);
         alunoRepository.deleteById(id);
     }
 }
