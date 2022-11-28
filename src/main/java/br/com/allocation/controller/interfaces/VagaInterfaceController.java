@@ -3,6 +3,7 @@ package br.com.allocation.controller.interfaces;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,7 +26,8 @@ public interface VagaInterfaceController {
     )
     @PostMapping
     ResponseEntity<VagaDTO> salvar(
-            @RequestBody @Valid VagaCreateDTO vagaCreateDTO)
+            @RequestBody @Valid VagaCreateDTO vagaCreateDTO,
+    @RequestParam("situacao") Situacao situacao)
             throws RegraDeNegocioException;
 
 
@@ -37,7 +39,7 @@ public interface VagaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @GetMapping("/listAllUsers")
+    @GetMapping
     ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho);
 
     @Operation(summary = "Editar a vaga por id", description = "Editar vaga por id")

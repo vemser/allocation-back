@@ -7,5 +7,6 @@ public enum Situacao {
     APROVADO,
     REPROVADO,
     CANCELADO,
-    FINALIZADO
+    FINALIZADO,
+    ABERTO
 }

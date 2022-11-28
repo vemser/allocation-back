@@ -10,7 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -22,23 +24,19 @@ public class VagaCreateDTO {
     @Schema(description = "Nome da vaga",example = "Desenvolvedor(a) Java - Back-End")
     private String nome;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Quantidade da vaga",example = "1")
     private Integer quantidade;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Situação da vaga",example = "ATIVO")
-    private Situacao situacao;
-
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Tipo de programa",example = "VemSer10")
-    private ProgramaDTO programaDTO;
+    private String programa;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Data abertura programa",example = "2022-12-20")
     private LocalDate dataAbertura;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Data fechamento programa",example = "2022-12-26")
     private LocalDate dataFechamento;
 
@@ -46,6 +44,11 @@ public class VagaCreateDTO {
     @Schema(description = "Observaçoes sobre a vaga",example = "O que nós buscamos\n" +
             "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String observacoes;
+
+    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @Schema(description = "Observaçoes sobre o cliente",example = "O que nós buscamos cocacola@soucliente.com")
+    @Email
+    private String emailCliente;
 
     //private String nivel;
     //private String funcao;
