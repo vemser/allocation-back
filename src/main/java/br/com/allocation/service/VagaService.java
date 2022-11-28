@@ -90,6 +90,9 @@ public class VagaService {
                 .stream()
                 .map(vagaEntity -> objectMapper.convertValue(vagaEntity, VagaDTO.class))
                 .collect(Collectors.toList());
+    }
 
+    public VagaEntity findByNome(String nome) throws RegraDeNegocioException {
+        return vagaRepository.findByNome(nome).orElseThrow(() -> new RegraDeNegocioException("Vaga não encontrada!"));
     }
 }

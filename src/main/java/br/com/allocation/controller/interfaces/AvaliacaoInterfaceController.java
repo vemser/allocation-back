@@ -22,7 +22,7 @@ public interface AvaliacaoInterfaceController {
             }
     )
     @PostMapping
-    ResponseEntity<AvaliacaoDTO> salvar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO);
+    ResponseEntity<AvaliacaoDTO> salvar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar pagina de avalições", description = "Lista uma pagina de avaliações")
     @ApiResponses(
@@ -43,7 +43,7 @@ public interface AvaliacaoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO,
                                         @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
     @Operation(summary = "Deletar avaliação", description = "Deleta  avaliação do banco de dados")

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -15,19 +16,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AvaliacaoCreateDTO {
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Codigo da avaliação",example = "123")
-    private Integer codigo;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nome da vaga",example = "Desenvolvedor(a) Java - Back-End")
-    private String vaga;
+    private String NomeVaga;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Nome do aluno",example = "Jhennyfer Sobrinho")
-    private String aluno;
+    @Schema(description = "Nome do aluno",example = "jhennyfer.sobrinho@dbccompany.com.br")
+    private String emailAluno;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nota do aluno",example = "10")
     private Integer nota;
 
@@ -35,24 +33,24 @@ public class AvaliacaoCreateDTO {
     @Schema(description = "descrição d avaliação do aluno",example = "Muito bom")
     private String descricao;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Data da entrevista com gestão de pessoas ",example = "2022-12-19")
-    private LocalDate dataEntrevistaGP;
+//    @NotNull(message = "Nome não pode ser vazio ou nulo.")
+//    @Schema(description = "Data da entrevista com gestão de pessoas ",example = "2022-12-19")
+//    private LocalDate dataEntrevistaGP;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Data da avaliação",example = "2022-12-24")
     private LocalDate dataAvaliacao;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Data da entrevista",example = "2022-12-20")
     private LocalDate dataEntrevista;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Data da resposta",example = "2022-12-22")
     private LocalDate dataResposta;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "situação",example = "avaliado")
+    @NotNull(message = "Nome não pode ser vazio ou nulo.")
+    @Schema(description = "situação",example = "AVALIADO")
     private Situacao situacao;
 
 

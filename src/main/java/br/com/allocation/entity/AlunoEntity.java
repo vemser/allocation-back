@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "Aluno")
+@Entity(name = "aluno")
 public class AlunoEntity {
 
     @Id

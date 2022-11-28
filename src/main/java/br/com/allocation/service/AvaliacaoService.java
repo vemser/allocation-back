@@ -18,12 +18,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AvaliacaoService {
     private final AvaliacaoRepository avaliacaoRepository;
+    private final VagaService vagaService;
+    private final AlunoService alunoService;
     private final ObjectMapper objectMapper;
 
-    public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) {
+    public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
+        avaliacaoEntity.setVaga(vagaService.findByNome(avaliacaoCreateDTO.getNomeVaga()));
+        avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
         return converterEmDTO(avaliacaoEntity);
-
     }
     public AvaliacaoEntity findById(Integer id) throws RegraDeNegocioException {
         return avaliacaoRepository.findById(id)
@@ -58,6 +61,9 @@ public class AvaliacaoService {
         return objectMapper.convertValue(avaliacaoCreateDTO, AvaliacaoEntity.class);
     }
     private AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
-        return objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
+        AvaliacaoDTO dto = objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
+        dto.setEmailAluno(avaliacaoEntity.getAluno().getEmail());
+        dto.setNomeVaga(avaliacaoEntity.getVaga().getNome());
+        return dto;
     }
 }

@@ -97,4 +97,7 @@ public class AlunoService {
                 .collect(Collectors.toList());
     }
 
+    public AlunoEntity findByEmail(String email) throws RegraDeNegocioException {
+        return alunoRepository.findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado!"));
+    }
 }
