@@ -5,6 +5,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.MensagemDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.FileService;
 import br.com.allocation.service.UsuarioService;
@@ -31,10 +32,11 @@ public class UsuarioController implements UsuarioInterfaceController {
 
     @PostMapping("/register")
     public ResponseEntity<UsuarioDTO> create(
+            @RequestParam("cargo") Cargos cargo,
             @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
-            throws RegraDeNegocioException, IOException {
+            throws RegraDeNegocioException {
 
-        return ResponseEntity.ok(usuarioService.create(usuarioCreateDTO));
+        return ResponseEntity.ok(usuarioService.create(usuarioCreateDTO, cargo));
     }
     @PostMapping("/upload/")
     public ResponseEntity<MensagemDTO> uploadFile(@RequestParam("file") MultipartFile file,
@@ -63,8 +65,10 @@ public class UsuarioController implements UsuarioInterfaceController {
     }
 
     @PutMapping("/editar")
-    public ResponseEntity<UsuarioDTO> editar(Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        return new ResponseEntity<>(usuarioService.editar(id, usuarioCreateDTO), HttpStatus.OK);
+    public ResponseEntity<UsuarioDTO> editar(
+            @RequestParam("cargo") Cargos cargo,
+            Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+        return new ResponseEntity<>(usuarioService.editar(id, usuarioCreateDTO, cargo), HttpStatus.OK);
     }
 
     @DeleteMapping("/deletar/{id}")
