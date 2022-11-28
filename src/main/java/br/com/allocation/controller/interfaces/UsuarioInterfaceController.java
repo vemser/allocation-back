@@ -4,6 +4,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.MensagemDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,6 +29,7 @@ public interface UsuarioInterfaceController {
     )
     @PostMapping
     ResponseEntity<UsuarioDTO> create(
+            @RequestParam("cargo") Cargos cargo,
             @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
             throws RegraDeNegocioException, IOException;
 
@@ -74,7 +76,9 @@ public interface UsuarioInterfaceController {
             }
     )
     @PutMapping("/editar")
-    ResponseEntity<UsuarioDTO> editar(Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException;
+    ResponseEntity<UsuarioDTO> editar(
+            @RequestParam("cargo") Cargos cargo,
+            Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException;
 
 
     @Operation(summary = "Deleta o usuário por id", description = "Deleta usuário por id")

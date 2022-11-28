@@ -7,6 +7,7 @@ import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
+import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,12 +30,12 @@ public class UsuarioService {
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
         validarSenha(usuarioCreateDTO);
         confirmarSenha(usuarioCreateDTO);
 
-        CargoEntity cargo = cargoService.findByNome(usuarioCreateDTO.getCargo().getNome());
+        CargoEntity cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
 
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
         usuarioEntity.getCargos().add(cargo);
@@ -44,14 +45,14 @@ public class UsuarioService {
         return converterEmDTO(usuarioRepository.save(usuarioEntity));
     }
 
-    public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
         UsuarioEntity usuario = findById(id);
 
         usuario.setEmail(usuarioCreateDTO.getEmail());
         usuario.setSenha(passwordEncoder.encode(usuarioCreateDTO.getSenha()));
         usuario.setNomeCompleto(usuarioCreateDTO.getNomeCompleto());
 
-        CargoEntity cargo = cargoService.findByNome(usuarioCreateDTO.getCargo().getNome());
+        CargoEntity cargo = cargoService.findByNome(cargos.getDescricao());
         usuario.getCargos().clear();
         usuario.getCargos().add(cargo);
 
