@@ -19,7 +19,6 @@ public class TecnologiaService {
     private final TecnologiaRepository tecnologiaRepository;
 
 
-
     public PageDTO<TecnologiaDTO> buscarPorTecnologia(String nomeTecnologia, PageRequest pageRequest){
 
         Page<TecnologiaEntity> tecnologiaEntities = tecnologiaRepository.findByNomeIsLikeIgnoreCase(nomeTecnologia, pageRequest);

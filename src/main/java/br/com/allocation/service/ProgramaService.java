@@ -1,10 +1,9 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.ProgramaEntity;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoPrograma;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ProgramaRepository;
@@ -26,8 +25,11 @@ public class ProgramaService {
 
     public ProgramaDTO salvar(ProgramaCreateDTO programaCreate, SituacaoPrograma situacao) {
         ProgramaEntity programaEntity = objectMapper.convertValue(programaCreate, ProgramaEntity.class);
-        programaEntity.setSituacaoPrograma(situacao);
-        return objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
+        programaEntity.setSituacao(situacao);
+
+        ProgramaDTO programaDTO = objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
+        programaDTO.setSituacao(situacao);
+        return programaDTO;
     }
 
     public PageDTO<ProgramaDTO> listar(Integer pagina, Integer tamanho){
@@ -43,7 +45,7 @@ public class ProgramaService {
 
     public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate, SituacaoPrograma situacao) throws RegraDeNegocioException {
         ProgramaEntity programaEntity = findById(idPrograma);
-        programaEntity.setSituacaoPrograma(situacao);
+        programaEntity.setSituacao(situacao);
         programaEntity.setNome(programaCreate.getNome());
         programaEntity.setDescricao(programaCreate.getDescricao());
         programaEntity.setDataCriacao(programaCreate.getDataCriacao());

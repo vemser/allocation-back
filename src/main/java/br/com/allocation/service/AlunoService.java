@@ -9,7 +9,6 @@ import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
-import br.com.allocation.repository.ProgramaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,54 +24,44 @@ import java.util.stream.Collectors;
 public class AlunoService {
     private final AlunoRepository alunoRepository;
     private final ObjectMapper objectMapper;
-
     private final TecnologiaService tecnologiaService;
-    private final ProgramaRepository programaRepository;
+    private final ProgramaService programaService;
 
-    public AlunoDTO salvar(AlunoCreateDTO alunoCreate) {
-
+    public AlunoDTO salvar(AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
-        Optional<ProgramaEntity> programa = programaRepository.findById(alunoEntity.getArea().getValue());
-        alunoEntity.setPrograma(programa.get());
-        alunoEntity.setTecnologiaEntities(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
+
+        ProgramaEntity programa = programaService.findByNome(alunoCreate.getPrograma());
+        alunoEntity.setPrograma(programa);
+        alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
         alunoRepository.save(alunoEntity);
-        AlunoDTO alunoDTO = converterEmDTO(alunoEntity);
-        return alunoDTO;
+        return converterEmDTO(alunoEntity);
     }
 
     private AlunoEntity converterEntity(AlunoCreateDTO alunoCreateDTO) {
-
         return objectMapper.convertValue(alunoCreateDTO, AlunoEntity.class);
     }
 
-
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
-        String emProcesso;
-        if (alunoEntity.getReservaAlocacao().getSituacao().equals("ATIVO")) {
-            emProcesso = "Sim";
-        } else {
-            emProcesso = "Não";
-        }
-        Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologiaEntities()
+        String emProcesso = "Não";
+
+        Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologias()
                 .stream()
-                .map(tecnologiaEntity -> tecnologiaService.converterEmDTO(tecnologiaEntity))
+                .map(tecnologiaService::converterEmDTO)
                 .collect(Collectors.toSet());
 
-        AlunoDTO alunoDTO = new AlunoDTO(alunoEntity.getNome(),
+        return new AlunoDTO(alunoEntity.getNome(),
                 alunoEntity.getArea(),
                 tecnologiaDTOS,
                 alunoEntity.getPrograma().getNome(),
                 emProcesso,
                 alunoEntity.getStatusAluno());
-        return alunoDTO;
     }
 
     public AlunoDTO editar(Integer id, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
         this.findById(id);
         AlunoEntity alunoEntity = converterEntity(alunoCreateDTO);
-        AlunoDTO alunoDTO = converterEmDTO(alunoRepository.save(alunoEntity));
-        return alunoDTO;
+        return converterEmDTO(alunoRepository.save(alunoEntity));
 
     }
 

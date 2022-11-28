@@ -22,7 +22,7 @@ public interface AlunoInterfaceController {
             }
     )
     @PostMapping
-    ResponseEntity<AlunoDTO> salvar(@Valid @RequestBody AlunoCreateDTO alunoCreate);
+    ResponseEntity<AlunoDTO> salvar(@Valid @RequestBody AlunoCreateDTO alunoCreate) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar pagina de alunos", description = "Lista uma pagina de alunos")
     @ApiResponses(

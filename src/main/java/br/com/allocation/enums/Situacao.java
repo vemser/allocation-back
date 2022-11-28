@@ -6,8 +6,6 @@ public enum Situacao {
     ENTREVISTADO,
     APROVADO,
     REPROVADO,
-    RESERVADO,
-    ALOCADO,
     CANCELADO,
     FINALIZADO
 }

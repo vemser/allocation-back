@@ -23,7 +23,7 @@ public class ReservaAlocacaoEntity {
     @Column(name = "codigo_reserva_alocacao")
     private Integer codigo;
 
-    @Column(name = "id_aluno")
+    @Column(name = "id_aluno", insertable = false, updatable = false)
     private Integer idAluno;
 
     @Column(name = "codigo_vaga", insertable = false, updatable = false)
@@ -52,7 +52,7 @@ public class ReservaAlocacaoEntity {
 
     @JsonIgnore
     @OneToOne
-    @MapsId
+    @JoinColumn(name = "id_aluno", referencedColumnName = "id_aluno")
     private AlunoEntity aluno;
 
     @JsonIgnore

@@ -25,7 +25,7 @@ public class AlunoController implements AlunoInterfaceController {
     private final AlunoService alunoService;
 
     @PostMapping
-    public ResponseEntity<AlunoDTO> salvar(@Valid @RequestBody AlunoCreateDTO alunoCreate) {
+    public ResponseEntity<AlunoDTO> salvar(@Valid @RequestBody AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         log.info("Adicionando Aluno...");
         AlunoDTO alunoDTO = alunoService.salvar(alunoCreate);
         log.info("Aluno adicionado com sucesso!");

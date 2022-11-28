@@ -25,7 +25,6 @@ public class AlunoEntity {
     @Column(name = "id_aluno")
     private Integer idAluno;
 
-
     @Column(name = "nome")
     private String nome;
 
@@ -48,6 +47,9 @@ public class AlunoEntity {
     @Column(name = "descricao")
     private String descricao;
 
+    @Column(name = "status_aluno")
+    private StatusAluno statusAluno;
+
     @JsonIgnore
     @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
     private Set<AvaliacaoEntity> avaliacoes = new HashSet<>();
@@ -59,14 +61,14 @@ public class AlunoEntity {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "ALUNO_TECNOLOGIA",joinColumns = @JoinColumn(name = "ID_ALUNO"),
-    inverseJoinColumns = @JoinColumn(name = "ID_TECNOLOGIA"))
-    private Set<TecnologiaEntity> tecnologiaEntities;
+    @JoinTable(
+            name = "aluno_tecnologia",
+            joinColumns = @JoinColumn(name = "id_aluno"),
+            inverseJoinColumns = @JoinColumn(name = "id_tecnologia")
+    )
+    private Set<TecnologiaEntity> tecnologias;
 
     @JsonIgnore
     @OneToOne(mappedBy = "aluno")
     private ReservaAlocacaoEntity reservaAlocacao;
-
-    @Column(name = "status_aluno")
-    private StatusAluno statusAluno;
 }
