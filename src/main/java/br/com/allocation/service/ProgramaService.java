@@ -43,6 +43,7 @@ public class ProgramaService {
         ProgramaEntity programaEntity = findById(idPrograma);
 
         programaEntity = objectMapper.convertValue(programaCreate, ProgramaEntity.class);
+        programaEntity.setIdPrograma(idPrograma);
 
         programaEntity = programaRepository.save(programaEntity);
         return objectMapper.convertValue(programaEntity, ProgramaDTO.class);
@@ -56,5 +57,10 @@ public class ProgramaService {
     public ProgramaEntity findById(Integer id) throws RegraDeNegocioException {
         return programaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Programa não encontrado"));
+    }
+
+    public ProgramaEntity finbByNome(String nome) throws RegraDeNegocioException {
+        return programaRepository.findByNome(nome)
+                .orElseThrow(()-> new RegraDeNegocioException("Programa não encontrado!"));
     }
 }

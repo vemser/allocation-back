@@ -27,6 +27,9 @@ public class VagaEntity {
     @Column(name = "id_cliente", insertable = false, updatable = false)
     private Integer idCliente;
 
+    @Column(name = "id_programa", insertable = false, updatable = false)
+    private Integer idPrograma;
+
     @Column(name = "nome")
     private String nome;
 
@@ -58,8 +61,9 @@ public class VagaEntity {
     private Set<AvaliacaoEntity> avaliacoes = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "vagas", fetch = FetchType.LAZY)
-    private Set<ProgramaEntity> programas = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_programa", referencedColumnName = "id_programa")
+    private ProgramaEntity programa;
 
     @JsonIgnore
     @OneToMany(mappedBy = "vaga", fetch = FetchType.LAZY)
