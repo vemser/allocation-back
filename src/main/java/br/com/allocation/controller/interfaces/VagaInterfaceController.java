@@ -39,7 +39,7 @@ public interface VagaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @GetMapping("/listAllUsers")
+    @GetMapping
     ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho);
 
     @Operation(summary = "Editar a vaga por id", description = "Editar vaga por id")
