@@ -29,7 +29,6 @@ public class AlunoService {
 
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
-
         ProgramaEntity programa = programaService.findByNome(alunoCreate.getPrograma());
         alunoEntity.setPrograma(programa);
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
@@ -44,7 +43,6 @@ public class AlunoService {
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
         String emProcesso = "Não";
-
         Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologias()
                 .stream()
                 .map(tecnologiaService::converterEmDTO)

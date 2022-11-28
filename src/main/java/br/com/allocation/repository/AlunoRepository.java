@@ -9,4 +9,5 @@ import java.util.Set;
 public interface AlunoRepository extends JpaRepository<AlunoEntity, Integer> {
     Set<AlunoEntity> findAllByStatusAluno(StatusAluno statusAluno);
 
+
 }
