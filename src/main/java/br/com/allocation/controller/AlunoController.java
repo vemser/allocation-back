@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/aluno")
@@ -52,6 +53,10 @@ public class AlunoController implements AlunoInterfaceController {
         alunoService.deletar(id);
         log.info("Aluno deletado com sucesso");
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{alunos-disponiveis}")
+    public List<AlunoDTO> disponiveis() {
+        return alunoService.disponiveis();
     }
 
 }

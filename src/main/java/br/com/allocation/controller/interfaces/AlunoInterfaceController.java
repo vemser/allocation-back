@@ -11,12 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 public interface AlunoInterfaceController {
     @Operation(summary = "Criar Aluno", description = "Cria um aluno no banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Aluno Criado com sucesso"),
+                    @ApiResponse(responseCode = "201", description = "Aluno Criado com sucesso!"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
@@ -24,7 +25,7 @@ public interface AlunoInterfaceController {
     @PostMapping
     ResponseEntity<AlunoDTO> salvar(@Valid @RequestBody AlunoCreateDTO alunoCreate) throws RegraDeNegocioException;
 
-    @Operation(summary = "Listar pagina de alunos", description = "Lista uma pagina de alunos")
+    @Operation(summary = "Listar pagina de alunos", description = "Lista uma pagina de alunos!")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Alunos Listados com sucesso"),
@@ -38,7 +39,7 @@ public interface AlunoInterfaceController {
     @Operation(summary = "Editar aluno", description = "Editar um aluno e salva no banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Aluno Editado com sucesso"),
+                    @ApiResponse(responseCode = "201", description = "Aluno Editado com sucesso!"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
@@ -50,7 +51,7 @@ public interface AlunoInterfaceController {
     @Operation(summary = "Deletar aluno", description = "Deleta o aluno do banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "204", description = "Aluno Deletado com sucesso"),
+                    @ApiResponse(responseCode = "204", description = "Aluno Deletado com sucesso!"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "404", description = "Não encontrado"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
@@ -59,4 +60,15 @@ public interface AlunoInterfaceController {
     @DeleteMapping
     ResponseEntity<Void> deletar(@PathVariable(name = "idAluno")
                                         Integer id) throws RegraDeNegocioException;
+    @Operation(summary = "Listar alunos disponiveis para alocação e reserva", description = "Listar alunos disponiveis para alocacao!")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "Alunos disponiveis listado com sucesso!"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "404", description = "Não encontrado"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping
+    List<AlunoDTO> disponiveis();
 }

@@ -48,6 +48,7 @@ public class AlunoEntity {
     private String descricao;
 
     @Column(name = "status_aluno")
+    @Enumerated(EnumType.STRING)
     private StatusAluno statusAluno;
 
     @JsonIgnore

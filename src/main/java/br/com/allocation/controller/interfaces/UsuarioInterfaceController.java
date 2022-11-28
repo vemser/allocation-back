@@ -18,33 +18,6 @@ import java.io.IOException;
 
 public interface UsuarioInterfaceController {
 
-    @Operation(summary = "Criar um registro de usuario.", description = "Cria um cadastro de usuario no banco de dados.")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Cria usuario."),
-                    @ApiResponse(responseCode = "200", description = "recupera dados do usuario logado no banco de dados."),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @PostMapping
-    ResponseEntity<UsuarioDTO> create(
-            @RequestParam("cargo") Cargos cargo,
-            @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
-            throws RegraDeNegocioException, IOException;
-
-    @Operation(summary = "Upload na imagem", description = "upload na foto de perfil do usuario")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "upload da imagem do usuario no banco de dados."),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @PostMapping
-    ResponseEntity<MensagemDTO> uploadFile(@RequestParam("file") MultipartFile file,
-                                           @RequestParam("email") String email);
-
     @Operation(summary = "recupera  imagem do usuario", description = "recupera foto de perfil do usuario")
     @ApiResponses(
             value = {
