@@ -44,9 +44,6 @@ public class AvaliacaoEntity {
     @Column(name = "data_avaliacao")
     private LocalDate dataAvaliacao;
 
-    //@Column(name = "data_entrevista-gp")
-    //private LocalDate dataEntrevistaGP;
-
     @Column(name = "data_entrevista")
     private LocalDate dataEntrevista;
 

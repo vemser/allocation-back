@@ -38,7 +38,7 @@ public class AlunoController implements AlunoInterfaceController {
         return ResponseEntity.ok(alunoService.listar(pagina, tamanho));
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                            @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Aluno...");

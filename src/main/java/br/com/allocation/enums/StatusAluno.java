@@ -1,15 +1,16 @@
 package br.com.allocation.enums;
 
 public enum StatusAluno {
-    ALOCADO(1), DISPONIVEL(2), RESERVADO(3);
+    ALOCADO("ALOCADO"),
+    DISPONIVEL("DISPONIVEL"),
+    RESERVADO("RESERVADO");
 
-    private int value;
+    private String value;
 
-
-    StatusAluno(int i) {
+    StatusAluno(String str) {
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 

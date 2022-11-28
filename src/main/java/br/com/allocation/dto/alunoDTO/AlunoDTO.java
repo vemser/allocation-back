@@ -19,5 +19,5 @@ public class AlunoDTO {
     private Set<TecnologiaDTO> tecnologias;
     private String programa;
     private String emProcesso;
-    private StatusAluno alocado;
+    private StatusAluno statusAluno;
 }
