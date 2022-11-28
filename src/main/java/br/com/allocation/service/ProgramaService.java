@@ -61,4 +61,9 @@ public class ProgramaService {
         return programaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Programa não encontrado"));
     }
+
+    public ProgramaEntity findByNome(String nome) throws RegraDeNegocioException {
+        return programaRepository.findByNome(nome)
+                .orElseThrow(() -> new RegraDeNegocioException("Programa não encontrado"));
+    }
 }

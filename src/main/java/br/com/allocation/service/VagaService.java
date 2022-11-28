@@ -25,7 +25,7 @@ public class VagaService {
 
     public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vaga = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.finbByNome(vagaCreate.getProgramaDTO().getNome());
+        ProgramaEntity programa = programaService.findByNome(vagaCreate.getProgramaDTO().getNome());
         vaga.setPrograma(programa);
 
         vaga = vagaRepository.save(vaga);
@@ -53,7 +53,7 @@ public class VagaService {
     public VagaDTO editar(Integer codigo, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity = findById(codigo);
         vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.finbByNome(vagaCreate.getProgramaDTO().getNome());
+        ProgramaEntity programa = programaService.findByNome(vagaCreate.getProgramaDTO().getNome());
         vagaEntity.setPrograma(programa);
         vagaEntity.setCodigo(codigo);
 
