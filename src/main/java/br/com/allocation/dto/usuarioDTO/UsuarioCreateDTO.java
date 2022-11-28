@@ -39,6 +39,6 @@ public class UsuarioCreateDTO {
     private String senhaIgual;
 
     @NotNull
-    private List<CargoDTO> cargos;
+    private CargoDTO cargo;
 
 }

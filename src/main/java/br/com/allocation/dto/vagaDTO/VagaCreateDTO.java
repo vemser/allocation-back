@@ -1,5 +1,7 @@
 package br.com.allocation.dto.vagaDTO;
 
+import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
+import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.Situacao;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +32,7 @@ public class VagaCreateDTO {
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Tipo de programa",example = "VemSer10")
-    private ProgramaEntity programaEntity;
+    private ProgramaDTO programaDTO;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Data abertura programa",example = "2022-12-20")
