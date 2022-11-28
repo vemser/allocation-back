@@ -9,6 +9,7 @@ import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.Client;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,6 +66,11 @@ public class ClienteService {
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
     }
+
+    public ClienteEntity findByEmail(String email){
+        return clienteRepository.findByEmail(email);
+    }
+
     private ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {
         return objectMapper.convertValue(clienteCreateDTO, ClienteEntity.class);
     }

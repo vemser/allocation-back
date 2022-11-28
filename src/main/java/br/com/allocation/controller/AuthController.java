@@ -5,6 +5,7 @@ import br.com.allocation.dto.loginDTO.LoginDTO;
 import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.security.TokenService;
+import br.com.allocation.service.EmailService;
 import br.com.allocation.service.FileService;
 import br.com.allocation.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class AuthController implements AuthInterfaceController {
     private final TokenService tokenService;
     private final UsuarioService usuarioService;
     private  final FileService fileService;
+    private final EmailService emailService;
 
     @PostMapping
     public ResponseEntity<String> auth(@RequestBody @Valid LoginDTO loginDTO) {
@@ -34,6 +36,7 @@ public class AuthController implements AuthInterfaceController {
 
     @GetMapping("/logged")
     public ResponseEntity<LoginWithIdDTO> loggedVerify() throws RegraDeNegocioException {
+        emailService.enviarRelatiorio();
         return new ResponseEntity<>(usuarioService.getLoggedUser(), HttpStatus.OK);
     }
 

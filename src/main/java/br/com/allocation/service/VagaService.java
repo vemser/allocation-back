@@ -1,10 +1,13 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.VagaEntity;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,16 +26,23 @@ public class VagaService {
 
     private final VagaRepository vagaRepository;
     private final ProgramaService programaService;
+    private final ClienteService clienteService;
     private final ObjectMapper objectMapper;
 
-    public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
-        VagaEntity vaga = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.findByNome(vagaCreate.getProgramaDTO().getNome());
-        vaga.setPrograma(programa);
+    private final static Integer QUANTIDADE_INICIAL_ALOCADO = 0;
 
-        vaga = vagaRepository.save(vaga);
+    public VagaDTO salvar(VagaCreateDTO vagaCreate, Situacao situacao) throws RegraDeNegocioException {
+        VagaEntity vaga = objectMapper.convertValue(vagaCreate, VagaEntity.class);
+        ProgramaEntity programa = programaService.findByNome(vagaCreate.getPrograma());
+        ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
+        vaga.setPrograma(programa);
+        vaga.setSituacao(situacao);
+        vaga.setCliente(cliente);
+        vaga.setQuantidadeAlocados(QUANTIDADE_INICIAL_ALOCADO);
+        vaga.setDataCriacao(LocalDate.now());
+        vagaRepository.save(vaga);
         VagaDTO vagaDto = objectMapper.convertValue(vaga, VagaDTO.class);
-        vagaDto.setProgramaDTO(programa.getNome());
+        vagaDto.setPrograma(programa.getNome());
         return vagaDto;
     }
 
@@ -53,14 +65,14 @@ public class VagaService {
     public VagaDTO editar(Integer codigo, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity = findById(codigo);
         vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.findByNome(vagaCreate.getProgramaDTO().getNome());
+        ProgramaEntity programa = programaService.findByNome(vagaCreate.getPrograma());
         vagaEntity.setPrograma(programa);
         vagaEntity.setCodigo(codigo);
 
         vagaEntity = vagaRepository.save(vagaEntity);
 
         VagaDTO vagaDto = objectMapper.convertValue(vagaEntity, VagaDTO.class);
-        vagaDto.setProgramaDTO(programa.getNome());
+        vagaDto.setPrograma(programa.getNome());
         return vagaDto;
     }
 
@@ -71,5 +83,13 @@ public class VagaService {
 
     public VagaEntity findById(Integer id) throws RegraDeNegocioException {
         return vagaRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("Vaga não encontrada!"));
+    }
+
+    public List<VagaDTO> findAllWithSituacaoAberto(){
+        return vagaRepository.findBySituacao(Situacao.ABERTO)
+                .stream()
+                .map(vagaEntity -> objectMapper.convertValue(vagaEntity, VagaDTO.class))
+                .collect(Collectors.toList());
+
     }
 }
