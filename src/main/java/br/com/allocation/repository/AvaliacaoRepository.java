@@ -11,5 +11,5 @@ import java.util.Set;
 
 @Repository
 public interface AvaliacaoRepository extends JpaRepository<AvaliacaoEntity, Integer> {
-    Set<AvaliacaoEntity> findAllByStatusAvalicao(Situacao situacao);
+//    Set<AvaliacaoEntity> findAllByStatusAvalicao(Situacao situacao);
 }

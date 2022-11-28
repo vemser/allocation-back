@@ -3,6 +3,7 @@ package br.com.allocation.controller.interfaces;
 import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
 import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +23,7 @@ public interface ClienteInterfaceController {
             }
     )
     @PostMapping
-    ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate);
+    ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate, SituacaoCliente situacao);
 
     @Operation(summary = "Listar pagina de clientes", description = "Lista uma pagina de clientes")
     @ApiResponses(
@@ -44,7 +45,8 @@ public interface ClienteInterfaceController {
             }
     )
     @PutMapping
-    ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate,
+    ResponseEntity<ClienteDTO> editar(@RequestParam("situacao") SituacaoCliente situacaoCliente,
+            @Valid @RequestBody ClienteCreateDTO clienteCreate,
                                       @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar cliente", description = "Deleta o cliente no banco de dados")

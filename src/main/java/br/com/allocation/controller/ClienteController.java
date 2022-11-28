@@ -4,6 +4,8 @@ import br.com.allocation.controller.interfaces.ClienteInterfaceController;
 import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
 import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ClienteService;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +28,9 @@ public class ClienteController implements ClienteInterfaceController {
 
     @Override
     @PostMapping
-    public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) {
+    public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate, SituacaoCliente situacao) {
         log.info("Adicionando o Usuário...");
-        ClienteDTO cliente = clienteService.salvar(clienteCreate);
+        ClienteDTO cliente = clienteService.salvar(clienteCreate, situacao);
         log.info("Usuário adicionado com sucesso!");
         return new ResponseEntity<>(cliente, HttpStatus.CREATED);
     }
@@ -41,10 +43,11 @@ public class ClienteController implements ClienteInterfaceController {
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate,
+    public ResponseEntity<ClienteDTO> editar(@RequestParam("situacao") SituacaoCliente situacaoCliente,
+            @Valid @RequestBody ClienteCreateDTO clienteCreate,
                                              @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Cliente...");
-        ClienteDTO cliente = clienteService.editar(id, clienteCreate);
+        ClienteDTO cliente = clienteService.editar(id, clienteCreate, situacaoCliente);
         log.info("Cliente editado com sucesso!");
         return new ResponseEntity<>(cliente, HttpStatus.CREATED);
     }
