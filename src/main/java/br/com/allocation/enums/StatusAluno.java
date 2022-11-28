@@ -4,7 +4,7 @@ public enum StatusAluno {
     ALOCADO(1), DISPONIVEL(2), RESERVADO(3);
 
     private int value;
-    private Integer disponibilidade;
+
 
     StatusAluno(int i) {
     }
