@@ -91,7 +91,7 @@ public class AlunoService {
     }
 
     public List<AlunoDTO> disponiveis() {
-        return alunoRepository.findAllByStatusAluno(StatusAluno.DISPONIVEL)
+        return alunoRepository.findByStatusAluno(StatusAluno.DISPONIVEL)
                 .stream()
                 .map(aluno -> objectMapper.convertValue(aluno, AlunoDTO.class))
                 .collect(Collectors.toList());
