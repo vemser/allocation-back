@@ -36,7 +36,7 @@ public class AvaliacaoCreateDTO {
     private String descricao;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Data da entrevista em grupo",example = "2022-12-19")
+    @Schema(description = "Data da entrevista com gestão de pessoas ",example = "2022-12-19")
     private LocalDate dataEntrevistaGP;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")

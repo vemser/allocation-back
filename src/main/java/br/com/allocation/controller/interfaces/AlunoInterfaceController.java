@@ -35,7 +35,7 @@ public interface AlunoInterfaceController {
     @GetMapping
     ResponseEntity<PageDTO<AlunoDTO>> listar(Integer pagina, Integer tamanho);
 
-    @Operation(summary = "Editar aluno", description = "Editar um aluno no banco de dados")
+    @Operation(summary = "Editar aluno", description = "Editar um aluno e salva no banco de dados")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Aluno Editado com sucesso"),
@@ -47,7 +47,7 @@ public interface AlunoInterfaceController {
     ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                     @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
 
-    @Operation(summary = "Deletar aluno", description = "Deleta o aluno no banco de dados")
+    @Operation(summary = "Deletar aluno", description = "Deleta o aluno do banco de dados")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204", description = "Aluno Deletado com sucesso"),

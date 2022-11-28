@@ -1,10 +1,14 @@
 package br.com.allocation.dto.alunoDTO;
 
+import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.enums.Area;
 import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.StatusAluno;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -12,8 +16,8 @@ import lombok.NoArgsConstructor;
 public class AlunoDTO {
     private String nome;
     private Area area;
-    private String email;
-    //private List<Tecnologia> tecnologias;
-    //private String emProcesso;
-    private Situacao situacao;
+    private Set<TecnologiaDTO> tecnologias;
+    private String programa;
+    private String emProcesso;
+    private StatusAluno alocado;
 }

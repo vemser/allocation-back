@@ -2,6 +2,7 @@ package br.com.allocation.entity;
 
 import br.com.allocation.enums.Situacao;
 
+import br.com.allocation.enums.SituacaoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class ClienteEntity {
     private String telefone;
 
     @Column(name = "situacao")
-    private Situacao situacao;
+    private SituacaoCliente situacaoCliente;
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

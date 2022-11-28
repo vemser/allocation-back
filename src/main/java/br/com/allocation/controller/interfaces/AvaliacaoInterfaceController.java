@@ -1,9 +1,8 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
-import br.com.allocation.dto.programaDTO.ProgramaDTO;
+import br.com.allocation.dto.Avaliacao.AvaliacaoCreateDTO;
+import br.com.allocation.dto.Avaliacao.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,51 +12,50 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-public interface ProgramaInterfaceController {
-    @Operation(summary = "Criar programa", description = "Cria um programa no banco de dados")
+public interface AvaliacaoInterfaceController {
+    @Operation(summary = "Criar Avalição", description = "Cria uma avaliação e salva no banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Programa Criado com sucesso"),
+                    @ApiResponse(responseCode = "201", description = "Avalição Criado com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @PostMapping
-    ResponseEntity<ProgramaDTO> salvar(@RequestParam("situacao") Situacao situacao,
-            @Valid @RequestBody ProgramaCreateDTO programaCreate);
+    ResponseEntity<AvaliacaoDTO> salvar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO);
 
-    @Operation(summary = "Listar pagina de programas", description = "Lista uma pagina de programas")
+    @Operation(summary = "Listar pagina de avalições", description = "Lista uma pagina de avaliações")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Programas Listados com sucesso"),
+                    @ApiResponse(responseCode = "201", description = "Avaliações Listadas com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping
-    ResponseEntity<PageDTO<ProgramaDTO>> listar(Integer pagina, Integer tamanho);
+    ResponseEntity<PageDTO<AvaliacaoDTO>> listar(Integer pagina, Integer tamanho);
 
-    @Operation(summary = "Editar programa", description = "Editar um programa no banco de dados")
+    @Operation(summary = "Editar avaliação", description = "Editar uma avaliação e salva no banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Programa Editado com sucesso"),
+                    @ApiResponse(responseCode = "201", description = "Avaliação Editada com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping
-    ResponseEntity<ProgramaDTO> editar(@RequestParam("situacao") Situacao situacao,
-            @Valid @RequestBody ProgramaCreateDTO programaCreate,
-                                              @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
-    @Operation(summary = "Deletar programa", description = "Deleta o programa no banco de dados")
+    @PostMapping("/{id}")
+    ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO,
+                                        @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
+    @Operation(summary = "Deletar avaliação", description = "Deleta  avaliação do banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "204", description = "Deletado com sucesso"),
+                    @ApiResponse(responseCode = "204", description = "Avaliação Deletada com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "404", description = "Não encontrado"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @DeleteMapping
-    public ResponseEntity<Void> deletar(@PathVariable(name = "idPrograma") Integer idUsuario) throws RegraDeNegocioException;
+    @DeleteMapping("/{idAvaliacao}")
+     ResponseEntity<Void> deletar(@PathVariable(name = "idAvaliacao")
+                                        Integer id) throws RegraDeNegocioException;
 }

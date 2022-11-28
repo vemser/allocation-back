@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -23,11 +24,12 @@ public class ProgramaCreateDTO {
     @Schema(description = "Descrição do programa",example = "Programa de formação profissional trilha Backend Vem Ser DBC 10º edição.")
     private String descricao;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull
     @Schema(description = "Data de abertura programa",example = "2023-02-23")
     private LocalDate dataCriacao;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Situação do programa",example = "ABERTO")
-    private Situacao situacao;
+    @NotNull
+    @Schema(description = "Data de termino do programa",example = "2023-06-23")
+    private LocalDate dataTermino;
+
 }

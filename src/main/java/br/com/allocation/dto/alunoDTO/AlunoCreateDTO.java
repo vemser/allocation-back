@@ -6,8 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,20 +16,20 @@ import javax.validation.constraints.NotBlank;
 public class AlunoCreateDTO {
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Nome do aluno",example = "Gustavo Lucena")
+    @Schema(description = "Nome do aluno", example = "Gustavo Lucena")
     private String nome;
 
-    @Email
+    //@Email
     @NotBlank(message = "email não pode ser vazio ou nulo.")
-    @Schema(description = "email do usuario",example = "gustavo.lucena@dbccompany.com.br")
+    @Schema(description = "email do usuario", example = "jhennyfer.sobrinho@dbccompany.com.br")
     private String email;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Nome da area ",example = "Front-end")
+    @Schema(description = "Nome da area ", example = "Front-end")
     private Area area;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Cidade do aluno ",example = "Pato Branco")
+    @Schema(description = "Cidade do aluno ", example = "Pato Branco")
     private String cidade;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
@@ -42,4 +43,8 @@ public class AlunoCreateDTO {
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "descrição", example = "xxxx")
     private String descricao;
+
+    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @Schema(description = "tecnologias", example = "xxxx")
+    private List<String> tecnologias = new ArrayList<>();
 }
