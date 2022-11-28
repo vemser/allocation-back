@@ -34,15 +34,18 @@ public class UsuarioService {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
         validarSenha(usuarioCreateDTO);
         confirmarSenha(usuarioCreateDTO);
-
-        CargoEntity cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
-
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
-        usuarioEntity.getCargos().add(cargo);
-
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
-        return converterEmDTO(usuarioRepository.save(usuarioEntity));
+
+        if(cargos == null){
+            return converterEmDTO(usuarioRepository.save(usuarioEntity));
+        }
+        else {
+            CargoEntity cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
+            usuarioEntity.getCargos().add(cargo);
+            return converterEmDTO(usuarioRepository.save(usuarioEntity));
+        }
     }
 
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
@@ -127,7 +130,9 @@ public class UsuarioService {
 
     public LoginWithIdDTO getLoggedUser() throws RegraDeNegocioException {
         UsuarioEntity userLogged = findById(getIdLoggedUser());
-        return objectMapper.convertValue(userLogged, LoginWithIdDTO.class);
+        LoginWithIdDTO logado = objectMapper.convertValue(userLogged, LoginWithIdDTO.class);
+        logado.setCargos(userLogged.getCargos());
+        return logado;
     }
 
     public Optional<UsuarioEntity> findByEmail(String email) {

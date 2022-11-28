@@ -30,29 +30,6 @@ public class UsuarioController implements UsuarioInterfaceController {
     private final UsuarioService usuarioService;
     private final FileService fileService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UsuarioDTO> create(
-            @RequestParam("cargo") Cargos cargo,
-            @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
-            throws RegraDeNegocioException {
-
-        return ResponseEntity.ok(usuarioService.create(usuarioCreateDTO, cargo));
-    }
-    @PostMapping("/upload/")
-    public ResponseEntity<MensagemDTO> uploadFile(@RequestParam("file") MultipartFile file,
-                                                  @RequestParam("email") String email) {
-        String message = "";
-        try {
-            fileService.store(file, email);
-
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new MensagemDTO(message));
-        } catch (Exception e) {
-            e.printStackTrace();
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MensagemDTO(message));
-        }
-    }
 
     @GetMapping("/recuperarImagem")
     public ResponseEntity<String> recuperarImagem(@RequestParam("email") String email) throws RegraDeNegocioException {
