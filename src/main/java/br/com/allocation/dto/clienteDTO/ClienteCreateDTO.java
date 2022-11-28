@@ -22,7 +22,4 @@ public class ClienteCreateDTO {
     @Schema(description = "Telefone do cliente",example = "911234-9876")
     private String telefone;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Situação ",example = "Ativo")
-    private Situacao situacao;
 }

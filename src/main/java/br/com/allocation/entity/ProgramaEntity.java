@@ -47,11 +47,6 @@ public class ProgramaEntity {
     private Set<AlunoEntity> alunos = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "VAGA_PROGRAMA",
-            joinColumns = @JoinColumn(name = "id_programa"),
-            inverseJoinColumns = @JoinColumn(name = "codigo_vaga")
-    )
+    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
     private Set<VagaEntity> vagas = new HashSet<>();
 }

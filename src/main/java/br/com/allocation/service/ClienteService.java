@@ -4,6 +4,8 @@ import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
 import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.ClienteEntity;
+import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +25,9 @@ public class ClienteService {
     private final ObjectMapper objectMapper;
 
 
-    public ClienteDTO salvar(ClienteCreateDTO clienteCreate) {
+    public ClienteDTO salvar(ClienteCreateDTO clienteCreate, SituacaoCliente situacao) {
         ClienteEntity clienteEntity = converterEntity(clienteCreate);
+        clienteEntity.setSituacaoCliente(situacao);
         return converterEmDTO(clienteRepository.save(clienteEntity));
     }
 
@@ -43,10 +46,12 @@ public class ClienteService {
                 clienteDTOList);
     }
 
-    public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
+    public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate, SituacaoCliente situacao) throws RegraDeNegocioException {
         ClienteEntity clienteEntity = findById(idCliente);
-
-        clienteEntity = converterEntity(clienteCreate);
+        clienteEntity.setNome(clienteCreate.getNome());
+        clienteEntity.setEmail(clienteEntity.getEmail());
+        clienteEntity.setTelefone(clienteEntity.getTelefone());
+        clienteEntity.setSituacaoCliente(situacao);
         clienteEntity = clienteRepository.save(clienteEntity);
         return converterEmDTO(clienteEntity);
     }

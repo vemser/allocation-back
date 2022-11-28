@@ -34,18 +34,11 @@ public class UsuarioService {
         validarSenha(usuarioCreateDTO);
         confirmarSenha(usuarioCreateDTO);
 
-        List<CargoEntity> cargos = usuarioCreateDTO.getCargos().stream()
-                        .map(cargo -> {
-                            try {
-                                return cargoService.findByNome(cargo.getNome());
-                            } catch (RegraDeNegocioException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }).toList();
+        CargoEntity cargo = cargoService.findByNome(usuarioCreateDTO.getCargo().getNome());
 
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
-        cargos.forEach(cargo -> usuarioEntity.getCargos().add(cargo));
-        
+        usuarioEntity.getCargos().add(cargo);
+
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
         return converterEmDTO(usuarioRepository.save(usuarioEntity));
@@ -58,15 +51,9 @@ public class UsuarioService {
         usuario.setSenha(passwordEncoder.encode(usuarioCreateDTO.getSenha()));
         usuario.setNomeCompleto(usuarioCreateDTO.getNomeCompleto());
 
-        List<CargoEntity> cargos = usuarioCreateDTO.getCargos().stream()
-                .map(cargo -> {
-                    try {
-                        return cargoService.findByNome(cargo.getNome());
-                    } catch (RegraDeNegocioException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).toList();
-        cargos.forEach(cargo -> usuario.getCargos().add(cargo));
+        CargoEntity cargo = cargoService.findByNome(usuarioCreateDTO.getCargo().getNome());
+        usuario.getCargos().clear();
+        usuario.getCargos().add(cargo);
 
         usuarioRepository.save(usuario);
         return converterEmDTO(usuario);
@@ -84,8 +71,8 @@ public class UsuarioService {
                 tamanho,
                 usuarios
         );
-
     }
+
     public void deletar(Integer id) throws RegraDeNegocioException {
         this.findById(id);
         usuarioRepository.deleteById(id);
