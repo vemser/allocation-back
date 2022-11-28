@@ -1,15 +1,11 @@
 package br.com.allocation.enums;
 
-public enum Area {
-    FRONT(1),
-    BACK(2),
-    QA(3);
+public enum SituacaoPrograma {
+    ABERTO(1),FECHADO(2);
 
     private int value;
-    Area(int i) {
-        value = i;
+    SituacaoPrograma(int i) {
     }
-
     public int getValue() {
         return value;
     }

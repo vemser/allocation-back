@@ -5,9 +5,11 @@ import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
+import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
+import br.com.allocation.repository.ProgramaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,10 +28,13 @@ public class AlunoService {
     private final ObjectMapper objectMapper;
 
     private final TecnologiaService tecnologiaService;
+    private final ProgramaRepository programaRepository;
 
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) {
 
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
+        Optional<ProgramaEntity> programa = programaRepository.findById(alunoEntity.getArea().getValue());
+        alunoEntity.setPrograma(programa.get());
         alunoEntity.setTecnologiaEntities(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
         alunoRepository.save(alunoEntity);
@@ -37,6 +43,7 @@ public class AlunoService {
     }
 
     private AlunoEntity converterEntity(AlunoCreateDTO alunoCreateDTO) {
+
         return objectMapper.convertValue(alunoCreateDTO, AlunoEntity.class);
     }
 
@@ -94,7 +101,8 @@ public class AlunoService {
         this.findById(id);
         alunoRepository.deleteById(id);
     }
-    public List<AlunoDTO> disponiveis(){
+
+    public List<AlunoDTO> disponiveis() {
         return alunoRepository.findAllByStatusAluno(StatusAluno.DISPONIVEL)
                 .stream()
                 .map(this::converterEmDTO)

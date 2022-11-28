@@ -25,8 +25,6 @@ public class AlunoEntity {
     @Column(name = "id_aluno")
     private Integer idAluno;
 
-    @Column (name = "id_programa", insertable = false, updatable = false)
-    private Integer idPrograma;
 
     @Column(name = "nome")
     private String nome;
@@ -35,6 +33,7 @@ public class AlunoEntity {
     private String email;
 
     @Column(name = "area")
+    @Enumerated(EnumType.STRING)
     private Area area;
 
     @Column(name = "cidade")

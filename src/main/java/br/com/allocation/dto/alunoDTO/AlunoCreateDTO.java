@@ -24,8 +24,8 @@ public class AlunoCreateDTO {
     @Schema(description = "email do usuario", example = "jhennyfer.sobrinho@dbccompany.com.br")
     private String email;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Nome da area ", example = "Front-end")
+
+    @Schema(description = "Nome da area ", example = "FRONT")
     private Area area;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
@@ -44,7 +44,7 @@ public class AlunoCreateDTO {
     @Schema(description = "descrição", example = "xxxx")
     private String descricao;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "tecnologias", example = "xxxx")
+
+    @Schema(description = "tecnologias")
     private List<String> tecnologias = new ArrayList<>();
 }

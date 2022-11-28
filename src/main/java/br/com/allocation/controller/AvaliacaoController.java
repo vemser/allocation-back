@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.AvaliacaoInterfaceController;
-import br.com.allocation.dto.Avaliacao.AvaliacaoCreateDTO;
-import br.com.allocation.dto.Avaliacao.AvaliacaoDTO;
+import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
+import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.AvaliacaoService;
@@ -36,7 +36,7 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
     }
     @PostMapping("/{id}")
     public ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO,
-                                           @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
+                                               @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando Avaliação...");
         AvaliacaoDTO avaliacaoDTO = avaliacaoService.editar(id, avaliacaoCreateDTO);
         log.info("Avalição editado com sucesso!");
@@ -44,7 +44,7 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
     }
     @DeleteMapping("/{idAvaliacao}")
     public ResponseEntity<Void> deletar(@PathVariable(name = "idAvaliacao")
-                                        Integer id) throws RegraDeNegocioException {
+                                 Integer id) throws RegraDeNegocioException {
         avaliacaoService.deletar(id);
         log.info("Avaliação deletada com sucesso");
         return ResponseEntity.noContent().build();

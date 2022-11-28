@@ -1,6 +1,7 @@
 package br.com.allocation.dto.programaDTO;
 
 import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoPrograma;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,5 +32,6 @@ public class ProgramaCreateDTO {
     @NotNull
     @Schema(description = "Data de termino do programa",example = "2023-06-23")
     private LocalDate dataTermino;
+
 
 }
