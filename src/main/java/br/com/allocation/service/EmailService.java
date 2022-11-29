@@ -17,10 +17,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -39,20 +36,28 @@ public class EmailService {
     private final AlunoService alunoService;
 
 
-    public void sendEmail(VagaDTO vagaDTO, UsuarioDTO usuario, AlunoDTO alunoDTO) {
+    public void sendEmail(List<VagaDTO> vagaDTO, UsuarioDTO usuario, List<AlunoDTO> alunoDTO) {
 
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         Map<String, Object> dados = new HashMap<>();
         dados.put("nome", usuario.getNomeCompleto());
         dados.put("email", from);
-        dados.put("aluno", alunoDTO.getNome());
-        dados.put("vaga", vagaDTO.getNome());
+        List<String> nomeVagas = new ArrayList<>();
+        List<String> nomeAlunos = new ArrayList<>();
+        for (VagaDTO vagas: vagaDTO) {
+            nomeVagas.add(vagas.getNome());
+        }
+        dados.put("vaga", nomeVagas);
+        for (AlunoDTO aluno: alunoDTO) {
+           nomeAlunos.add(aluno.getNome());
+        }
+        dados.put("aluno", nomeAlunos);
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(TO);
             mimeMessageHelper.setTo(usuario.getEmail());
             mimeMessageHelper.setSubject("Resumo de vagas e alunos em aberto");
-            mimeMessageHelper.setText(getContentFromTemplate(dados, "email-template.ftl"), true);
+            mimeMessageHelper.setText(getContentFromTemplate(dados, "email-template.html"), true);
             emailSender.send(mimeMessageHelper.getMimeMessage());
 
         } catch (MessagingException | IOException | TemplateException e) {
@@ -70,20 +75,10 @@ public class EmailService {
         List<UsuarioDTO> usuarios = usuarioService.findAllUsers();
         List<VagaDTO> vagas = vagaService.findAllWithSituacaoAberto();
         List<AlunoDTO> alunos = alunoService.disponiveis();
-        AlunoDTO aluno = null;
-        VagaDTO vaga = null;
 
-
-        for(AlunoDTO alunoDTO: alunos){
-            aluno = alunoDTO;
-        }
-
-        for(VagaDTO vagaDTO: vagas){
-            vaga = vagaDTO;
-        }
 
         for(UsuarioDTO usuario:usuarios){
-            sendEmail(vaga,usuario, aluno);
+            sendEmail(vagas,usuario, alunos);
         }
 
     }

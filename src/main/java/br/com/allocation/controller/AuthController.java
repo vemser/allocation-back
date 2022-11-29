@@ -33,6 +33,7 @@ public class AuthController implements AuthInterfaceController {
     private final UsuarioService usuarioService;
     private  final FileService fileService;
 
+    private final EmailService emailService;
 
     @PostMapping
     public ResponseEntity<String> auth(@RequestBody @Valid LoginDTO loginDTO) {
