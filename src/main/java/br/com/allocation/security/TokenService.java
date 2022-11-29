@@ -30,7 +30,7 @@ public class TokenService {
     public String getToken(UsuarioEntity usuarioEntity) {
         LocalDate hojeLD = LocalDate.now();
         Date hojeDT = Date.from(hojeLD.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date expDT = Date.from(hojeLD.plusDays(3).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date expDT = Date.from(hojeLD.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         List<String> cargoUsuario = usuarioEntity.getCargos().stream()
                 .map(CargoEntity::getAuthority)

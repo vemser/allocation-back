@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VagaCreateDTO {
+
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nome da vaga",example = "Desenvolvedor(a) Java - Back-End")
     private String nome;
@@ -29,7 +30,7 @@ public class VagaCreateDTO {
     private String programa;
 
     @NotNull(message = "situacao não pode ser nulo.")
-    @Schema(description = "situacao da vaga",example = "ABERTA")
+    @Schema(description = "situacao da vaga",example = "ABERTO")
     private String situacao;
 
     @NotNull(message = "Data não pode ser vazio ou nulo.")

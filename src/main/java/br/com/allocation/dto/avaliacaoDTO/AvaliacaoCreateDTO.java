@@ -19,7 +19,7 @@ public class AvaliacaoCreateDTO {
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Desenvolvedor(a) fullstak",example = "Desenvolvedor(a) Java - Back-End")
-    private String NomeVaga;
+    private String nomeVaga;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nome do aluno",example = "jhennyfer.sobrinho@dbccompany.com.br")

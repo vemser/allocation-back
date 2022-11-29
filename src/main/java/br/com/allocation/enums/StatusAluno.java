@@ -4,13 +4,14 @@ public enum StatusAluno {
     ALOCADO("ALOCADO"),
     DISPONIVEL("DISPONIVEL"),
     RESERVADO("RESERVADO"),
-
-    CANCElADO("CANCElADO");
+    DESALOCADO("DESALOCADO");
 
     private String value;
 
     StatusAluno(String str) {
     }
-
+    public String getValue() {
+        return value;
+    }
 
 }
