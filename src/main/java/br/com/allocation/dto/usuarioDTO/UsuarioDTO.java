@@ -6,6 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDTO {
+    private Integer idUsuario;
     private String nomeCompleto;
     private String email;
 

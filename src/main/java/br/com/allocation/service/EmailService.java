@@ -17,10 +17,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -45,12 +42,16 @@ public class EmailService {
         Map<String, Object> dados = new HashMap<>();
         dados.put("nome", usuario.getNomeCompleto());
         dados.put("email", from);
+        List<String> nomeVagas = new ArrayList<>();
+        List<String> nomeAlunos = new ArrayList<>();
         for (VagaDTO vagas: vagaDTO) {
-            dados.put("vaga", vagas.getNome());
+            nomeVagas.add(vagas.getNome());
         }
+        dados.put("vaga", nomeVagas);
         for (AlunoDTO aluno: alunoDTO) {
-            dados.put("aluno", aluno.getNome());
+           nomeAlunos.add(aluno.getNome());
         }
+        dados.put("aluno", nomeAlunos);
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(TO);

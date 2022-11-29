@@ -42,7 +42,6 @@ public class AuthController implements AuthInterfaceController {
 
     @GetMapping("/logged")
     public ResponseEntity<LoginWithIdDTO> loggedVerify() throws RegraDeNegocioException {
-        emailService.enviarRelatiorio();
         return new ResponseEntity<>(usuarioService.getLoggedUser(), HttpStatus.OK);
     }
 
