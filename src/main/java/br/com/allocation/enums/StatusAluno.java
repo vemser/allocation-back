@@ -9,7 +9,6 @@ public enum StatusAluno {
 
     StatusAluno(String str) {
     }
-
     public String getValue() {
         return value;
     }

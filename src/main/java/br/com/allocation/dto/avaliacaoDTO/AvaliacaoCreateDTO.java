@@ -1,15 +1,12 @@
 package br.com.allocation.dto.avaliacaoDTO;
 
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.TipoAvaliacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.kafka.common.protocol.types.Field;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -21,7 +18,7 @@ import java.time.LocalDate;
 public class AvaliacaoCreateDTO {
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Nome da vaga",example = "Desenvolvedor(a) Java - Back-End")
+    @Schema(description = "Desenvolvedor(a) fullstak",example = "Desenvolvedor(a) Java - Back-End")
     private String NomeVaga;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")

@@ -49,6 +49,7 @@ public class VagaEntity {
     private LocalDate dataCriacao;
 
     @Column(name = "situacao")
+    @Enumerated(EnumType.STRING)
     private Situacao situacao;
 
     @Column(name = "observacoes")

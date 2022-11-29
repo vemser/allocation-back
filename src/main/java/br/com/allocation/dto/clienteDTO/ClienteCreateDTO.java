@@ -1,11 +1,11 @@
 package br.com.allocation.dto.clienteDTO;
 
-import br.com.allocation.enums.Situacao;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class ClienteCreateDTO {
@@ -13,8 +13,8 @@ public class ClienteCreateDTO {
     @Schema(description = "Nome do Cliente",example = "Sicred")
     private String nome;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "email",example = "")
+    @NotBlank(message = "Email não pode ser vazio ou nulo.")
+    @Schema(description = "email",example = "sicred@dbccompany.com.br")
     @Email
     private String email;
 
@@ -22,4 +22,7 @@ public class ClienteCreateDTO {
     @Schema(description = "Telefone do cliente",example = "911234-9876")
     private String telefone;
 
+    @NotNull
+    @Schema(description = "Situação do cliente",example = "ATIVO")
+    private String situacao;
 }
