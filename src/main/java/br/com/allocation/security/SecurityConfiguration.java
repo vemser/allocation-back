@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         authz.antMatchers("/auth/**").permitAll()
                                 .antMatchers("/tecnologia/**").permitAll()
                                 .antMatchers("/aluno/**").permitAll()
+                                .antMatchers("/reserva-alocacao/**").permitAll()
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

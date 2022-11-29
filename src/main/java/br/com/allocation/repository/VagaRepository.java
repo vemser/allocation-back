@@ -14,4 +14,5 @@ public interface VagaRepository extends JpaRepository<VagaEntity, Integer> {
 
     List<VagaEntity> findBySituacao(Situacao situacao);
     Optional<VagaEntity> findByNome(String nome);
+
 }

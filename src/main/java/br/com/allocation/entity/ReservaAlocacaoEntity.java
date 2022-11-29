@@ -1,6 +1,8 @@
 package br.com.allocation.entity;
 
+import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.StatusAluno;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,14 +25,6 @@ public class ReservaAlocacaoEntity {
     @Column(name = "codigo_reserva_alocacao")
     private Integer codigo;
 
-    @Column(name = "id_aluno", insertable = false, updatable = false)
-    private Integer idAluno;
-
-    @Column(name = "codigo_vaga", insertable = false, updatable = false)
-    private Integer codigoVaga;
-
-    @Column(name = "codigo_avaliacao", insertable = false, updatable = false)
-    private Integer codigoAvaliacao;
 
     @Column(name = "descricao")
     private String descricao;
@@ -48,7 +42,7 @@ public class ReservaAlocacaoEntity {
     private LocalDate dataFinalizado;
 
     @Column(name = "situacao")
-    private Situacao situacao;
+    private StatusAluno statusAluno;
 
     @JsonIgnore
     @OneToOne
