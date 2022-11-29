@@ -33,6 +33,7 @@ public class AuthController implements AuthInterfaceController {
     private final UsuarioService usuarioService;
     private  final FileService fileService;
 
+    private final EmailService emailService;
 
     @PostMapping
     public ResponseEntity<String> auth(@RequestBody @Valid LoginDTO loginDTO) {
@@ -41,6 +42,7 @@ public class AuthController implements AuthInterfaceController {
 
     @GetMapping("/logged")
     public ResponseEntity<LoginWithIdDTO> loggedVerify() throws RegraDeNegocioException {
+        emailService.enviarRelatiorio();
         return new ResponseEntity<>(usuarioService.getLoggedUser(), HttpStatus.OK);
     }
 
