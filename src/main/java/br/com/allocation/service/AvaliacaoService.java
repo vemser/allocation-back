@@ -4,6 +4,7 @@ import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.AvaliacaoEntity;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,12 +19,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AvaliacaoService {
     private final AvaliacaoRepository avaliacaoRepository;
+    private final VagaService vagaService;
+    private final AlunoService alunoService;
     private final ObjectMapper objectMapper;
 
-    public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) {
+    public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
-        return converterEmDTO(avaliacaoEntity);
+        avaliacaoEntity.setVaga(vagaService.findByNome(avaliacaoCreateDTO.getNomeVaga()));
+        avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
+        avaliacaoEntity.setSituacao(Situacao.valueOf(avaliacaoCreateDTO.getSituacao()));
 
+        avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
+        return converterEmDTO(avaliacaoEntity);
     }
     public AvaliacaoEntity findById(Integer id) throws RegraDeNegocioException {
         return avaliacaoRepository.findById(id)
@@ -58,6 +65,9 @@ public class AvaliacaoService {
         return objectMapper.convertValue(avaliacaoCreateDTO, AvaliacaoEntity.class);
     }
     private AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
-        return objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
+        AvaliacaoDTO dto = objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
+        dto.setEmailAluno(avaliacaoEntity.getAluno().getEmail());
+        dto.setNomeVaga(avaliacaoEntity.getVaga().getNome());
+        return dto;
     }
 }

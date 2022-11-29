@@ -27,7 +27,7 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
     private final AvaliacaoService avaliacaoService;
 
     @PostMapping
-    public ResponseEntity<AvaliacaoDTO> salvar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO) {
+    public ResponseEntity<AvaliacaoDTO> salvar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         log.info("Adicionando Avaliação...");
         AvaliacaoDTO avaliacaoDTO = avaliacaoService.salvar(avaliacaoCreateDTO);
         log.info("Avaliação adicionada com sucesso!");
@@ -37,7 +37,7 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
     public ResponseEntity<PageDTO<AvaliacaoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(avaliacaoService.listar(pagina, tamanho));
     }
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO,
                                                @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando Avaliação...");

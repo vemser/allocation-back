@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProgramaDTO {
 
+    private Integer idPrograma;
     private String nome;
     private String descricao;
     private SituacaoPrograma situacao;

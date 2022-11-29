@@ -1,6 +1,5 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,14 +33,17 @@ public class VagaService {
         VagaEntity vaga = objectMapper.convertValue(vagaCreate, VagaEntity.class);
         ProgramaEntity programa = programaService.findByNome(vagaCreate.getPrograma());
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
+
         vaga.setPrograma(programa);
         vaga.setSituacao(situacao);
         vaga.setCliente(cliente);
         vaga.setQuantidadeAlocados(QUANTIDADE_INICIAL_ALOCADO);
-        vaga.setDataCriacao(LocalDate.now());
+
         vagaRepository.save(vaga);
+
         VagaDTO vagaDto = objectMapper.convertValue(vaga, VagaDTO.class);
         vagaDto.setPrograma(programa.getNome());
+        vagaDto.setEmailCliente(cliente.getEmail());
         return vagaDto;
     }
 
@@ -51,7 +52,13 @@ public class VagaService {
         Page<VagaEntity> paginaDoRepositorio = vagaRepository.findAll(pageRequest);
 
         List<VagaDTO> vagas = paginaDoRepositorio.getContent().stream()
-                .map(vaga  -> objectMapper.convertValue(vaga, VagaDTO.class))
+                .map(vaga  -> {
+                    VagaDTO vagaDto = objectMapper.convertValue(vaga, VagaDTO.class);
+                    vagaDto.setPrograma(vaga.getPrograma().getNome());
+                    vagaDto.setEmailCliente(vaga.getCliente().getEmail());
+
+                    return vagaDto;
+                })
                 .toList();
 
         return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
@@ -90,6 +97,9 @@ public class VagaService {
                 .stream()
                 .map(vagaEntity -> objectMapper.convertValue(vagaEntity, VagaDTO.class))
                 .collect(Collectors.toList());
+    }
 
+    public VagaEntity findByNome(String nome) throws RegraDeNegocioException {
+        return vagaRepository.findByNome(nome).orElseThrow(() -> new RegraDeNegocioException("Vaga não encontrada!"));
     }
 }

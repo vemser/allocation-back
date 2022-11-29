@@ -60,14 +60,13 @@ public class AlunoService {
         this.findById(id);
         AlunoEntity alunoEntity = converterEntity(alunoCreateDTO);
         return converterEmDTO(alunoRepository.save(alunoEntity));
-
     }
 
     public PageDTO<AlunoDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<AlunoEntity> paginaRepository = alunoRepository.findAll(pageRequest);
 
-        List<AlunoDTO> alunoDTOList = alunoRepository.findAll().stream()
+        List<AlunoDTO> alunoDTOList =  paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
                 .collect(Collectors.toList());
 
@@ -95,4 +94,7 @@ public class AlunoService {
                 .collect(Collectors.toList());
     }
 
+    public AlunoEntity findByEmail(String email) throws RegraDeNegocioException {
+        return alunoRepository.findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado!"));
+    }
 }
