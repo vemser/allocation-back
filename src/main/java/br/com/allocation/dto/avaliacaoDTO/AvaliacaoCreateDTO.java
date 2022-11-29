@@ -17,9 +17,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AvaliacaoCreateDTO {
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Desenvolvedor(a) fullstak",example = "Desenvolvedor(a) Java - Back-End")
-    private String nomeVaga;
+    @NotNull(message = "codigoVaga não pode ser nulo.")
+    @Schema(description = "Codigo da vaga",example = "1")
+    private Integer codigoVaga;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nome do aluno",example = "jhennyfer.sobrinho@dbccompany.com.br")

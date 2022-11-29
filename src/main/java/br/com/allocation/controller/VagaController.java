@@ -11,9 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/vaga")
@@ -26,7 +24,7 @@ public class VagaController implements VagaInterfaceController {
 
     @Override
     @PostMapping
-    public ResponseEntity<VagaDTO> salvar(VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<VagaDTO> salvar(@RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
         log.info("Adicionando a vaga...");
         VagaDTO vaga = vagaService.salvar(vagaCreateDTO);
@@ -35,12 +33,12 @@ public class VagaController implements VagaInterfaceController {
     }
 
     @Override
-    public ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho) {
+    public ResponseEntity<PageDTO<VagaDTO>> listar(@PathVariable Integer pagina, @PathVariable Integer tamanho) {
         return ResponseEntity.ok(vagaService.listar(pagina, tamanho));
     }
 
     @Override
-    public ResponseEntity<VagaDTO> editar(Integer id, VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<VagaDTO> editar(@PathVariable Integer id, @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
         log.info("Editando a vaga...");
         VagaDTO vaga = vagaService.editar(id, vagaCreateDTO);
@@ -49,7 +47,7 @@ public class VagaController implements VagaInterfaceController {
     }
 
     @Override
-    public ResponseEntity<Void> deletar(Integer id) throws RegraDeNegocioException {
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) throws RegraDeNegocioException {
         vagaService.deletar(id);
         log.info("Vaga deletado com sucesso");
         return ResponseEntity.noContent().build();

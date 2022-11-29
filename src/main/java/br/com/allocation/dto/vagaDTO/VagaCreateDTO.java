@@ -21,13 +21,13 @@ public class VagaCreateDTO {
     @Schema(description = "Nome da vaga",example = "Desenvolvedor(a) Java - Back-End")
     private String nome;
 
-    @NotNull(message = "Nome não pode ser vazio ou nulo.")
+    @NotNull(message = "Quantidade não pode ser vazio ou nulo.")
     @Schema(description = "Quantidade da vaga",example = "1")
     private Integer quantidade;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Tipo de programa",example = "vemser 10")
-    private String programa;
+    @NotNull(message = "Id programa não pode ser nulo.")
+    @Schema(description = "Id do programa",example = "1")
+    private Integer idPrograma;
 
     @NotNull(message = "situacao não pode ser nulo.")
     @Schema(description = "situacao da vaga",example = "ABERTO")
@@ -45,7 +45,7 @@ public class VagaCreateDTO {
     @Schema(description = "Data criação")
     private LocalDate dataCriacao;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @NotBlank(message = "observacoes não pode ser vazio ou nulo.")
     @Schema(description = "Observaçoes sobre a vaga",example = "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String observacoes;
 

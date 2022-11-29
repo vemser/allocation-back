@@ -29,7 +29,8 @@ public class AlunoService {
 
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
-        ProgramaEntity programa = programaService.findByNome(alunoCreate.getPrograma());
+
+        ProgramaEntity programa = programaService.findById(alunoCreate.getIdPrograma());
         alunoEntity.setPrograma(programa);
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
@@ -49,9 +50,10 @@ public class AlunoService {
                 .collect(Collectors.toSet());
 
         return new AlunoDTO(alunoEntity.getNome(),
+                alunoEntity.getEmail(),
                 alunoEntity.getArea(),
                 tecnologiaDTOS,
-                alunoEntity.getPrograma().getNome(),
+                alunoEntity.getPrograma().getIdPrograma(),
                 emProcesso,
                 alunoEntity.getStatusAluno());
     }

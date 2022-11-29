@@ -26,11 +26,11 @@ public class AlunoCreateDTO {
     @Schema(description = "email do usuario", example = "jhennyfer.sobrinho@dbccompany.com.br")
     private String email;
 
-    @NotBlank(message = "não pode ser vazio ou nulo.")
-    @Schema(description = "Programa", example = "vemser 10")
-    private String programa;
+    @NotNull(message = "não pode ser vazio ou nulo.")
+    @Schema(description = "Id Programa", example = "1")
+    private Integer idPrograma;
 
-    @Schema(description = "Nome da area ", example = "FRONTEND,")
+    @Schema(description = "Nome da area ", example = "FRONTEND")
     private Area area;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
