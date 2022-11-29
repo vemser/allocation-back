@@ -1,6 +1,5 @@
 package br.com.allocation.repository;
 
-import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.Situacao;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,12 +28,16 @@ public class VagaCreateDTO {
     @Schema(description = "Tipo de programa",example = "vemser 10")
     private String programa;
 
+    @NotNull(message = "situacao não pode ser nulo.")
+    @Schema(description = "situacao da vaga",example = "ABERTA")
+    private String situacao;
+
     @NotNull(message = "Data não pode ser vazio ou nulo.")
-    @Schema(description = "Data abertura programa",example = "2022-12-20")
+    @Schema(description = "Data abertura vaga",example = "2022-12-20")
     private LocalDate dataAbertura;
 
     @NotNull(message = "Data não pode ser vazio ou nulo.")
-    @Schema(description = "Data fechamento programa",example = "2022-12-26")
+    @Schema(description = "Data fechamento vaga",example = "2022-12-26")
     private LocalDate dataFechamento;
 
     @NotNull(message = "Data não pode ser vazio ou nulo.")
@@ -50,6 +53,4 @@ public class VagaCreateDTO {
     @Email
     private String emailCliente;
 
-    //private String nivel;
-    //private String funcao;
 }

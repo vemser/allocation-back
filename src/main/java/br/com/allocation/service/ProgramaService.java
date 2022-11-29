@@ -4,7 +4,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.entity.ProgramaEntity;
-import br.com.allocation.enums.SituacaoPrograma;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ProgramaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,13 +23,11 @@ public class ProgramaService {
     private final ObjectMapper objectMapper;
 
 
-    public ProgramaDTO salvar(ProgramaCreateDTO programaCreate, SituacaoPrograma situacao) {
+    public ProgramaDTO salvar(ProgramaCreateDTO programaCreate) {
         ProgramaEntity programaEntity = objectMapper.convertValue(programaCreate, ProgramaEntity.class);
-        programaEntity.setSituacao(situacao);
+        programaEntity.setSituacao(Situacao.valueOf(programaCreate.getSituacao()));
 
-        ProgramaDTO programaDTO = objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
-        programaDTO.setSituacao(situacao);
-        return programaDTO;
+        return objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
     }
 
     public PageDTO<ProgramaDTO> listar(Integer pagina, Integer tamanho){
@@ -43,13 +41,14 @@ public class ProgramaService {
         return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
     }
 
-    public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate, SituacaoPrograma situacao) throws RegraDeNegocioException {
+    public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate) throws RegraDeNegocioException {
         ProgramaEntity programaEntity = findById(idPrograma);
-        programaEntity.setSituacao(situacao);
+        programaEntity.setSituacao(Situacao.valueOf(programaCreate.getSituacao()));
         programaEntity.setNome(programaCreate.getNome());
         programaEntity.setDescricao(programaCreate.getDescricao());
         programaEntity.setDataCriacao(programaCreate.getDataCriacao());
         programaEntity.setDataTermino(programaCreate.getDataTermino());
+
         programaRepository.save(programaEntity);
         return objectMapper.convertValue(programaEntity, ProgramaDTO.class);
     }

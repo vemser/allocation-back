@@ -4,7 +4,6 @@ import br.com.allocation.controller.interfaces.VagaInterfaceController;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.VagaService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,11 +26,10 @@ public class VagaController implements VagaInterfaceController {
 
     @Override
     @PostMapping
-    public ResponseEntity<VagaDTO> salvar(VagaCreateDTO vagaCreateDTO,
-                                          @RequestParam("situacao") Situacao situacao) throws RegraDeNegocioException {
+    public ResponseEntity<VagaDTO> salvar(VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
         log.info("Adicionando a vaga...");
-        VagaDTO vaga = vagaService.salvar(vagaCreateDTO, situacao);
+        VagaDTO vaga = vagaService.salvar(vagaCreateDTO);
         log.info("Vaga adicionado com sucesso!");
         return new ResponseEntity<>(vaga, HttpStatus.CREATED);
     }

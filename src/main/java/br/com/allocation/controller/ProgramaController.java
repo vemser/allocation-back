@@ -4,8 +4,6 @@ import br.com.allocation.controller.interfaces.ProgramaInterfaceController;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.enums.Situacao;
-import br.com.allocation.enums.SituacaoPrograma;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ProgramaService;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +26,10 @@ public class ProgramaController implements ProgramaInterfaceController {
 
     @Override
     @PostMapping
-    public ResponseEntity<ProgramaDTO> salvar(@RequestParam("situacao") SituacaoPrograma situacao,
-            @Valid @RequestBody ProgramaCreateDTO programaCreate) {
+    public ResponseEntity<ProgramaDTO> salvar(@Valid @RequestBody ProgramaCreateDTO programaCreate) {
 
         log.info("Adicionando o Usuário...");
-        ProgramaDTO programa = programaService.salvar(programaCreate, situacao);
+        ProgramaDTO programa = programaService.salvar(programaCreate);
         log.info("Usuário adicionado com sucesso!");
         return new ResponseEntity<>(programa, HttpStatus.CREATED);
     }
@@ -45,11 +42,10 @@ public class ProgramaController implements ProgramaInterfaceController {
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<ProgramaDTO> editar(@RequestParam("situacao") SituacaoPrograma situacao,
-            @Valid @RequestBody ProgramaCreateDTO programaCreate,
+    public ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate,
                                               @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Programa...");
-        ProgramaDTO programa = programaService.editar(id, programaCreate, situacao);
+        ProgramaDTO programa = programaService.editar(id, programaCreate);
         log.info("Programa editado com sucesso!");
         return new ResponseEntity<>(programa, HttpStatus.CREATED);
     }
