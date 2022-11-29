@@ -54,7 +54,7 @@ public class AvaliacaoCreateDTO {
     private TipoAvaliacao tipoAvaliacao;
 
     @NotNull(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "situação",example = "AVALIADO")
+    @Schema(description = "situação",example = "AVALIACAO1")
     private String situacao;
 
 

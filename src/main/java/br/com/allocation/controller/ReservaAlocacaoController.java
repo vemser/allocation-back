@@ -1,11 +1,7 @@
 package br.com.allocation.controller;
 
-import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
-import br.com.allocation.enums.SituacaoCliente;
-import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ReservaAlocacaoService;
 import lombok.RequiredArgsConstructor;

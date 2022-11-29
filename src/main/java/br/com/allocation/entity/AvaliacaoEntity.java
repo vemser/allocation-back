@@ -26,11 +26,6 @@ public class AvaliacaoEntity {
     @Column(name = "codigo_avaliacao")
     private Integer codigo;
 
-    @Column(name = "id_aluno", insertable = false, updatable = false)
-    private Integer idAluno;
-
-    @Column(name = "codigo_vaga", insertable = false, updatable = false)
-    private Integer codigoVaga;
 
     @Column(name = "descricao")
     private String descricao;
@@ -54,6 +49,7 @@ public class AvaliacaoEntity {
     private LocalDate dataCriacao;
 
     @Column(name = "situacao")
+    @Enumerated(EnumType.STRING)
     private Situacao situacao;
 
     @JsonIgnore

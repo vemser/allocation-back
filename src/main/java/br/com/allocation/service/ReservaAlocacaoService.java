@@ -28,10 +28,17 @@ public class ReservaAlocacaoService {
 
     private final VagaRepository vagaRepository;
     private final AvaliacaoRepository avaliacaoRepository;
+
     public ReservaAlocacaoDTO salvar(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
 
-
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
+        if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.RESERVADO) {
+            reservaAlocacaoEntity.setDataReserva(LocalDate.now());
+        } else if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.ALOCADO) {
+            reservaAlocacaoEntity.setDataAlocacao(LocalDate.now());
+        } else if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.CANCElADO) {
+            reservaAlocacaoEntity.setDataCancelamento(LocalDate.now());
+        }
         ReservaAlocacaoEntity saveAlocacao = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         return converterEmDTO(saveAlocacao);
     }
@@ -43,25 +50,19 @@ public class ReservaAlocacaoService {
     }
 
     private ReservaAlocacaoEntity converterEntity(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) {
-        LocalDate data;
-        if(reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.RESERVADO){
-            reservaAlocacaoEntity.setDataReserva(LocalDate.now());
-        } else if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.ALOCADO) {
-            reservaAlocacaoEntity.setDataAlocacao(LocalDate.now());
-        } else if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.CANCElADO) {
-            reservaAlocacaoEntity.setDataCancelamento(LocalDate.now());
-        }
-
-        Optional<AlunoEntity> alunoEntity = alunoRepository.findByNome(reservaAlocacaoCreateDTO.getAluno().getNome());
-        Optional<VagaEntity> vagaEntity = vagaRepository.findByNome(reservaAlocacaoCreateDTO.getVaga().getNome());
-        Optional<AvaliacaoEntity> avaliacaoEntity = avaliacaoRepository.findByNome(reservaAlocacaoCreateDTO.getVaga().getNome());
-        ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(reservaAlocacaoCreateDTO.getCodigo(),
-                reservaAlocacaoCreateDTO.getDescricao(),
-                )
-        return objectMapper.convertValue(reservaAlocacaoCreateDTO, ReservaAlocacaoEntity.class);
+        Optional<AlunoEntity> alunoEntity = alunoRepository.findById(reservaAlocacaoCreateDTO.getIdAluno());
+        Optional<VagaEntity> vagaEntity = vagaRepository.findById(reservaAlocacaoCreateDTO.getIdVaga());
+        Optional<AvaliacaoEntity> avaliacaoEntity = avaliacaoRepository.findById(reservaAlocacaoCreateDTO.getIdAvaliacao());
+        ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(null,
+                reservaAlocacaoCreateDTO.getDescricao(), null, null, null, null,
+                reservaAlocacaoCreateDTO.getStatusAluno(),
+                alunoEntity.get(), vagaEntity.get(), avaliacaoEntity.get());
+        
+        return reservaAlocacaoEntity;
     }
 
     private ReservaAlocacaoDTO converterEmDTO(ReservaAlocacaoEntity reservaAlocacaoEntity) {
+
         return objectMapper.convertValue(reservaAlocacaoEntity, ReservaAlocacaoDTO.class);
     }
 

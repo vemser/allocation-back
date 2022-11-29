@@ -3,7 +3,9 @@ package br.com.allocation.dto.reservaAlocacaoDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.entity.VagaEntity;
+import br.com.allocation.enums.Avaliacao;
 import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.StatusAluno;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -22,20 +24,18 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ReservaAlocacaoCreateDTO {
 
-    @Schema(description = "Codigo da reserva",example = "123")
-    private Integer codigo;
 
     //@NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Vaga",example = "Desenvolvedor(a) Java - Back-End")
-    private VagaEntity vaga;
+    @Schema(description = "id da Vaga",example = "24")
+    private Integer idVaga;
 
     //@NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Aluno",example = "Gustavo Lucena")
-    private AlunoEntity aluno;
+    @Schema(description = "id do Aluno",example = "8")
+    private Integer idAluno;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Avaliação",example = "Avaliação1")
-    private AvaliacaoEntity avaliacaoEntity;
+    //@NotBlank(message = "Nome não pode ser vazio ou nulo.")
+    @Schema(description = "id da avaliaçao",example = "5")
+    private Integer idAvaliacao;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Descrição",example = "O que nós buscamos " +

@@ -24,8 +24,6 @@ public class VagaEntity {
     @Column(name = "codigo_vaga")
     private Integer codigo;
 
-    @Column(name = "id_cliente", insertable = false, updatable = false)
-    private Integer idCliente;
 
     @Column(name = "id_programa", insertable = false, updatable = false)
     private Integer idPrograma;

@@ -42,6 +42,7 @@ public class ReservaAlocacaoEntity {
     private LocalDate dataFinalizado;
 
     @Column(name = "situacao")
+    @Enumerated(EnumType.STRING)
     private StatusAluno statusAluno;
 
     @JsonIgnore
