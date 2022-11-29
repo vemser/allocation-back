@@ -3,7 +3,8 @@ package br.com.allocation.enums;
 public enum StatusAluno {
     ALOCADO("ALOCADO"),
     DISPONIVEL("DISPONIVEL"),
-    RESERVADO("RESERVADO");
+    RESERVADO("RESERVADO"),
+    DESALOCADO("DESALOCADO");
 
     private String value;
 
