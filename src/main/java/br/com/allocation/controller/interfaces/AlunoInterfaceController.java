@@ -28,7 +28,7 @@ public interface AlunoInterfaceController {
     @Operation(summary = "Listar pagina de alunos", description = "Lista uma pagina de alunos!")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Alunos Listados com sucesso"),
+                    @ApiResponse(responseCode = "200", description = "Alunos Listados com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
@@ -63,7 +63,7 @@ public interface AlunoInterfaceController {
     @Operation(summary = "Listar alunos disponiveis para alocação e reserva", description = "Listar alunos disponiveis para alocacao!")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "204", description = "Alunos disponiveis listado com sucesso!"),
+                    @ApiResponse(responseCode = "201", description = "Alunos disponiveis listado com sucesso!"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "404", description = "Não encontrado"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
