@@ -5,6 +5,7 @@ import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +28,7 @@ public class AvaliacaoService {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
         avaliacaoEntity.setVaga(vagaService.findByNome(avaliacaoCreateDTO.getNomeVaga()));
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
-        avaliacaoEntity.setSituacao(Situacao.valueOf(avaliacaoCreateDTO.getSituacao()));
+        avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
 
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);

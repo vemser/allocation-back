@@ -30,7 +30,7 @@ public class AlunoCreateDTO {
     @Schema(description = "Programa", example = "vemser 10")
     private String programa;
 
-    @Schema(description = "Nome da area ", example = "FRONT")
+    @Schema(description = "Nome da area ", example = "FRONTEND,")
     private Area area;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")

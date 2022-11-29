@@ -1,16 +1,17 @@
 package br.com.allocation.enums;
 
 public enum Area {
-    FRONT(1),
-    BACK(2),
-    QA(3);
+    FRONTEND("FRONTEND"),
+    BACKEND("BACKEND"),
+    QA("QA");
 
-    private int value;
-    Area(int i) {
-        value = i;
+    private String descricao;
+
+    Area(String descricao){
+        this.descricao = descricao;
     }
 
-    public int getValue() {
-        return value;
+    public String getDescricao(){
+        return this.descricao;
     }
 }

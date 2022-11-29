@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VagaCreateDTO {
+
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nome da vaga",example = "Desenvolvedor(a) Java - Back-End")
     private String nome;
