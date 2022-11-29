@@ -17,7 +17,7 @@ public class AlunoDTO {
     private String email;
     private Area area;
     private Set<TecnologiaDTO> tecnologias;
-    private String programa;
+    private Integer idPrograma;
     private String emProcesso;
     private StatusAluno statusAluno;
 }

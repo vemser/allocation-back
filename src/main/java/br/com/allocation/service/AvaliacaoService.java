@@ -4,7 +4,6 @@ import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.AvaliacaoEntity;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AvaliacaoRepository;
@@ -26,7 +25,7 @@ public class AvaliacaoService {
 
     public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
-        avaliacaoEntity.setVaga(vagaService.findByNome(avaliacaoCreateDTO.getNomeVaga()));
+        avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getCodigoVaga()));
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
         avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
 
@@ -43,8 +42,8 @@ public class AvaliacaoService {
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }
-    public void deletar(Integer idCliente) throws RegraDeNegocioException {
-        AvaliacaoEntity avaliacaoEntity = findById(idCliente);
+    public void deletar(Integer codigoVaga) throws RegraDeNegocioException {
+        AvaliacaoEntity avaliacaoEntity = findById(codigoVaga);
         avaliacaoRepository.delete(avaliacaoEntity);
     }
     public PageDTO<AvaliacaoDTO> listar(Integer pagina, Integer tamanho){
@@ -68,7 +67,7 @@ public class AvaliacaoService {
     private AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
         AvaliacaoDTO dto = objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
         dto.setEmailAluno(avaliacaoEntity.getAluno().getEmail());
-        dto.setNomeVaga(avaliacaoEntity.getVaga().getNome());
+        dto.setCodigoVaga(avaliacaoEntity.getVaga().getCodigo());
         return dto;
     }
 }

@@ -31,7 +31,7 @@ public class VagaService {
 
     public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vaga = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.findByNome(vagaCreate.getPrograma());
+        ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
 
         vaga.setPrograma(programa);
@@ -42,7 +42,7 @@ public class VagaService {
         vagaRepository.save(vaga);
 
         VagaDTO vagaDto = objectMapper.convertValue(vaga, VagaDTO.class);
-        vagaDto.setPrograma(programa.getNome());
+        vagaDto.setIdPrograma(programa.getIdPrograma());
         vagaDto.setEmailCliente(cliente.getEmail());
         return vagaDto;
     }
@@ -54,7 +54,7 @@ public class VagaService {
         List<VagaDTO> vagas = paginaDoRepositorio.getContent().stream()
                 .map(vaga  -> {
                     VagaDTO vagaDto = objectMapper.convertValue(vaga, VagaDTO.class);
-                    vagaDto.setPrograma(vaga.getPrograma().getNome());
+                    vagaDto.setIdPrograma(vaga.getPrograma().getIdPrograma());
                     vagaDto.setEmailCliente(vaga.getCliente().getEmail());
 
                     return vagaDto;
@@ -72,14 +72,14 @@ public class VagaService {
     public VagaDTO editar(Integer codigo, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity = findById(codigo);
         vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.findByNome(vagaCreate.getPrograma());
+        ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         vagaEntity.setPrograma(programa);
         vagaEntity.setCodigo(codigo);
 
         vagaEntity = vagaRepository.save(vagaEntity);
 
         VagaDTO vagaDto = objectMapper.convertValue(vagaEntity, VagaDTO.class);
-        vagaDto.setPrograma(programa.getNome());
+        vagaDto.setIdPrograma(programa.getIdPrograma());
         return vagaDto;
     }
 

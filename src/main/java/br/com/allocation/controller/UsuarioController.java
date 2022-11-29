@@ -37,19 +37,17 @@ public class UsuarioController implements UsuarioInterfaceController {
     }
 
     @GetMapping("/listAllUsers")
-    public ResponseEntity<PageDTO<UsuarioDTO>> listarUsuarioPaginado(Integer paginaQueEuQuero, Integer tamanhoDeRegistrosPorPagina){
-        return new ResponseEntity<>(usuarioService.listar(paginaQueEuQuero, tamanhoDeRegistrosPorPagina), HttpStatus.OK);
+    public ResponseEntity<PageDTO<UsuarioDTO>> listarUsuarioPaginado(Integer pagina, Integer tamanho){
+        return new ResponseEntity<>(usuarioService.listar(pagina, tamanho), HttpStatus.OK);
     }
 
     @PutMapping("/editar")
-    public ResponseEntity<UsuarioDTO> editar(
-            @RequestParam("cargo") Cargos cargo,
-            Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<UsuarioDTO> editar(@RequestParam("cargo") Cargos cargo, @PathVariable Integer id,@RequestBody UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(usuarioService.editar(id, usuarioCreateDTO, cargo), HttpStatus.OK);
     }
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletar(Integer id) throws RegraDeNegocioException {
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) throws RegraDeNegocioException {
         usuarioService.deletar(id);
         log.info("Usuário deletado com sucesso");
         return ResponseEntity.noContent().build();

@@ -1,6 +1,5 @@
 package br.com.allocation.dto.vagaDTO;
 
-import br.com.allocation.enums.Situacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

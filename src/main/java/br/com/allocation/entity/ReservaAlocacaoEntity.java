@@ -1,6 +1,6 @@
 package br.com.allocation.entity;
 
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.StatusAluno;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +48,8 @@ public class ReservaAlocacaoEntity {
     private LocalDate dataFinalizado;
 
     @Column(name = "situacao")
-    private Situacao situacao;
+    @Enumerated(EnumType.STRING)
+    private StatusAluno situacao;
 
     @JsonIgnore
     @OneToOne
