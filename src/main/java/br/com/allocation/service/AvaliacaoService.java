@@ -28,7 +28,7 @@ public class AvaliacaoService {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
         avaliacaoEntity.setVaga(vagaService.findByNome(avaliacaoCreateDTO.getNomeVaga()));
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
-        avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
+        avaliacaoEntity.setSituacao(Situacao.valueOf(avaliacaoCreateDTO.getSituacao()));
 
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);

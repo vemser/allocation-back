@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -24,7 +23,7 @@ import java.util.Optional;
 public class ReservaAlocacaoService {
     private final ReservaAlocacaoRepository reservaAlocacaoRepository;
     private final AlunoRepository alunoRepository;
-    private final ObjectMapper objectMapper;
+    //private final ObjectMapper objectMapper;
 
     private final VagaRepository vagaRepository;
     private final AvaliacaoRepository avaliacaoRepository;
@@ -33,11 +32,11 @@ public class ReservaAlocacaoService {
 
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
         if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.RESERVADO) {
-            reservaAlocacaoEntity.setDataReserva(LocalDate.now());
+            reservaAlocacaoEntity.setDataReserva(reservaAlocacaoCreateDTO.getData());
         } else if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.ALOCADO) {
-            reservaAlocacaoEntity.setDataAlocacao(LocalDate.now());
-        } else if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.CANCElADO) {
-            reservaAlocacaoEntity.setDataCancelamento(LocalDate.now());
+            reservaAlocacaoEntity.setDataAlocacao(reservaAlocacaoCreateDTO.getData());
+        } else if (reservaAlocacaoCreateDTO.getStatusAluno() == StatusAluno.DESALOCADO) {
+            reservaAlocacaoEntity.setDataCancelamento(reservaAlocacaoCreateDTO.getData());
         }
         ReservaAlocacaoEntity saveAlocacao = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         return converterEmDTO(saveAlocacao);
@@ -57,13 +56,18 @@ public class ReservaAlocacaoService {
                 reservaAlocacaoCreateDTO.getDescricao(), null, null, null, null,
                 reservaAlocacaoCreateDTO.getStatusAluno(),
                 alunoEntity.get(), vagaEntity.get(), avaliacaoEntity.get());
-        
+
         return reservaAlocacaoEntity;
     }
 
     private ReservaAlocacaoDTO converterEmDTO(ReservaAlocacaoEntity reservaAlocacaoEntity) {
+        ReservaAlocacaoDTO reservaAlocacaoDTO = new ReservaAlocacaoDTO(reservaAlocacaoEntity.getCodigo(), reservaAlocacaoEntity.getVaga(),
+                reservaAlocacaoEntity.getAluno(),
+                reservaAlocacaoEntity.getAvaliacao(),
+                reservaAlocacaoEntity.getDataReserva(),
+                reservaAlocacaoEntity.getStatusAluno());
 
-        return objectMapper.convertValue(reservaAlocacaoEntity, ReservaAlocacaoDTO.class);
+        return null;
     }
 
 }

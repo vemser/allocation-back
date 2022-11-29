@@ -26,9 +26,9 @@ public class ReservaAlocacaoController {
 
     @PostMapping
     public ResponseEntity<ReservaAlocacaoDTO> salvar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        log.info("Adicionando o Usuário...");
+        log.info("Adicionando a Reserva alocação...");
         ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.salvar(reservaAlocacaoCreateDTO);
-        log.info("Usuário adicionado com sucesso!");
+        log.info("Reserva alocação adicionado com sucesso!");
         return new ResponseEntity<>(reservaAlocacaoDTO, HttpStatus.CREATED);
     }
 }
