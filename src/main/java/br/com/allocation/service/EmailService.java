@@ -44,14 +44,27 @@ public class EmailService {
         dados.put("email", from);
         List<String> nomeVagas = new ArrayList<>();
         List<String> nomeAlunos = new ArrayList<>();
+        String todasVagas = null;
+        String todosAlunos = null;
+        if(vagaDTO.size() == 0){
+            todasVagas = "Nenhuma vaga em aberto!";
+        }
+        if(alunoDTO.size() == 0){
+            todosAlunos = "Nenhuma aluno disponível!";
+        }
+
         for (VagaDTO vagas: vagaDTO) {
             nomeVagas.add(vagas.getNome());
+            todasVagas = nomeVagas.toString();
+
         }
-        dados.put("vaga", nomeVagas);
+        dados.put("vaga", todasVagas);
         for (AlunoDTO aluno: alunoDTO) {
            nomeAlunos.add(aluno.getNome());
+           todosAlunos = nomeAlunos.toString();
+
         }
-        dados.put("aluno", nomeAlunos);
+        dados.put("aluno", todosAlunos);
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(TO);
@@ -71,6 +84,7 @@ public class EmailService {
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
     }
 
+    @Scheduled(cron = "0 0 * * * MON")
     public void enviarRelatiorio(){
         List<UsuarioDTO> usuarios = usuarioService.findAllUsers();
         List<VagaDTO> vagas = vagaService.findAllWithSituacaoAberto();
