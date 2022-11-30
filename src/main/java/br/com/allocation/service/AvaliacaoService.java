@@ -75,4 +75,9 @@ public class AvaliacaoService {
         avaliacaoEntity.setSituacao(Situacao.FECHADO);
         avaliacaoRepository.save(avaliacaoEntity);
     }
+    public void verificarAvalicaoSituacao(AvaliacaoEntity avaliacaoEntity) throws RegraDeNegocioException {
+        if (avaliacaoEntity.getSituacao().equals("FECHADO")){
+            throw new RegraDeNegocioException("Avaliação fechada!");
+        }
+    }
 }

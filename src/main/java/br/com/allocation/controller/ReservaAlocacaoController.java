@@ -1,6 +1,7 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.ReservaAlocacaoInterface;
+import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -10,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -31,6 +29,26 @@ public class ReservaAlocacaoController implements ReservaAlocacaoInterface {
         ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.salvar(reservaAlocacaoCreateDTO);
         log.info("Reserva alocação adicionado com sucesso!");
         return new ResponseEntity<>(reservaAlocacaoDTO, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> listar(Integer pagina, Integer tamanho) {
+        return ResponseEntity.ok(reservaAlocacaoService.listar(pagina, tamanho));
+    }
+    @Override
+    public ResponseEntity<ReservaAlocacaoDTO> editar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
+                                                     @PathVariable(name = "codigo") Integer codigo) throws RegraDeNegocioException {
+        log.info("Editando Reserva alocação...");
+        ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.editar(codigo, reservaAlocacaoCreateDTO);
+        log.info("Reserva alocação editado com sucesso!");
+        return new ResponseEntity<>(reservaAlocacaoDTO, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Void> deletar(Integer codigo) throws RegraDeNegocioException {
+        reservaAlocacaoService.deletar(codigo);
+        log.info("Reserva alocação deletada com sucesso");
+        return ResponseEntity.noContent().build();
     }
 
 }

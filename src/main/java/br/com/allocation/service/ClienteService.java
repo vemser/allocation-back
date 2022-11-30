@@ -72,7 +72,7 @@ public class ClienteService {
     public ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {
         return objectMapper.convertValue(clienteCreateDTO, ClienteEntity.class);
     }
-    private ClienteDTO converterEmDTO(ClienteEntity clienteEntity) {
+    public ClienteDTO converterEmDTO(ClienteEntity clienteEntity) {
         return objectMapper.convertValue(clienteEntity, ClienteDTO.class);
     }
 }

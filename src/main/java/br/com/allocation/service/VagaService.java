@@ -1,5 +1,6 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
@@ -39,12 +40,8 @@ public class VagaService {
         vaga.setCliente(cliente);
         vaga.setQuantidadeAlocados(QUANTIDADE_INICIAL_ALOCADO);
 
-        vagaRepository.save(vaga);
-
-        VagaDTO vagaDto = objectMapper.convertValue(vaga, VagaDTO.class);
-        vagaDto.setIdPrograma(programa.getIdPrograma());
-        vagaDto.setEmailCliente(cliente.getEmail());
-        return vagaDto;
+        VagaEntity vagaEntity = vagaRepository.save(vaga);
+        return converterEmDTO(vagaEntity);
     }
 
     public PageDTO<VagaDTO> listar(Integer pagina, Integer tamanho) {
@@ -52,13 +49,7 @@ public class VagaService {
         Page<VagaEntity> paginaDoRepositorio = vagaRepository.findAll(pageRequest);
 
         List<VagaDTO> vagas = paginaDoRepositorio.getContent().stream()
-                .map(vaga  -> {
-                    VagaDTO vagaDto = objectMapper.convertValue(vaga, VagaDTO.class);
-                    vagaDto.setIdPrograma(vaga.getPrograma().getIdPrograma());
-                    vagaDto.setEmailCliente(vaga.getCliente().getEmail());
-
-                    return vagaDto;
-                })
+                .map(this::converterEmDTO)
                 .toList();
 
         return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
@@ -80,13 +71,22 @@ public class VagaService {
 
         vagaEntity = vagaRepository.save(vagaEntity);
 
-        VagaDTO vagaDto = converterEmDTO(vagaEntity);
-        vagaDto.setIdPrograma(programa.getIdPrograma());
-        vagaDto.setEmailCliente(cliente.getEmail());
-        return vagaDto;
+
+        return converterEmDTO(vagaEntity);
     }
     public VagaDTO converterEmDTO(VagaEntity vagaEntity){
-        return objectMapper.convertValue(vagaEntity, VagaDTO.class);
+        ClienteDTO clienteDTO = clienteService.converterEmDTO(vagaEntity.getCliente());
+        VagaDTO vagaDTO = new VagaDTO(vagaEntity.getCodigo(),
+                vagaEntity.getNome(),
+                vagaEntity.getQuantidade(),
+                vagaEntity.getQuantidadeAlocados(),
+                vagaEntity.getIdPrograma(),
+                vagaEntity.getSituacao(),
+                vagaEntity.getDataAbertura(),
+                vagaEntity.getDataFechamento(),
+                vagaEntity.getDataCriacao(),
+                clienteDTO);
+        return vagaDTO;
     }
 
     public void deletar(Integer codigo) throws RegraDeNegocioException {

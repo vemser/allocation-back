@@ -84,6 +84,8 @@ public class AlunoService {
                 .orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado"));
     }
 
+
+
     public void deletar(Integer id) throws RegraDeNegocioException {
         this.findById(id);
         alunoRepository.deleteById(id);
@@ -103,5 +105,11 @@ public class AlunoService {
         AlunoEntity alunoEntity = findById(idAluno);
         alunoEntity.setStatusAluno(statusAluno);
         alunoRepository.save(alunoEntity);
+    }
+    public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity) throws RegraDeNegocioException {
+
+        if (alunoEntity.getStatusAluno() != StatusAluno.DISPONIVEL) {
+            throw new RegraDeNegocioException("Aluno não está disponivel!");
+        }
     }
 }

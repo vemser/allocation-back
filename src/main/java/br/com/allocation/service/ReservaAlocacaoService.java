@@ -2,7 +2,7 @@ package br.com.allocation.service;
 
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
+import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
@@ -13,13 +13,14 @@ import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
-import br.com.allocation.repository.AvaliacaoRepository;
 import br.com.allocation.repository.ReservaAlocacaoRepository;
-import br.com.allocation.repository.VagaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,8 +43,10 @@ public class ReservaAlocacaoService {
         vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         return reservaAlocacaoDTO;
     }
-    public ReservaAlocacaoDTO editar(Integer id, ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        this.findById(id);
+
+    public ReservaAlocacaoDTO editar(Integer codigo,
+                                     ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
+        this.findById(codigo);
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
         alterarData(reservaAlocacaoCreateDTO, reservaAlocacaoEntity);
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
@@ -52,11 +55,27 @@ public class ReservaAlocacaoService {
         vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         return converterEmDTO(saveAlocacaoReserva);
     }
+
     public void deletar(Integer id) throws RegraDeNegocioException {
         ReservaAlocacaoEntity reservaLocacaoDelete = this.findById(id);
         reservaAlocacaoRepository.deleteById(reservaLocacaoDelete.getCodigo());
         reservaLocacaoDelete.getAluno().setStatusAluno(StatusAluno.DISPONIVEL);
         alunoRepository.save(reservaLocacaoDelete.getAluno());
+    }
+
+    public PageDTO<ReservaAlocacaoDTO> listar(Integer pagina, Integer tamanho) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository.findAll(pageRequest);
+
+        List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage.getContent().stream()
+                .map(this::converterEmDTO)
+                .collect(Collectors.toList());
+
+        return new PageDTO<>(reservaAlocacaoEntityPage.getTotalElements(),
+                reservaAlocacaoEntityPage.getTotalPages(),
+                pagina,
+                tamanho,
+                reservaAlocacaoDTOList);
     }
 
     private static void alterarData(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
@@ -79,8 +98,10 @@ public class ReservaAlocacaoService {
 
     private ReservaAlocacaoEntity converterEntity(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = alunoService.findById(reservaAlocacaoCreateDTO.getIdAluno());
+        alunoService.verificarDisponibilidadeAluno(alunoEntity);
         VagaEntity vagaEntity = vagaService.findById(reservaAlocacaoCreateDTO.getIdVaga());
         AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(reservaAlocacaoCreateDTO.getIdAvaliacao());
+        avaliacaoService.verificarAvalicaoSituacao(avaliacaoEntity);
         ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(null,
                 reservaAlocacaoCreateDTO.getDescricao(), null, null, null, null,
                 reservaAlocacaoCreateDTO.getStatusAluno(),

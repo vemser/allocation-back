@@ -1,14 +1,27 @@
 package br.com.allocation.dto.vagaDTO;
 
+import br.com.allocation.dto.clienteDTO.ClienteDTO;
+import br.com.allocation.enums.Situacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VagaDTO extends  VagaCreateDTO{
+public class VagaDTO {
 
     private Integer codigo;
+    private String nome;
+    private Integer quantidade;
+    private Integer quantidadeAlocados;
+    private Integer idPrograma;
+    private Situacao situacao;
+    private LocalDate dataAbertura;
+    private LocalDate dataFechamento;
+    private LocalDate dataCriacao;
+    private ClienteDTO clienteDTO;
 
 }
