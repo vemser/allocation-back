@@ -24,12 +24,11 @@ public class VagaController implements VagaInterfaceController {
 
     private final VagaService vagaService;
 
-    @Override
-    @PostMapping
-    public ResponseEntity<VagaDTO> salvar(@Valid @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
+    @Override
+    public ResponseEntity<VagaDTO> salvar(VagaCreateDTO vagaCreateDTO, Integer idPrograma) throws RegraDeNegocioException {
         log.info("Adicionando a vaga...");
-        VagaDTO vaga = vagaService.salvar(vagaCreateDTO);
+        VagaDTO vaga = vagaService.salvar(vagaCreateDTO, idPrograma);
         log.info("Vaga adicionado com sucesso!");
         return new ResponseEntity<>(vaga, HttpStatus.CREATED);
     }
@@ -40,7 +39,7 @@ public class VagaController implements VagaInterfaceController {
     }
 
     @Override
-    public ResponseEntity<VagaDTO> editar(Integer idVaga, @Valid @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<VagaDTO> editar(Integer idVaga, VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
         log.info("Editando a vaga...");
         VagaDTO vaga = vagaService.editar(idVaga, vagaCreateDTO);

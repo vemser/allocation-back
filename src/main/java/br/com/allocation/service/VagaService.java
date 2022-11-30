@@ -29,9 +29,9 @@ public class VagaService {
 
     private final static Integer QUANTIDADE_INICIAL_ALOCADO = 0;
 
-    public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
+    public VagaDTO salvar(VagaCreateDTO vagaCreate, Integer idPrograma) throws RegraDeNegocioException {
         VagaEntity vaga = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
+        ProgramaEntity programa = programaService.findById(idPrograma);
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
 
         vaga.setPrograma(programa);
