@@ -35,11 +35,12 @@ public class ReservaAlocacaoService {
     public ReservaAlocacaoDTO salvar(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
         alterarData(reservaAlocacaoCreateDTO, reservaAlocacaoEntity);
-        ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
+        AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
         alunoService.alterarDisponibilidadeAluno(reservaAlocacaoCreateDTO.getIdAluno(),
                 reservaAlocacaoCreateDTO.getStatusAluno());
+        ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
+        aluno.setReservaAlocacao(saveAlocacaoReserva);
         ReservaAlocacaoDTO reservaAlocacaoDTO = converterEmDTO(saveAlocacaoReserva);
-        avaliacaoService.cancelarAvaliacao(reservaAlocacaoCreateDTO.getIdAvaliacao());
         vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         return reservaAlocacaoDTO;
     }
@@ -48,10 +49,15 @@ public class ReservaAlocacaoService {
                                      ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         this.findById(codigo);
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
+        reservaAlocacaoEntity.setCodigo(codigo);
         alterarData(reservaAlocacaoCreateDTO, reservaAlocacaoEntity);
+        AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
+        AlunoEntity alunoEntityStatusAlterado =
+                alunoService.alterarDisponibilidadeAluno(reservaAlocacaoCreateDTO.getIdAluno(),
+                        reservaAlocacaoCreateDTO.getStatusAluno());
+        reservaAlocacaoEntity.setStatusAluno(alunoEntityStatusAlterado.getStatusAluno());
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
-        saveAlocacaoReserva.getAluno().setStatusAluno(reservaAlocacaoCreateDTO.getStatusAluno());
-        avaliacaoService.cancelarAvaliacao(reservaAlocacaoCreateDTO.getIdAvaliacao());
+        aluno.setReservaAlocacao(saveAlocacaoReserva);
         vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         return converterEmDTO(saveAlocacaoReserva);
     }
@@ -98,10 +104,9 @@ public class ReservaAlocacaoService {
 
     private ReservaAlocacaoEntity converterEntity(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = alunoService.findById(reservaAlocacaoCreateDTO.getIdAluno());
-        alunoService.verificarDisponibilidadeAluno(alunoEntity);
+        alunoService.verificarDisponibilidadeAluno(alunoEntity, reservaAlocacaoCreateDTO);
         VagaEntity vagaEntity = vagaService.findById(reservaAlocacaoCreateDTO.getIdVaga());
         AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(reservaAlocacaoCreateDTO.getIdAvaliacao());
-        avaliacaoService.verificarAvalicaoSituacao(avaliacaoEntity);
         ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(null,
                 reservaAlocacaoCreateDTO.getDescricao(), null, null, null, null,
                 reservaAlocacaoCreateDTO.getStatusAluno(),

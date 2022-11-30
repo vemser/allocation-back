@@ -27,14 +27,14 @@ public class AvaliacaoService {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
         avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getCodigoVaga()));
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
-        avaliacaoEntity.setSituacao(Situacao.valueOf(avaliacaoCreateDTO.getSituacao()));
+        //avaliacaoEntity.setSituacao(Situacao.valueOf(avaliacaoCreateDTO.getSituacao()));
 
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }
     public AvaliacaoEntity findById(Integer id) throws RegraDeNegocioException {
         return avaliacaoRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Avaliação não encontrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Avaliação não encontrada!"));
     }
     public AvaliacaoDTO editar(Integer id, AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(id);
@@ -70,14 +70,14 @@ public class AvaliacaoService {
         dto.setCodigoVaga(avaliacaoEntity.getVaga().getCodigo());
         return dto;
     }
-    public void cancelarAvaliacao(Integer idAvaliacao) throws RegraDeNegocioException {
-        AvaliacaoEntity avaliacaoEntity = findById(idAvaliacao);
-        avaliacaoEntity.setSituacao(Situacao.FECHADO);
-        avaliacaoRepository.save(avaliacaoEntity);
-    }
-    public void verificarAvalicaoSituacao(AvaliacaoEntity avaliacaoEntity) throws RegraDeNegocioException {
-        if (avaliacaoEntity.getSituacao().equals("FECHADO")){
-            throw new RegraDeNegocioException("Avaliação fechada!");
-        }
-    }
+//    public void cancelarAvaliacao(Integer idAvaliacao) throws RegraDeNegocioException {
+//        AvaliacaoEntity avaliacaoEntity = findById(idAvaliacao);
+//        avaliacaoEntity.setSituacao(Situacao.FECHADO);
+//        avaliacaoRepository.save(avaliacaoEntity);
+//    }
+//    public void verificarAvalicaoSituacao(AvaliacaoEntity avaliacaoEntity) throws RegraDeNegocioException {
+//        if (avaliacaoEntity.getSituacao().equals("FECHADO")){
+//            throw new RegraDeNegocioException("Avaliação fechada!");
+//        }
+//    }
 }

@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 public class ReservaAlocacaoDTO {
 
-    private Integer codigo;
+    private Integer idReservaAlocacao;
     private VagaDTO vaga;
     private AlunoDTO aluno;
     private AvaliacaoDTO avaliacaoEntity;

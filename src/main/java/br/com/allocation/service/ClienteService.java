@@ -4,7 +4,6 @@ import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
 import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.ClienteEntity;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,11 +24,11 @@ public class ClienteService {
 
     public ClienteDTO salvar(ClienteCreateDTO clienteCreate) {
         ClienteEntity clienteEntity = converterEntity(clienteCreate);
-        clienteEntity.setSituacao(Situacao.valueOf(clienteCreate.getSituacao()));
+        clienteEntity.setSituacao(clienteCreate.getSituacao());
         return converterEmDTO(clienteRepository.save(clienteEntity));
     }
 
-    public PageDTO<ClienteDTO> listar(Integer pagina, Integer tamanho){
+    public PageDTO<ClienteDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAll(pageRequest);
 
@@ -45,12 +44,10 @@ public class ClienteService {
     }
 
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
-        ClienteEntity clienteEntity = findById(idCliente);
-
-        clienteEntity = objectMapper.convertValue(clienteCreate, ClienteEntity.class);
+        this.findById(idCliente);
+        ClienteEntity clienteEntity = converterEntity(clienteCreate);
         clienteEntity.setIdCliente(idCliente);
-        clienteEntity.setSituacao(Situacao.valueOf(clienteCreate.getSituacao()));
-
+        clienteEntity.setSituacao(clienteCreate.getSituacao());
         clienteEntity = clienteRepository.save(clienteEntity);
         return converterEmDTO(clienteEntity);
     }
@@ -65,14 +62,20 @@ public class ClienteService {
                 .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
     }
 
-    public ClienteEntity findByEmail(String email){
+    public ClienteEntity findByEmail(String email) {
         return clienteRepository.findByEmail(email);
     }
 
     public ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {
         return objectMapper.convertValue(clienteCreateDTO, ClienteEntity.class);
     }
+
     public ClienteDTO converterEmDTO(ClienteEntity clienteEntity) {
-        return objectMapper.convertValue(clienteEntity, ClienteDTO.class);
+        ClienteDTO clienteDTO = new ClienteDTO(clienteEntity.getIdCliente(),
+                clienteEntity.getNome(),
+                clienteEntity.getEmail(),
+                clienteEntity.getTelefone(),
+                clienteEntity.getSituacao());
+        return clienteDTO;
     }
 }

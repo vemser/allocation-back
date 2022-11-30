@@ -3,6 +3,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
@@ -69,7 +70,7 @@ public class AlunoService {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<AlunoEntity> paginaRepository = alunoRepository.findAll(pageRequest);
 
-        List<AlunoDTO> alunoDTOList =  paginaRepository.getContent().stream()
+        List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
                 .collect(Collectors.toList());
 
@@ -84,7 +85,6 @@ public class AlunoService {
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado"));
     }
-
 
 
     public void deletar(Integer id) throws RegraDeNegocioException {
@@ -102,14 +102,27 @@ public class AlunoService {
     public AlunoEntity findByEmail(String email) throws RegraDeNegocioException {
         return alunoRepository.findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado!"));
     }
-    public void alterarDisponibilidadeAluno(Integer idAluno,StatusAluno statusAluno) throws RegraDeNegocioException {
+
+    public AlunoEntity alterarDisponibilidadeAluno(Integer idAluno, StatusAluno statusAluno) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = findById(idAluno);
         alunoEntity.setStatusAluno(statusAluno);
-        alunoRepository.save(alunoEntity);
+        return alunoRepository.save(alunoEntity);
     }
-    public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity) throws RegraDeNegocioException {
 
-        if (alunoEntity.getStatusAluno() != StatusAluno.DISPONIVEL) {
+    public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity, ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
+        //Se o aluno já estiver alocado/reservado não deve alocar
+        if (alunoEntity.getReservaAlocacao() != null) {
+            validarVaga(alunoEntity.getReservaAlocacao().getVaga().getCodigo(),reservaAlocacaoCreateDTO.getIdVaga());
+        }
+        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+            if (alunoEntity.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+                throw new RegraDeNegocioException("Aluno não está disponivel!");
+            }
+        }
+    }
+
+    private void validarVaga(Integer codigoVagaEntity, Integer codigoVagaDto) throws RegraDeNegocioException {
+        if (!codigoVagaDto.equals(codigoVagaEntity)) {
             throw new RegraDeNegocioException("Aluno não está disponivel!");
         }
     }

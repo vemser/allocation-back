@@ -1,5 +1,6 @@
 package br.com.allocation.entity;
 
+import br.com.allocation.enums.Avaliacao;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.TipoAvaliacao;
@@ -28,7 +29,6 @@ public class AvaliacaoEntity {
     @Column(name = "codigo_avaliacao")
     private Integer codigo;
 
-
     @Column(name = "descricao")
     private String descricao;
 
@@ -53,7 +53,11 @@ public class AvaliacaoEntity {
 
     @Column(name = "situacao")
     @Enumerated(EnumType.STRING)
-    private Situacao situacao;
+    private SituacaoAluno situacao;
+
+//    @Column(name = "situacao")
+//    @Enumerated(EnumType.STRING)
+//    private Avaliacao avaliacao;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

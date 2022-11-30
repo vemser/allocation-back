@@ -1,5 +1,6 @@
 package br.com.allocation.dto.avaliacaoDTO;
 
+import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.TipoAvaliacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
