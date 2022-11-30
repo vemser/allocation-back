@@ -13,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AlunoDTO {
+    private Integer idAluno;
     private String nome;
     private String email;
     private Area area;

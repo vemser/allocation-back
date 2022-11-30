@@ -49,7 +49,8 @@ public class AlunoService {
                 .map(tecnologiaService::converterEmDTO)
                 .collect(Collectors.toSet());
 
-        return new AlunoDTO(alunoEntity.getNome(),
+        return new AlunoDTO(alunoEntity.getIdAluno(),
+                alunoEntity.getNome(),
                 alunoEntity.getEmail(),
                 alunoEntity.getArea(),
                 tecnologiaDTOS,

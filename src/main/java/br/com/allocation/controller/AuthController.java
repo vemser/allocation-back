@@ -50,7 +50,7 @@ public class AuthController implements AuthInterfaceController {
             @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
             throws RegraDeNegocioException {
 
-        return ResponseEntity.ok(usuarioService.create(usuarioCreateDTO, cargo));
+        return new ResponseEntity<>(usuarioService.create(usuarioCreateDTO, cargo), HttpStatus.CREATED);
     }
 
     @Override
