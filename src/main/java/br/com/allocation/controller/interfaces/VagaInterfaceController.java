@@ -24,7 +24,7 @@ public interface VagaInterfaceController {
             }
     )
     @PostMapping
-    ResponseEntity<VagaDTO> salvar(@RequestBody @Valid VagaCreateDTO vagaCreateDTO, @PathVariable Integer idPrograma) throws RegraDeNegocioException;
+    ResponseEntity<VagaDTO> salvar(@RequestBody @Valid VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar todos as vagas", description = "Listar todos as vagas")
     @ApiResponses(
@@ -46,7 +46,7 @@ public interface VagaInterfaceController {
             }
     )
     @PutMapping("/{idVaga}")
-    ResponseEntity<VagaDTO> editar(@PathVariable("idVaga") Integer idVaga, VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException;
+    ResponseEntity<VagaDTO> editar(@PathVariable("idVaga") Integer idVaga, @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException;
 
 
     @Operation(summary = "Deleta a vaga por id", description = "Deleta vaga por id")

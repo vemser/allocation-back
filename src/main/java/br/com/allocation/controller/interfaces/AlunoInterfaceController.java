@@ -68,6 +68,6 @@ public interface AlunoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @GetMapping("/{alunos-disponiveis}")
+    @GetMapping("/disponiveis")
     List<AlunoDTO> disponiveis();
 }
