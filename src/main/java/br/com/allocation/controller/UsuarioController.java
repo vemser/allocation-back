@@ -43,7 +43,7 @@ public class UsuarioController implements UsuarioInterfaceController {
 
     @Override
     public ResponseEntity<UsuarioDTO> editar(@RequestParam("cargo") Cargos cargo, Integer idUsuario, @Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        return new ResponseEntity<>(usuarioService.editar(idUsuario, usuarioCreateDTO, cargo), HttpStatus.OK);
+        return new ResponseEntity<>(usuarioService.editar(idUsuario, usuarioCreateDTO, cargo), HttpStatus.CREATED);
     }
 
     @Override

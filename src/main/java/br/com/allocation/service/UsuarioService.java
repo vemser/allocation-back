@@ -41,12 +41,15 @@ public class UsuarioService {
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
 
+        CargoEntity cargo = null;
         if(cargos != null){
-            CargoEntity cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
+            cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
             usuarioEntity.getCargos().add(cargo);
         }
 
-        return converterEmDTO(usuarioRepository.save(usuarioEntity));
+        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
+        usuarioDTO.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
+        return usuarioDTO;
     }
 
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
