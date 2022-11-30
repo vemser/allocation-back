@@ -31,7 +31,7 @@ public interface AuthInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping
+    @PostMapping("/register")
     ResponseEntity<UsuarioDTO> create(
             @RequestParam("cargo") Cargos cargo,
             @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
@@ -45,7 +45,7 @@ public interface AuthInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping
+    @PostMapping("/upload/")
     ResponseEntity<MensagemDTO> uploadFile(@RequestParam("file") MultipartFile file,
                                            @RequestParam("email") String email);
 

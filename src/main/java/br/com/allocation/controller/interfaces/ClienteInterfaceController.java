@@ -43,9 +43,8 @@ public interface ClienteInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping
-    ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate,
-                                      @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
+    @PutMapping("/{idCliente}")
+    ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate, @PathVariable(name = "idCliente") Integer idCliente) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar cliente", description = "Deleta o cliente no banco de dados")
     @ApiResponses(
@@ -57,6 +56,5 @@ public interface ClienteInterfaceController {
             }
     )
     @DeleteMapping("/{idCliente}")
-    ResponseEntity<Void> deletar(@PathVariable(name = "idCliente")
-                                 Integer idUsuario) throws RegraDeNegocioException;
+    ResponseEntity<Void> deletar(@PathVariable(name = "idCliente") Integer idUsuario) throws RegraDeNegocioException;
 }

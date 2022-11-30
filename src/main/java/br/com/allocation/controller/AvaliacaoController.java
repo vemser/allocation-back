@@ -26,29 +26,27 @@ import javax.validation.Valid;
 public class AvaliacaoController implements AvaliacaoInterfaceController {
     private final AvaliacaoService avaliacaoService;
 
-    @PostMapping
+    @Override
     public ResponseEntity<AvaliacaoDTO> salvar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         log.info("Adicionando Avaliação...");
         AvaliacaoDTO avaliacaoDTO = avaliacaoService.salvar(avaliacaoCreateDTO);
         log.info("Avaliação adicionada com sucesso!");
         return new ResponseEntity<>(avaliacaoDTO, HttpStatus.CREATED);
     }
-    @GetMapping
+    @Override
     public ResponseEntity<PageDTO<AvaliacaoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(avaliacaoService.listar(pagina, tamanho));
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO,
-                                               @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
+    @Override
+    public ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO, Integer idAvaliacao) throws RegraDeNegocioException {
         log.info("Editando Avaliação...");
-        AvaliacaoDTO avaliacaoDTO = avaliacaoService.editar(id, avaliacaoCreateDTO);
+        AvaliacaoDTO avaliacaoDTO = avaliacaoService.editar(idAvaliacao, avaliacaoCreateDTO);
         log.info("Avalição editado com sucesso!");
         return new ResponseEntity<>(avaliacaoDTO, HttpStatus.CREATED);
     }
-    @DeleteMapping("/{idAvaliacao}")
-    public ResponseEntity<Void> deletar(@PathVariable(name = "idAvaliacao")
-                                 Integer id) throws RegraDeNegocioException {
-        avaliacaoService.deletar(id);
+    @Override
+    public ResponseEntity<Void> deletar(Integer idAvaliacao) throws RegraDeNegocioException {
+        avaliacaoService.deletar(idAvaliacao);
         log.info("Avaliação deletada com sucesso");
         return ResponseEntity.noContent().build();
     }

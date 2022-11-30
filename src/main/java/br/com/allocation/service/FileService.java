@@ -22,7 +22,7 @@ public class FileService {
     private final ObjectMapper objectMapper;
 
     public FileEntity store(MultipartFile file, String email) throws IOException, RegraDeNegocioException {
-        UsuarioEntity usuario= usuarioService.findUsuarioByEmail(email);
+        UsuarioEntity usuario = usuarioService.findUsuarioEntityByEmail(email);
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         FileEntity fileDB = new FileEntity();
         fileDB.setName(fileName);
@@ -33,8 +33,8 @@ public class FileService {
     }
 
     public String getImage(String email) throws RegraDeNegocioException {
-        UsuarioEntity usuario = usuarioService.findUsuarioByEmail(email);
-        FileEntity fileEntity = fileRepository.findByUsuario(usuario);
+        UsuarioEntity usuario = usuarioService.findUsuarioEntityByEmail(email);
+        FileEntity fileEntity = fileRepository.findByUsuario(usuario).orElseThrow(() -> new RegraDeNegocioException("Imagem não encontrada ou não existe."));
         return Base64Utils.encodeToString(fileEntity.getData());
 
     }

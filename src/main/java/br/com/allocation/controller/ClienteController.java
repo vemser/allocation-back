@@ -25,7 +25,6 @@ public class ClienteController implements ClienteInterfaceController {
     private final ClienteService clienteService;
 
     @Override
-    @PostMapping
     public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) {
         log.info("Adicionando o Usuário...");
         ClienteDTO cliente = clienteService.salvar(clienteCreate);
@@ -34,25 +33,20 @@ public class ClienteController implements ClienteInterfaceController {
     }
 
     @Override
-    @GetMapping
     public ResponseEntity<PageDTO<ClienteDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(clienteService.listar(pagina, tamanho));
     }
 
     @Override
-    @PutMapping("/{id}")
-    public ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate,
-                                             @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
+    public ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate, Integer idCliente) throws RegraDeNegocioException {
         log.info("Editando o Cliente...");
-        ClienteDTO cliente = clienteService.editar(id, clienteCreate);
+        ClienteDTO cliente = clienteService.editar(idCliente, clienteCreate);
         log.info("Cliente editado com sucesso!");
         return new ResponseEntity<>(cliente, HttpStatus.CREATED);
     }
 
     @Override
-    @DeleteMapping("/{idCliente}")
-    public ResponseEntity<Void> deletar(@PathVariable(name = "idCliente")
-                                        Integer idUsuario) throws RegraDeNegocioException {
+    public ResponseEntity<Void> deletar(Integer idUsuario) throws RegraDeNegocioException {
         clienteService.deletar(idUsuario);
         log.info("Cliente deletado com sucesso");
         return ResponseEntity.noContent().build();

@@ -31,24 +31,24 @@ public class UsuarioController implements UsuarioInterfaceController {
     private final FileService fileService;
 
 
-    @GetMapping("/recuperarImagem")
+    @Override
     public ResponseEntity<String> recuperarImagem(@RequestParam("email") String email) throws RegraDeNegocioException {
         return new ResponseEntity<>(fileService.getImage(email), HttpStatus.OK);
     }
 
-    @GetMapping("/listAllUsers")
-    public ResponseEntity<PageDTO<UsuarioDTO>> listarUsuarioPaginado(Integer pagina, Integer tamanho){
+    @Override
+    public ResponseEntity<PageDTO<UsuarioDTO>> listar(Integer pagina, Integer tamanho){
         return new ResponseEntity<>(usuarioService.listar(pagina, tamanho), HttpStatus.OK);
     }
 
-    @PutMapping("/editar")
-    public ResponseEntity<UsuarioDTO> editar(@RequestParam("cargo") Cargos cargo, @PathVariable Integer id,@RequestBody UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        return new ResponseEntity<>(usuarioService.editar(id, usuarioCreateDTO, cargo), HttpStatus.OK);
+    @Override
+    public ResponseEntity<UsuarioDTO> editar(@RequestParam("cargo") Cargos cargo, Integer idUsuario, @Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+        return new ResponseEntity<>(usuarioService.editar(idUsuario, usuarioCreateDTO, cargo), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) throws RegraDeNegocioException {
-        usuarioService.deletar(id);
+    @Override
+    public ResponseEntity<Void> deletar(Integer idUsuario) throws RegraDeNegocioException {
+        usuarioService.deletar(idUsuario);
         log.info("Usuário deletado com sucesso");
         return ResponseEntity.noContent().build();
     }

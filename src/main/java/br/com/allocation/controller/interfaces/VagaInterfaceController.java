@@ -45,8 +45,8 @@ public interface VagaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping("/editar")
-    ResponseEntity<VagaDTO> editar(Integer id, VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException;
+    @PutMapping("/{idVaga}")
+    ResponseEntity<VagaDTO> editar(@PathVariable("idVaga") Integer idVaga, VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException;
 
 
     @Operation(summary = "Deleta a vaga por id", description = "Deleta vaga por id")
@@ -57,6 +57,6 @@ public interface VagaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @DeleteMapping("/deletar/{id}")
-    ResponseEntity<Void> deletar(Integer id) throws RegraDeNegocioException;
+    @DeleteMapping("/{idVaga}")
+    ResponseEntity<Void> deletar(@PathVariable("idVaga") Integer idVaga) throws RegraDeNegocioException;
 }

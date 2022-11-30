@@ -38,7 +38,7 @@ public interface UsuarioInterfaceController {
             }
     )
     @GetMapping("/listAllUsers")
-    ResponseEntity<PageDTO<UsuarioDTO>> listarUsuarioPaginado(Integer paginaQueEuQuero, Integer tamanhoDeRegistrosPorPagina);
+    ResponseEntity<PageDTO<UsuarioDTO>> listar(Integer paginaQueEuQuero, Integer tamanhoDeRegistrosPorPagina);
 
     @Operation(summary = "Editar o usuário por id", description = "Editar usuário por id")
     @ApiResponses(
@@ -48,10 +48,8 @@ public interface UsuarioInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping("/editar")
-    ResponseEntity<UsuarioDTO> editar(
-            @RequestParam("cargo") Cargos cargo,
-            Integer id, UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException;
+    @PutMapping("/{idUsuario}")
+    ResponseEntity<UsuarioDTO> editar(@RequestParam("cargo") Cargos cargo, @PathVariable("idUsuario") Integer idUsuario, @Valid UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException;
 
 
     @Operation(summary = "Deleta o usuário por id", description = "Deleta usuário por id")
@@ -62,7 +60,7 @@ public interface UsuarioInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @DeleteMapping("/deletar/{id}")
-    ResponseEntity<Void> deletar(Integer id) throws RegraDeNegocioException;
+    @DeleteMapping("/{idUsuario}")
+    ResponseEntity<Void> deletar(@PathVariable("idUsuario") Integer idUsuario) throws RegraDeNegocioException;
 
 }

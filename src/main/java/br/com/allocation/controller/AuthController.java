@@ -35,17 +35,17 @@ public class AuthController implements AuthInterfaceController {
 
     private final EmailService emailService;
 
-    @PostMapping
+    @Override
     public ResponseEntity<String> auth(@RequestBody @Valid LoginDTO loginDTO) {
         return new ResponseEntity<>(tokenService.autenticarAcesso(loginDTO, authenticationManager), HttpStatus.OK);
     }
 
-    @GetMapping("/logged")
+    @Override
     public ResponseEntity<LoginWithIdDTO> loggedVerify() throws RegraDeNegocioException {
         return new ResponseEntity<>(usuarioService.getLoggedUser(), HttpStatus.OK);
     }
 
-    @PostMapping("/register")
+    @Override
     public ResponseEntity<UsuarioDTO> create(
             @RequestParam(required = false) Cargos cargo,
             @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
@@ -54,7 +54,7 @@ public class AuthController implements AuthInterfaceController {
         return ResponseEntity.ok(usuarioService.create(usuarioCreateDTO, cargo));
     }
 
-    @PostMapping("/upload/")
+    @Override
     public ResponseEntity<MensagemDTO> uploadFile(@RequestParam("file") MultipartFile file,
                                                   @RequestParam("email") String email) {
         String message = "";

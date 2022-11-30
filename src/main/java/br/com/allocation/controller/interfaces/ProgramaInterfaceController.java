@@ -43,9 +43,9 @@ public interface ProgramaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping
+    @PutMapping("/{idPrograma}")
     ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate,
-                                              @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
+                                              @PathVariable(name = "idPrograma") Integer idPrograma) throws RegraDeNegocioException;
     @Operation(summary = "Deletar programa", description = "Deleta o programa no banco de dados")
     @ApiResponses(
             value = {
@@ -55,6 +55,6 @@ public interface ProgramaInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @DeleteMapping
-    public ResponseEntity<Void> deletar(@PathVariable(name = "idPrograma") Integer idUsuario) throws RegraDeNegocioException;
+    @DeleteMapping("/{idPrograma}")
+    public ResponseEntity<Void> deletar(@PathVariable(name = "idPrograma") Integer idPrograma) throws RegraDeNegocioException;
 }
