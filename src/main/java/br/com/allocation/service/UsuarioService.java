@@ -95,6 +95,49 @@ public class UsuarioService {
         );
     }
 
+    public PageDTO<UsuarioDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByNomeCompletoContainingIgnoreCase(pageRequest, nome);
+        List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
+                .map(usuario -> {
+                    UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
+                    Optional<CargoEntity> cargo = usuario.getCargos().stream().findFirst();
+
+                    dto.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
+                    return dto;
+                })
+                .toList();
+
+        return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
+                paginaDoRepositorio.getTotalPages(),
+                pagina,
+                tamanho,
+                usuarios
+        );
+    }
+
+    public PageDTO<UsuarioDTO> listarPorCargo(Integer pagina, Integer tamanho, Cargos cargos) throws RegraDeNegocioException {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        CargoEntity cargoEntity = cargoService.findByNome(cargos.getDescricao());
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByCargosContainingIgnoreCase(pageRequest, cargoEntity);
+        List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
+                .map(usuario -> {
+                    UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
+                    Optional<CargoEntity> cargo = usuario.getCargos().stream().findFirst();
+
+                    dto.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
+                    return dto;
+                })
+                .toList();
+
+        return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
+                paginaDoRepositorio.getTotalPages(),
+                pagina,
+                tamanho,
+                usuarios
+        );
+    }
+
     public void deletar(Integer id) throws RegraDeNegocioException {
         this.findById(id);
         usuarioRepository.deleteById(id);
@@ -154,6 +197,16 @@ public class UsuarioService {
         return findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
 
     }
+
+    public UsuarioDTO findUsuarioDTObyEmail(String email) throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity = findUsuarioEntityByEmail(email);
+        UsuarioDTO usuarioDTO = converterEmDTO(usuarioEntity);
+        Optional<CargoEntity> cargo = usuarioEntity.getCargos().stream().findFirst();
+
+        usuarioDTO.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
+        return usuarioDTO;
+    }
+
 
     private UsuarioEntity converterEntity(UsuarioCreateDTO usuarioCreateDTO) {
         return objectMapper.convertValue(usuarioCreateDTO, UsuarioEntity.class);

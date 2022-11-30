@@ -1,6 +1,7 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.UsuarioInterfaceController;
+import br.com.allocation.dto.cargoDTO.CargoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.MensagemDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
@@ -39,6 +40,21 @@ public class UsuarioController implements UsuarioInterfaceController {
     @Override
     public ResponseEntity<PageDTO<UsuarioDTO>> listar(Integer pagina, Integer tamanho){
         return new ResponseEntity<>(usuarioService.listar(pagina, tamanho), HttpStatus.OK);
+    }
+
+    @GetMapping("/listarPorEmail")
+    public ResponseEntity<UsuarioDTO> listarPorEmail(String email) throws RegraDeNegocioException {
+        return new ResponseEntity<>(usuarioService.findUsuarioDTObyEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping("/listarPorNome")
+    public ResponseEntity<PageDTO<UsuarioDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome){
+        return new ResponseEntity<>(usuarioService.listarPorNome(pagina, tamanho, nome), HttpStatus.OK);
+    }
+
+    @GetMapping("/listarPorCargo")
+    public ResponseEntity<PageDTO<UsuarioDTO>> listarPorCargo(Integer pagina, Integer tamanho, Cargos cargos) throws RegraDeNegocioException {
+        return new ResponseEntity<>(usuarioService.listarPorCargo(pagina, tamanho, cargos), HttpStatus.OK);
     }
 
     @Override
