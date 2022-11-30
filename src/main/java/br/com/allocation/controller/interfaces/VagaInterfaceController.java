@@ -17,7 +17,7 @@ public interface VagaInterfaceController {
     @Operation(summary = "Criar um registro de vaga.", description = "Cria um cadastro de vaga no banco de dados.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Cria vaga."),
+                    @ApiResponse(responseCode = "201", description = "Cria vaga."),
                     @ApiResponse(responseCode = "200", description = "recupera dados do vaga logado no banco de dados."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
@@ -40,19 +40,19 @@ public interface VagaInterfaceController {
     @Operation(summary = "Editar a vaga por id", description = "Editar vaga por id")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Editar a vaga no banco de dados"),
+                    @ApiResponse(responseCode = "201", description = "Editar a vaga no banco de dados"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @PutMapping("/{idVaga}")
-    ResponseEntity<VagaDTO> editar(@PathVariable("idVaga") Integer idVaga, VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException;
+    ResponseEntity<VagaDTO> editar(@PathVariable("idVaga") Integer idVaga, @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException;
 
 
     @Operation(summary = "Deleta a vaga por id", description = "Deleta vaga por id")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Deleta a vaga do banco de dados"),
+                    @ApiResponse(responseCode = "204", description = "Deleta a vaga do banco de dados"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }

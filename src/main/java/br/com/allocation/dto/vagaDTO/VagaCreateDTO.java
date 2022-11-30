@@ -22,8 +22,12 @@ public class VagaCreateDTO {
     private String nome;
 
     @NotNull(message = "Quantidade não pode ser vazio ou nulo.")
-    @Schema(description = "Quantidade da vaga",example = "1")
+    @Schema(description = "Quantidade de pessoas para a vaga",example = "2")
     private Integer quantidade;
+
+    @NotNull(message = "Quantidade não pode ser vazio ou nulo.")
+    @Schema(description = "Quantidade de pessoas alocadas na vaga",example = "1")
+    private Integer quantidadeAlocados;
 
     @NotNull(message = "Id programa não pode ser nulo.")
     @Schema(description = "Id do programa",example = "1")

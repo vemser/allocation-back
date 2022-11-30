@@ -33,7 +33,6 @@ public class AuthController implements AuthInterfaceController {
     private final UsuarioService usuarioService;
     private  final FileService fileService;
 
-    private final EmailService emailService;
 
     @Override
     public ResponseEntity<String> auth(@RequestBody @Valid LoginDTO loginDTO) {

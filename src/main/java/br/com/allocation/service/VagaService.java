@@ -73,6 +73,8 @@ public class VagaService {
         VagaEntity vagaEntity = findById(codigo);
         vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
+        ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
+        vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
         vagaEntity.setCodigo(codigo);
 
@@ -80,6 +82,7 @@ public class VagaService {
 
         VagaDTO vagaDto = converterEmDTO(vagaEntity);
         vagaDto.setIdPrograma(programa.getIdPrograma());
+        vagaDto.setEmailCliente(cliente.getEmail());
         return vagaDto;
     }
     public VagaDTO converterEmDTO(VagaEntity vagaEntity){
