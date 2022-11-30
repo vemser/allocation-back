@@ -4,7 +4,7 @@ import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.AvaliacaoEntity;
-import br.com.allocation.enums.SituacaoAluno;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,10 +64,15 @@ public class AvaliacaoService {
     private AvaliacaoEntity converterEntity(AvaliacaoCreateDTO avaliacaoCreateDTO) {
         return objectMapper.convertValue(avaliacaoCreateDTO, AvaliacaoEntity.class);
     }
-    private AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
+    public AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
         AvaliacaoDTO dto = objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
         dto.setEmailAluno(avaliacaoEntity.getAluno().getEmail());
         dto.setCodigoVaga(avaliacaoEntity.getVaga().getCodigo());
         return dto;
+    }
+    public void cancelarAvaliacao(Integer idAvaliacao) throws RegraDeNegocioException {
+        AvaliacaoEntity avaliacaoEntity = findById(idAvaliacao);
+        avaliacaoEntity.setSituacao(Situacao.FECHADO);
+        avaliacaoRepository.save(avaliacaoEntity);
     }
 }

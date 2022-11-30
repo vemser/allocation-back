@@ -69,7 +69,7 @@ public class ClienteService {
         return clienteRepository.findByEmail(email);
     }
 
-    private ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {
+    public ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {
         return objectMapper.convertValue(clienteCreateDTO, ClienteEntity.class);
     }
     private ClienteDTO converterEmDTO(ClienteEntity clienteEntity) {

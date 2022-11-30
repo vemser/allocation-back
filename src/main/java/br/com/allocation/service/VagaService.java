@@ -78,9 +78,12 @@ public class VagaService {
 
         vagaEntity = vagaRepository.save(vagaEntity);
 
-        VagaDTO vagaDto = objectMapper.convertValue(vagaEntity, VagaDTO.class);
+        VagaDTO vagaDto = converterEmDTO(vagaEntity);
         vagaDto.setIdPrograma(programa.getIdPrograma());
         return vagaDto;
+    }
+    public VagaDTO converterEmDTO(VagaEntity vagaEntity){
+        return objectMapper.convertValue(vagaEntity, VagaDTO.class);
     }
 
     public void deletar(Integer codigo) throws RegraDeNegocioException {
@@ -101,5 +104,14 @@ public class VagaService {
 
     public VagaEntity findByNome(String nome) throws RegraDeNegocioException {
         return vagaRepository.findByNome(nome).orElseThrow(() -> new RegraDeNegocioException("Vaga não encontrada!"));
+    }
+    public void alterarQuantidadeDeVagas(Integer idVaga) throws RegraDeNegocioException {
+        VagaEntity vaga = findById(idVaga);
+        if (vaga.getQuantidade() >= 1) {
+            vaga.setQuantidade(vaga.getQuantidade() - 1);
+            vagaRepository.save(vaga);
+        } else if (vaga.getQuantidade() == 0) {
+            throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
+        }
     }
 }

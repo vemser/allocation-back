@@ -1,15 +1,13 @@
 package br.com.allocation.dto.reservaAlocacaoDTO;
 
-import br.com.allocation.entity.AlunoEntity;
-import br.com.allocation.entity.AvaliacaoEntity;
-import br.com.allocation.entity.VagaEntity;
+import br.com.allocation.dto.alunoDTO.AlunoDTO;
+import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
+import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.enums.StatusAluno;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,10 +16,10 @@ import java.time.LocalDate;
 public class ReservaAlocacaoDTO {
 
     private Integer codigo;
-    private VagaEntity vaga;
-    private AlunoEntity aluno;
-    private AvaliacaoEntity avaliacaoEntity;
-    private LocalDate dataReserva;
-    //private LocalDate dataAlocacao;
+    private VagaDTO vaga;
+    private AlunoDTO aluno;
+    private AvaliacaoDTO avaliacaoEntity;
     private StatusAluno situacao;
+
+
 }

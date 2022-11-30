@@ -79,7 +79,7 @@ public class AlunoService {
                 alunoDTOList);
     }
 
-    private AlunoEntity findById(Integer id) throws RegraDeNegocioException {
+    public AlunoEntity findById(Integer id) throws RegraDeNegocioException {
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado"));
     }

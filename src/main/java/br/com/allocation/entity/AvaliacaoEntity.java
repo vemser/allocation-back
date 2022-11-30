@@ -3,6 +3,7 @@ package br.com.allocation.entity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.TipoAvaliacao;
+import br.com.allocation.exceptions.RegraDeNegocioException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -67,5 +68,6 @@ public class AvaliacaoEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "avaliacao", fetch = FetchType.LAZY)
     private Set<ReservaAlocacaoEntity> reservasAlocacoes = new HashSet<>();
+
 
 }
