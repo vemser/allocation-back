@@ -19,7 +19,6 @@ public class FileService {
 
     private final FileRepository fileRepository;
     private final UsuarioService usuarioService;
-    private final ObjectMapper objectMapper;
 
     public FileEntity store(MultipartFile file, String email) throws IOException, RegraDeNegocioException {
         UsuarioEntity usuario = usuarioService.findUsuarioEntityByEmail(email);
