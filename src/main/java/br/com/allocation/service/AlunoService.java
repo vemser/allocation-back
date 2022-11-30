@@ -99,4 +99,9 @@ public class AlunoService {
     public AlunoEntity findByEmail(String email) throws RegraDeNegocioException {
         return alunoRepository.findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado!"));
     }
+    public void alterarDisponibilidadeAluno(Integer idAluno,StatusAluno statusAluno) throws RegraDeNegocioException {
+        AlunoEntity alunoEntity = findById(idAluno);
+        alunoEntity.setStatusAluno(statusAluno);
+        alunoRepository.save(alunoEntity);
+    }
 }

@@ -1,5 +1,6 @@
 package br.com.allocation.controller;
 
+import br.com.allocation.controller.interfaces.ReservaAlocacaoInterface;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-public class ReservaAlocacaoController {
+public class ReservaAlocacaoController implements ReservaAlocacaoInterface {
     private final ReservaAlocacaoService reservaAlocacaoService;
 
     @PostMapping
@@ -31,4 +32,5 @@ public class ReservaAlocacaoController {
         log.info("Reserva alocação adicionado com sucesso!");
         return new ResponseEntity<>(reservaAlocacaoDTO, HttpStatus.CREATED);
     }
+
 }

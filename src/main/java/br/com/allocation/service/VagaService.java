@@ -117,5 +117,6 @@ public class VagaService {
         } else if (vaga.getQuantidade() == 0) {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
+        vagaRepository.save(vaga);
     }
 }

@@ -26,6 +26,7 @@ import java.util.Optional;
 public class ReservaAlocacaoService {
     private final ReservaAlocacaoRepository reservaAlocacaoRepository;
     private final AlunoService alunoService;
+    private final AlunoRepository alunoRepository;
     private final VagaService vagaService;
     private final AvaliacaoService avaliacaoService;
 
@@ -33,14 +34,30 @@ public class ReservaAlocacaoService {
     public ReservaAlocacaoDTO salvar(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
         alterarData(reservaAlocacaoCreateDTO, reservaAlocacaoEntity);
-        ReservaAlocacaoEntity saveAlocacao = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
-        saveAlocacao.getAluno().setStatusAluno(reservaAlocacaoCreateDTO.getStatusAluno());
-        ReservaAlocacaoDTO reservaAlocacaoDTO = converterEmDTO(saveAlocacao);
+        ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
+        alunoService.alterarDisponibilidadeAluno(reservaAlocacaoCreateDTO.getIdAluno(),
+                reservaAlocacaoCreateDTO.getStatusAluno());
+        ReservaAlocacaoDTO reservaAlocacaoDTO = converterEmDTO(saveAlocacaoReserva);
         avaliacaoService.cancelarAvaliacao(reservaAlocacaoCreateDTO.getIdAvaliacao());
         vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         return reservaAlocacaoDTO;
     }
-    //public ReservaAlocacaoDTO editar()
+    public ReservaAlocacaoDTO editar(Integer id, ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
+        this.findById(id);
+        ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
+        alterarData(reservaAlocacaoCreateDTO, reservaAlocacaoEntity);
+        ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
+        saveAlocacaoReserva.getAluno().setStatusAluno(reservaAlocacaoCreateDTO.getStatusAluno());
+        avaliacaoService.cancelarAvaliacao(reservaAlocacaoCreateDTO.getIdAvaliacao());
+        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
+        return converterEmDTO(saveAlocacaoReserva);
+    }
+    public void deletar(Integer id) throws RegraDeNegocioException {
+        ReservaAlocacaoEntity reservaLocacaoDelete = this.findById(id);
+        reservaAlocacaoRepository.deleteById(reservaLocacaoDelete.getCodigo());
+        reservaLocacaoDelete.getAluno().setStatusAluno(StatusAluno.DISPONIVEL);
+        alunoRepository.save(reservaLocacaoDelete.getAluno());
+    }
 
     private static void alterarData(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
                                     ReservaAlocacaoEntity reservaAlocacaoEntity) {
