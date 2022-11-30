@@ -44,9 +44,9 @@ public interface AlunoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping
+    @PutMapping("{idAluno}")
     ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
-                                    @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
+                                    @PathVariable(name = "idAluno") Integer idAluno) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar aluno", description = "Deleta o aluno do banco de dados")
     @ApiResponses(
@@ -57,9 +57,8 @@ public interface AlunoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @DeleteMapping
-    ResponseEntity<Void> deletar(@PathVariable(name = "idAluno")
-                                        Integer id) throws RegraDeNegocioException;
+    @DeleteMapping("{idAluno}")
+    ResponseEntity<Void> deletar(@PathVariable(name = "idAluno") Integer idAluno) throws RegraDeNegocioException;
     @Operation(summary = "Listar alunos disponiveis para alocação e reserva", description = "Listar alunos disponiveis para alocacao!")
     @ApiResponses(
             value = {
@@ -69,6 +68,6 @@ public interface AlunoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @GetMapping
+    @GetMapping("/{alunos-disponiveis}")
     List<AlunoDTO> disponiveis();
 }

@@ -4,6 +4,8 @@ import br.com.allocation.entity.FileEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface FileRepository extends JpaRepository<FileEntity, String> {
-    FileEntity findByUsuario(UsuarioEntity usuario);
+    Optional<FileEntity> findByUsuario(UsuarioEntity usuario);
 }

@@ -25,7 +25,6 @@ public class ProgramaController implements ProgramaInterfaceController {
     private final ProgramaService programaService;
 
     @Override
-    @PostMapping
     public ResponseEntity<ProgramaDTO> salvar(@Valid @RequestBody ProgramaCreateDTO programaCreate) {
 
         log.info("Adicionando o Usuário...");
@@ -35,25 +34,21 @@ public class ProgramaController implements ProgramaInterfaceController {
     }
 
     @Override
-    @GetMapping
     public ResponseEntity<PageDTO<ProgramaDTO>> listar(Integer pagina, Integer tamanho){
         return ResponseEntity.ok(programaService.listar(pagina, tamanho));
     }
 
     @Override
-    @PutMapping("/{id}")
-    public ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate,
-                                              @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
+    public ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate, Integer idPrograma) throws RegraDeNegocioException {
         log.info("Editando o Programa...");
-        ProgramaDTO programa = programaService.editar(id, programaCreate);
+        ProgramaDTO programa = programaService.editar(idPrograma, programaCreate);
         log.info("Programa editado com sucesso!");
         return new ResponseEntity<>(programa, HttpStatus.CREATED);
     }
 
     @Override
-    @DeleteMapping("/{idPrograma}")
-    public ResponseEntity<Void> deletar(@PathVariable(name = "idPrograma") Integer idUsuario) throws RegraDeNegocioException {
-        programaService.deletar(idUsuario);
+    public ResponseEntity<Void> deletar(Integer idPrograma) throws RegraDeNegocioException {
+        programaService.deletar(idPrograma);
         log.info("Programa deletado com sucesso");
         return ResponseEntity.noContent().build();
     }

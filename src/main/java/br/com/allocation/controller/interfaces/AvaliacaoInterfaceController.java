@@ -43,9 +43,9 @@ public interface AvaliacaoInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping("/{id}")
-    ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO,
-                                        @PathVariable(name = "id") Integer id) throws RegraDeNegocioException;
+    @PutMapping("/{idAvaliacao}")
+    ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO, @PathVariable(name = "idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException;
+
     @Operation(summary = "Deletar avaliação", description = "Deleta  avaliação do banco de dados")
     @ApiResponses(
             value = {
@@ -56,6 +56,5 @@ public interface AvaliacaoInterfaceController {
             }
     )
     @DeleteMapping("/{idAvaliacao}")
-     ResponseEntity<Void> deletar(@PathVariable(name = "idAvaliacao")
-                                        Integer id) throws RegraDeNegocioException;
+     ResponseEntity<Void> deletar(@PathVariable(name = "idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException;
 }

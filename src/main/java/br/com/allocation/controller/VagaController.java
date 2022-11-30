@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/vaga")
 @Validated
@@ -24,7 +26,7 @@ public class VagaController implements VagaInterfaceController {
 
     @Override
     @PostMapping
-    public ResponseEntity<VagaDTO> salvar(@RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<VagaDTO> salvar(@Valid @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
         log.info("Adicionando a vaga...");
         VagaDTO vaga = vagaService.salvar(vagaCreateDTO);
@@ -33,22 +35,22 @@ public class VagaController implements VagaInterfaceController {
     }
 
     @Override
-    public ResponseEntity<PageDTO<VagaDTO>> listar(@PathVariable Integer pagina, @PathVariable Integer tamanho) {
+    public ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(vagaService.listar(pagina, tamanho));
     }
 
     @Override
-    public ResponseEntity<VagaDTO> editar(@PathVariable Integer id, @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<VagaDTO> editar(Integer idVaga, @Valid @RequestBody VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
         log.info("Editando a vaga...");
-        VagaDTO vaga = vagaService.editar(id, vagaCreateDTO);
+        VagaDTO vaga = vagaService.editar(idVaga, vagaCreateDTO);
         log.info("Vaga editada com sucesso!");
         return new ResponseEntity<>(vaga, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) throws RegraDeNegocioException {
-        vagaService.deletar(id);
+    public ResponseEntity<Void> deletar(Integer idVaga) throws RegraDeNegocioException {
+        vagaService.deletar(idVaga);
         log.info("Vaga deletado com sucesso");
         return ResponseEntity.noContent().build();
     }

@@ -25,7 +25,7 @@ public class AlunoController implements AlunoInterfaceController {
 
     private final AlunoService alunoService;
 
-    @PostMapping
+    @Override
     public ResponseEntity<AlunoDTO> salvar(@Valid @RequestBody AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         log.info("Adicionando Aluno...");
         AlunoDTO alunoDTO = alunoService.salvar(alunoCreate);
@@ -33,12 +33,12 @@ public class AlunoController implements AlunoInterfaceController {
         return new ResponseEntity<>(alunoDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @Override
     public ResponseEntity<PageDTO<AlunoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(alunoService.listar(pagina, tamanho));
     }
 
-    @PutMapping("/{id}")
+    @Override
     public ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                            @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
         log.info("Editando o Aluno...");
@@ -47,14 +47,14 @@ public class AlunoController implements AlunoInterfaceController {
         return new ResponseEntity<>(alunoDTO, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{idAluno}")
+    @Override
     public ResponseEntity<Void> deletar(@PathVariable(name = "idAluno")
                                         Integer id) throws RegraDeNegocioException {
         alunoService.deletar(id);
         log.info("Aluno deletado com sucesso");
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/{alunos-disponiveis}")
+    @Override
     public List<AlunoDTO> disponiveis() {
         return alunoService.disponiveis();
     }

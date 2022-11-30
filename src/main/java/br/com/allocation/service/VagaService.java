@@ -91,6 +91,10 @@ public class VagaService {
         vagaRepository.delete(vaga);
     }
 
+    public VagaDTO pegarVaga(Integer id) throws RegraDeNegocioException {
+        return objectMapper.convertValue(findById(id), VagaDTO.class);
+    }
+
     public VagaEntity findById(Integer id) throws RegraDeNegocioException {
         return vagaRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("Vaga não encontrada!"));
     }

@@ -1,6 +1,7 @@
 package br.com.allocation.service;
 
 
+import br.com.allocation.dto.cargoDTO.CargoDTO;
 import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
@@ -32,20 +33,20 @@ public class UsuarioService {
 
     public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
+
         validarSenha(usuarioCreateDTO);
         confirmarSenha(usuarioCreateDTO);
+
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
         usuarioEntity.setSenha(encode);
 
-        if(cargos == null){
-            return converterEmDTO(usuarioRepository.save(usuarioEntity));
-        }
-        else {
+        if(cargos != null){
             CargoEntity cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
             usuarioEntity.getCargos().add(cargo);
-            return converterEmDTO(usuarioRepository.save(usuarioEntity));
         }
+
+        return converterEmDTO(usuarioRepository.save(usuarioEntity));
     }
 
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
@@ -74,8 +75,15 @@ public class UsuarioService {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAll(pageRequest);
         List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
-                .map(usuario -> objectMapper.convertValue(usuario, UsuarioDTO.class))
+                .map(usuario -> {
+                    UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
+                    Optional<CargoEntity> cargo = usuario.getCargos().stream().findFirst();
+
+                    dto.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
+                    return dto;
+                })
                 .toList();
+
         return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
                 paginaDoRepositorio.getTotalPages(),
                 pagina,
@@ -139,13 +147,9 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
-    public UsuarioEntity findUsuarioByEmail(String email) throws RegraDeNegocioException {
-        UsuarioEntity usuario = usuarioRepository.findUsuarioEntityByEmail(email);
-        if (usuario == null) {
-            throw new RegraDeNegocioException("Usuario não encontrado!");
-        } else {
-            return usuario;
-        }
+    public UsuarioEntity findUsuarioEntityByEmail(String email) throws RegraDeNegocioException {
+        return findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
+
     }
 
     private UsuarioEntity converterEntity(UsuarioCreateDTO usuarioCreateDTO) {
