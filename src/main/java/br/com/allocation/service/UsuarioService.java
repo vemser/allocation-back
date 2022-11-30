@@ -4,6 +4,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.cargoDTO.CargoDTO;
 import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.entity.CargoEntity;
@@ -130,6 +131,18 @@ public class UsuarioService {
             throw new RegraDeNegocioException("Senha fraca");
     }
 
+    public UsuarioDTO atualizarCargo(UsuarioCargosDTO usuarioCargosDTO) throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity = findUsuarioEntityByEmail(usuarioCargosDTO.getEmailUsuario());
+
+        usuarioEntity.getCargos().clear();
+        CargoEntity cargo = cargoService.findByNome(usuarioCargosDTO.getCargo().getNome());
+        usuarioEntity.getCargos().add(cargo);
+
+        UsuarioDTO usuarioDTO = converterEmDTO(usuarioRepository.save(usuarioEntity));
+        usuarioDTO.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
+        return usuarioDTO;
+    }
+
     public UsuarioEntity findById(Integer id) throws RegraDeNegocioException {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado!"));
@@ -147,7 +160,7 @@ public class UsuarioService {
     }
 
     public Optional<UsuarioEntity> findByEmail(String email) {
-        return usuarioRepository.findByEmail(email);
+        return usuarioRepository.findByEmailIgnoreCase(email);
     }
 
     public UsuarioEntity findUsuarioEntityByEmail(String email) throws RegraDeNegocioException {

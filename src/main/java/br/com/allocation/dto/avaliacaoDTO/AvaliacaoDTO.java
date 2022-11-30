@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class AvaliacaoDTO extends AvaliacaoCreateDTO{
 
-    private Integer codigo;
+    private Integer idAvaliacao;
 }

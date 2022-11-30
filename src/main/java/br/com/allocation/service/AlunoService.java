@@ -59,9 +59,15 @@ public class AlunoService {
                 alunoEntity.getStatusAluno());
     }
 
-    public AlunoDTO editar(Integer id, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
-        this.findById(id);
+    public AlunoDTO editar(Integer idAluno, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
+        this.findById(idAluno);
+
         AlunoEntity alunoEntity = converterEntity(alunoCreateDTO);
+        ProgramaEntity programa = programaService.findById(alunoCreateDTO.getIdPrograma());
+        alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreateDTO.getTecnologias()));
+        alunoEntity.setPrograma(programa);
+        alunoEntity.setIdAluno(idAluno);
+
         return converterEmDTO(alunoRepository.save(alunoEntity));
     }
 
