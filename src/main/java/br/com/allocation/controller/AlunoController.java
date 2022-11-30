@@ -40,17 +40,17 @@ public class AlunoController implements AlunoInterfaceController {
 
     @Override
     public ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
-                                           @PathVariable(name = "id") Integer id) throws RegraDeNegocioException {
+                                           @PathVariable(name = "idAluno") Integer idAluno) throws RegraDeNegocioException {
         log.info("Editando o Aluno...");
-        AlunoDTO alunoDTO = alunoService.editar(id, alunoCreate);
+        AlunoDTO alunoDTO = alunoService.editar(idAluno, alunoCreate);
         log.info("Aluno editado com sucesso!");
         return new ResponseEntity<>(alunoDTO, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Void> deletar(@PathVariable(name = "idAluno")
-                                        Integer id) throws RegraDeNegocioException {
-        alunoService.deletar(id);
+                                        Integer idAluno) throws RegraDeNegocioException {
+        alunoService.deletar(idAluno);
         log.info("Aluno deletado com sucesso");
         return ResponseEntity.noContent().build();
     }

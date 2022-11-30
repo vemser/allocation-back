@@ -65,8 +65,8 @@ public class ClienteService {
                 .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
     }
 
-    public ClienteEntity findByEmail(String email){
-        return clienteRepository.findByEmail(email);
+    public ClienteEntity findByEmail(String email) throws RegraDeNegocioException {
+        return clienteRepository.findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Email cliente não encontrado ou não existe."));
     }
 
     private ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {

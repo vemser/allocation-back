@@ -19,7 +19,7 @@ public class AvaliacaoCreateDTO {
 
     @NotNull(message = "codigoVaga não pode ser nulo.")
     @Schema(description = "Codigo da vaga",example = "1")
-    private Integer codigoVaga;
+    private Integer idVaga;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
     @Schema(description = "Nome do aluno",example = "jhennyfer.sobrinho@dbccompany.com.br")

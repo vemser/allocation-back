@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VagaDTO extends  VagaCreateDTO{
 
-    private Integer codigo;
+    private Integer idVaga;
 
 }

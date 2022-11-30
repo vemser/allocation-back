@@ -69,14 +69,15 @@ public class VagaService {
         );
     }
 
-    public VagaDTO editar(Integer codigo, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
-        VagaEntity vagaEntity = findById(codigo);
+    public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
+        VagaEntity vagaEntity = findById(idVaga);
         vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
+
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
-        vagaEntity.setCodigo(codigo);
+        vagaEntity.setIdVaga(idVaga);
 
         vagaEntity = vagaRepository.save(vagaEntity);
 
@@ -86,17 +87,17 @@ public class VagaService {
         return vagaDto;
     }
 
-    public void deletar(Integer codigo) throws RegraDeNegocioException {
-        VagaEntity vaga = findById(codigo);
+    public void deletar(Integer idVaga) throws RegraDeNegocioException {
+        VagaEntity vaga = findById(idVaga);
         vagaRepository.delete(vaga);
     }
 
-    public VagaDTO pegarVaga(Integer id) throws RegraDeNegocioException {
-        return objectMapper.convertValue(findById(id), VagaDTO.class);
+    public VagaDTO pegarVaga(Integer idVaga) throws RegraDeNegocioException {
+        return objectMapper.convertValue(findById(idVaga), VagaDTO.class);
     }
 
-    public VagaEntity findById(Integer id) throws RegraDeNegocioException {
-        return vagaRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("Vaga não encontrada!"));
+    public VagaEntity findById(Integer idVaga) throws RegraDeNegocioException {
+        return vagaRepository.findById(idVaga).orElseThrow(() -> new RegraDeNegocioException("Vaga não encontrada!"));
     }
 
     public List<VagaDTO> findAllWithSituacaoAberto(){
