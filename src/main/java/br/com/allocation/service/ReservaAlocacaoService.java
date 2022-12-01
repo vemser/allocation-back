@@ -116,11 +116,12 @@ public class ReservaAlocacaoService {
         VagaDTO vagaDTO = vagaService.converterEmDTO(reservaAlocacaoEntity.getVaga());
         AvaliacaoDTO avaliacaoDTO = avaliacaoService.converterEmDTO(reservaAlocacaoEntity.getAvaliacao());
         AlunoDTO alunoDTO = alunoService.converterEmDTO(reservaAlocacaoEntity.getAluno());
-        ReservaAlocacaoDTO reservaAlocacaoDTO = new ReservaAlocacaoDTO(reservaAlocacaoEntity.getCodigo()
-                , vagaDTO,
+        ReservaAlocacaoDTO reservaAlocacaoDTO = new ReservaAlocacaoDTO(reservaAlocacaoEntity.getCodigo(),
+                vagaDTO,
                 alunoDTO,
                 avaliacaoDTO,
                 reservaAlocacaoEntity.getStatusAluno(),
+                reservaAlocacaoEntity.getDescricao(),
                 reservaAlocacaoEntity.getDataReserva(),
                 reservaAlocacaoEntity.getDataAlocacao(),
                 reservaAlocacaoEntity.getDataCancelamento(),
