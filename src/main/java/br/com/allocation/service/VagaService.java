@@ -124,4 +124,5 @@ public class VagaService {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }
+
 }
