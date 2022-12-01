@@ -64,7 +64,7 @@ public class UsuarioService {
         usuario.getCargos().clear();
         usuario.getCargos().add(cargo);
 
-        usuarioRepository.save(usuario);
+        usuario = usuarioRepository.save(usuario);
         return converterEmDTO(usuario);
     }
 
@@ -97,8 +97,8 @@ public class UsuarioService {
     }
 
     public void deletar(Integer id) throws RegraDeNegocioException {
-        this.findById(id);
-        usuarioRepository.deleteById(id);
+        UsuarioEntity usuario = findById(id);
+        usuarioRepository.delete(usuario);
     }
 
     private static void confirmarSenha(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
@@ -149,7 +149,7 @@ public class UsuarioService {
     }
 
     public Integer getIdLoggedUser() {
-        return Integer.parseInt((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return Integer.parseInt(String.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
     }
 
     public LoginWithIdDTO getLoggedUser() throws RegraDeNegocioException {
@@ -165,7 +165,6 @@ public class UsuarioService {
 
     public UsuarioEntity findUsuarioEntityByEmail(String email) throws RegraDeNegocioException {
         return findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
-
     }
 
     private UsuarioEntity converterEntity(UsuarioCreateDTO usuarioCreateDTO) {

@@ -28,10 +28,6 @@ public class UsuarioCreateDTO {
     @Schema(description = "email do usuario",example = "jhennyfer.sobrinho@dbccompany.com.br")
     private String email;
 
-//    @NotNull(message = "Cargo não pode ser vazio ou nulo.")
-//    @Schema(description = "Cargo do usuario",example = "ROLE_ADMINISTRADOR")
-//    private CargoDTO cargoDTO;
-
     @NotBlank(message = "senha não pode ser vazio ou nulo.")
     @Schema(description = "senha do usuario ",example = "pqasde12@")
     @Size(min = 8, max = 25)
