@@ -45,7 +45,7 @@ public class AlunoService {
         }
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
-        alunoRepository.save(alunoEntity);
+        alunoEntity = alunoRepository.save(alunoEntity);
         return converterEmDTO(alunoEntity);
     }
 

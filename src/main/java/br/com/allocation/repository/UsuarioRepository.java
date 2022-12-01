@@ -14,4 +14,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     Page<UsuarioEntity> findAllByNomeCompletoContainingIgnoreCase(Pageable pageable, String email);
     Page<UsuarioEntity> findAllByCargosContainingIgnoreCase(Pageable pageable, CargoEntity cargos);
     Optional<UsuarioEntity> findByEmailIgnoreCase(String email);
+
+    Page<UsuarioEntity> findAllByEmail(Pageable pageable, String email);
 }

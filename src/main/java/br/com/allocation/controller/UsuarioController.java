@@ -42,9 +42,9 @@ public class UsuarioController implements UsuarioInterfaceController {
         return new ResponseEntity<>(usuarioService.listar(pagina, tamanho), HttpStatus.OK);
     }
 
-    @GetMapping("/listarPorEmail")
-    public ResponseEntity<UsuarioDTO> listarPorEmail(String email) throws RegraDeNegocioException {
-        return new ResponseEntity<>(usuarioService.findUsuarioDTObyEmail(email), HttpStatus.OK);
+    @Override
+    public ResponseEntity<PageDTO<UsuarioDTO>> listarPorEmail(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException {
+        return new ResponseEntity<>(usuarioService.listarPorEmailPag(pagina, tamanho, email), HttpStatus.OK);
     }
 
     @GetMapping("/listarPorNome")
