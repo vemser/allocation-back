@@ -132,7 +132,7 @@ public class AlunoService {
         AlunoEntity alunoEntity = findById(idAluno);
         if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)
                 || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)
-                || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.DESALOCADO)) {
+                || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.INATIVO)) {
             alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
         }
         alunoRepository.save(alunoEntity);
