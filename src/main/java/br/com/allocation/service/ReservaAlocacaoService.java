@@ -97,7 +97,6 @@ public class ReservaAlocacaoService {
         alunoService.verificarDisponibilidadeAluno(alunoEntity, reservaAlocacaoCreateDTO);
         VagaEntity vagaEntity = vagaService.findById(reservaAlocacaoCreateDTO.getIdVaga());
         AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(reservaAlocacaoCreateDTO.getIdAvaliacao());
-        avaliacaoService.verificarAvalicaoSituacao(avaliacaoEntity);
 
         ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(null,
                 reservaAlocacaoCreateDTO.getDescricao(),

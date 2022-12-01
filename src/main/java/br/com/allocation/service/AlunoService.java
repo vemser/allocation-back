@@ -139,8 +139,8 @@ public class AlunoService {
         }
     }
 
-    private void validarVaga(Integer codigoVagaEntity, Integer codigoVagaDto) throws RegraDeNegocioException {
-        if (!(codigoVagaDto.equals(codigoVagaEntity))) {
+    private void validarVaga(Integer idVagaEntity, Integer idVagaDTO) throws RegraDeNegocioException {
+        if (!(idVagaDTO.equals(idVagaEntity))) {
             throw new RegraDeNegocioException("Aluno não está disponivel!");
         }
     }
