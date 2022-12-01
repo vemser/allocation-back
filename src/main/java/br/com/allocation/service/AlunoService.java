@@ -133,6 +133,11 @@ public class AlunoService {
             }
         }
     }
+    public void verificarSealunoTemReserva(AlunoEntity alunoEntity,ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO){
+        if (alunoEntity.getIdAluno().equals(reservaAlocacaoCreateDTO.getIdAluno())){
+            new RegraDeNegocioException("Aluno já tem uma reserva alocação");
+        }
+    }
 
     private void validarVaga(Integer codigoVagaEntity, Integer codigoVagaDto) throws RegraDeNegocioException {
         if (!(codigoVagaDto.equals(codigoVagaEntity))) {

@@ -3,8 +3,9 @@ package br.com.allocation.service;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.AvaliacaoEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,21 +33,25 @@ public class AvaliacaoService {
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }
+
     public AvaliacaoEntity findById(Integer id) throws RegraDeNegocioException {
         return avaliacaoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Avaliação não encontrada!"));
     }
+
     public AvaliacaoDTO editar(Integer id, AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(id);
         avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }
+
     public void deletar(Integer codigoVaga) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(codigoVaga);
         avaliacaoRepository.delete(avaliacaoEntity);
     }
-    public PageDTO<AvaliacaoDTO> listar(Integer pagina, Integer tamanho){
+
+    public PageDTO<AvaliacaoDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<AvaliacaoEntity> paginaRepository = avaliacaoRepository.findAll(pageRequest);
 
@@ -64,20 +69,20 @@ public class AvaliacaoService {
     private AvaliacaoEntity converterEntity(AvaliacaoCreateDTO avaliacaoCreateDTO) {
         return objectMapper.convertValue(avaliacaoCreateDTO, AvaliacaoEntity.class);
     }
+
     public AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
         AvaliacaoDTO dto = objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
         dto.setEmailAluno(avaliacaoEntity.getAluno().getEmail());
         dto.setIdVaga(avaliacaoEntity.getVaga().getIdVaga());
         return dto;
     }
-//    public void cancelarAvaliacao(Integer idAvaliacao) throws RegraDeNegocioException {
+
+//    public void finalizarAvaliacaoAluno(Integer idAvaliacao, AlunoEntity alunoEntity) throws RegraDeNegocioException {
 //        AvaliacaoEntity avaliacaoEntity = findById(idAvaliacao);
-//        avaliacaoEntity.setSituacao(Situacao.FECHADO);
+//        AlunoEntity alunoEntity1 = alunoService.findById(alunoEntity.getIdAluno());
+//        avaliacaoEntity.setSituacao(SituacaoAluno.FINALIZADO);
+//
 //        avaliacaoRepository.save(avaliacaoEntity);
 //    }
-//    public void verificarAvalicaoSituacao(AvaliacaoEntity avaliacaoEntity) throws RegraDeNegocioException {
-//        if (avaliacaoEntity.getSituacao().equals("FECHADO")){
-//            throw new RegraDeNegocioException("Avaliação fechada!");
-//        }
-//    }
+
 }
