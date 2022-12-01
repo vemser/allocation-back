@@ -12,11 +12,13 @@ import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
+import br.com.allocation.security.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
-
+    private final EmailService emailService;
+    private final TokenService tokenService;
     private final CargoService cargoService;
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
@@ -36,8 +39,8 @@ public class UsuarioService {
     public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
 
-        validarSenha(usuarioCreateDTO);
         confirmarSenha(usuarioCreateDTO);
+        validarSenha(usuarioCreateDTO.getSenha());
 
         UsuarioEntity usuarioEntity = converterEntity(usuarioCreateDTO);
         String encode = passwordEncoder.encode(usuarioEntity.getSenha());
@@ -138,9 +141,34 @@ public class UsuarioService {
         );
     }
 
+    public String recuperarSenha(String email) throws RegraDeNegocioException {
+        UsuarioEntity usuario = findUsuarioEntityByEmail(email);
+
+        String token = tokenService.getTokenRecuperarSenha(usuario);
+        emailService.sendEmailRecuperarSenha(usuario, token);
+
+        return "Verifique seu email para trocar a senha.";
+    }
+
+    public String atualizarSenha(String senha, String token) throws RegraDeNegocioException {
+        validarSenha(senha);
+
+        UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
+        UsuarioEntity usuarioEntity = (UsuarioEntity) tokenObject.getPrincipal();
+
+        UsuarioEntity usuario = findById(usuarioEntity.getIdUsuario());
+
+        String senhaCriptografada = passwordEncoder.encode(senha);
+        usuario.setSenha(senhaCriptografada);
+        usuarioRepository.save(usuario);
+
+        return "Senha alterada com sucesso!";
+    }
+
     public void deletar(Integer id) throws RegraDeNegocioException {
         UsuarioEntity usuario = findById(id);
-        usuarioRepository.delete(usuario);}
+        usuarioRepository.delete(usuario);
+    }
 
     private static void confirmarSenha(@NotNull UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         if (!usuarioCreateDTO.getSenha().equals(usuarioCreateDTO.getSenhaIgual())){
@@ -154,14 +182,14 @@ public class UsuarioService {
         }
     }
 
-    private static void validarSenha(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    private static void validarSenha(String senha) throws RegraDeNegocioException {
         int countLetras = 0;
         int countNumeros = 0;
-        if (usuarioCreateDTO.getSenha().length() < 6) {
+        if (senha.length() < 6) {
             throw new RegraDeNegocioException("senha fraca");
         }
-        for (int i = 0; i < usuarioCreateDTO.getSenha().length(); i++) {
-            char caracter = usuarioCreateDTO.getSenha().charAt(i);
+        for (int i = 0; i < senha.length(); i++) {
+            char caracter = senha.charAt(i);
             if (Character.isAlphabetic(caracter)) {
                 countLetras++;
             } else if (Character.isDigit(caracter)) {

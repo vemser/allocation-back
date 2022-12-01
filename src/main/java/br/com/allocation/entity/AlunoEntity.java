@@ -52,7 +52,7 @@ public class AlunoEntity {
     private StatusAluno statusAluno;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<AvaliacaoEntity> avaliacoes = new HashSet<>();
 
     @JsonIgnore
@@ -70,6 +70,6 @@ public class AlunoEntity {
     private Set<TecnologiaEntity> tecnologias;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "aluno")
+    @OneToOne(mappedBy = "aluno", cascade = CascadeType.ALL)
     private ReservaAlocacaoEntity reservaAlocacao;
 }

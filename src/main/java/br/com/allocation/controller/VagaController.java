@@ -5,6 +5,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
+import br.com.allocation.service.RelatorioService;
 import br.com.allocation.service.VagaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,6 @@ import javax.validation.Valid;
 public class VagaController implements VagaInterfaceController {
 
     private final VagaService vagaService;
-
 
     @Override
     public ResponseEntity<VagaDTO> salvar(VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {

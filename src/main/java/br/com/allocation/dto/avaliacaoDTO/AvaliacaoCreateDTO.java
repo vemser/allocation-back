@@ -43,7 +43,7 @@ public class AvaliacaoCreateDTO {
 
     @Schema(description = "Data da resposta",example = "2022-12-22")
     private LocalDate dataResposta;
-    
+
     @Schema(description = "Data criacao")
     private LocalDate dataCriacao;
 
@@ -52,7 +52,7 @@ public class AvaliacaoCreateDTO {
     private TipoAvaliacao tipoAvaliacao;
 
     @NotNull(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "situação",example = "AGENDADO")
+    @Schema(description = "situação",example = "")
     private String situacao;
 
 

@@ -4,6 +4,6 @@ public enum Situacao {
     ATIVO,
     INATIVO,
     ABERTO,
-    FECHADO;
+    FECHADO
 
 }

@@ -27,6 +27,9 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${jwt.duracaotokensenha}")
+    private String duracaoTokenSenha;
+
     public String getToken(UsuarioEntity usuarioEntity) {
         LocalDate hojeLD = LocalDate.now();
         Date hojeDT = Date.from(hojeLD.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -42,6 +45,25 @@ public class TokenService {
                 .claim(CHAVE_CARGOS, cargoUsuario)
                 .setIssuedAt(hojeDT)
                 .setExpiration(expDT)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+    }
+
+    public String getTokenRecuperarSenha(UsuarioEntity usuarioEntity) {
+
+        Date dataAgora = new Date();
+        Date duracaoToken = new Date(dataAgora.getTime() + Long.parseLong(duracaoTokenSenha));
+
+        List<String> cargoUsuario = usuarioEntity.getCargos().stream()
+                .map(CargoEntity::getAuthority)
+                .toList();
+
+        return Jwts.builder()
+                .setIssuer("allocation")
+                .claim(Claims.ID, usuarioEntity.getIdUsuario().toString())
+                .claim(CHAVE_CARGOS, cargoUsuario)
+                .setIssuedAt(dataAgora)
+                .setExpiration(duracaoToken)
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
