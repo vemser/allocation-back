@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -25,8 +22,7 @@ public interface AuthInterfaceController {
     @Operation(summary = "Criar um registro de usuario.", description = "Cria um cadastro de usuario no banco de dados.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Cria usuario."),
-                    @ApiResponse(responseCode = "200", description = "recupera dados do usuario logado no banco de dados."),
+                    @ApiResponse(responseCode = "201", description = "Cria usuario."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
@@ -36,6 +32,28 @@ public interface AuthInterfaceController {
             @RequestParam("cargo") Cargos cargo,
             @RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO)
             throws RegraDeNegocioException, IOException;
+
+    @Operation(summary = "Recuperar senha.", description = "Envia um email para o usuario trocar a senha.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Envia um email para trocar senha do usuario."),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @PostMapping("/recuperar-senha")
+    public ResponseEntity<String> recuperarSenha(String email) throws RegraDeNegocioException;
+
+    @Operation(summary = "Atualizar senha.", description = "Atualiza a senha do usuario.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Atualiza senha do usuario."),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @PutMapping("/atualizar-senha")
+    public ResponseEntity<String> atualizarSenha(String senha, @RequestParam String token) throws RegraDeNegocioException;
 
     @Operation(summary = "Upload na imagem", description = "upload na foto de perfil do usuario")
     @ApiResponses(

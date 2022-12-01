@@ -37,6 +37,7 @@ public class AvaliacaoService {
     public AvaliacaoDTO editar(Integer id, AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(id);
         avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
+        avaliacaoEntity.setIdAvaliacao(id);
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }
