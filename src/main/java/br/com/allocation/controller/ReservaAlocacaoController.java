@@ -23,7 +23,7 @@ import javax.validation.Valid;
 public class ReservaAlocacaoController implements ReservaAlocacaoInterface {
     private final ReservaAlocacaoService reservaAlocacaoService;
 
-    @PostMapping
+    @Override
     public ResponseEntity<ReservaAlocacaoDTO> salvar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         log.info("Adicionando a Reserva alocação...");
         ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.salvar(reservaAlocacaoCreateDTO);
@@ -37,16 +37,16 @@ public class ReservaAlocacaoController implements ReservaAlocacaoInterface {
     }
     @Override
     public ResponseEntity<ReservaAlocacaoDTO> editar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
-                                                     @PathVariable(name = "codigo") Integer codigo) throws RegraDeNegocioException {
+                                                     @PathVariable(name = "idReservaAlocacao") Integer idReservaAlocacao) throws RegraDeNegocioException {
         log.info("Editando Reserva alocação...");
-        ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.editar(codigo, reservaAlocacaoCreateDTO);
+        ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.editar(idReservaAlocacao, reservaAlocacaoCreateDTO);
         log.info("Reserva alocação editado com sucesso!");
         return new ResponseEntity<>(reservaAlocacaoDTO, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Void> deletar(Integer codigo) throws RegraDeNegocioException {
-        reservaAlocacaoService.deletar(codigo);
+    public ResponseEntity<Void> deletar(Integer idReservaAlocacao) throws RegraDeNegocioException {
+        reservaAlocacaoService.deletar(idReservaAlocacao);
         log.info("Reserva alocação deletada com sucesso");
         return ResponseEntity.noContent().build();
     }
