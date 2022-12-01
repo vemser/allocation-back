@@ -125,7 +125,7 @@ public class AlunoService {
     public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity, ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         //Se o aluno já estiver alocado/reservado não deve alocar
         if (alunoEntity.getReservaAlocacao() != null) {
-            validarVaga(alunoEntity.getReservaAlocacao().getVaga().getCodigo(), reservaAlocacaoCreateDTO.getIdVaga());
+            validarVaga(alunoEntity.getReservaAlocacao().getVaga().getIdVaga(), reservaAlocacaoCreateDTO.getIdVaga());
         }
         if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
             if (alunoEntity.getStatusAluno().equals(StatusAluno.ALOCADO)) {

@@ -78,7 +78,7 @@ public class VagaService {
 
     public VagaDTO converterEmDTO(VagaEntity vagaEntity) {
         ClienteDTO clienteDTO = clienteService.converterEmDTO(vagaEntity.getCliente());
-        VagaDTO vagaDTO = new VagaDTO(vagaEntity.getCodigo(),
+        VagaDTO vagaDTO = new VagaDTO(vagaEntity.getIdVaga(),
                 vagaEntity.getNome(),
                 vagaEntity.getQuantidade(),
                 vagaEntity.getQuantidadeAlocados(),
