@@ -37,7 +37,7 @@ public class TokenService {
                 .toList();
 
         return Jwts.builder()
-                .setIssuer("pokestore")
+                .setIssuer("allocation")
                 .claim(Claims.ID, usuarioEntity.getIdUsuario().toString())
                 .claim(CHAVE_CARGOS, cargoUsuario)
                 .setIssuedAt(hojeDT)

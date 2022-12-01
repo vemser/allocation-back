@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class VagaDTO {
 
-    private Integer codigo;
+    private Integer idVaga;
     private String nome;
     private Integer quantidade;
     private Integer quantidadeAlocados;
