@@ -51,9 +51,6 @@ public class UsuarioServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private TokenService tokenService;
-
-    @Mock
     private UsuarioRepository usuarioRepository;
 
     @Mock
@@ -200,6 +197,57 @@ public class UsuarioServiceTest {
     }
 
     @Test
+    public void deveListarUsuariosPorNomeComSucesso() {
+        // Criar variaveis (SETUP)
+        Integer pagina = 4;
+        Integer quantidade = 6;
+        String nome = "gustavo";
+
+        UsuarioEntity usuarioEntity = getUsuarioEntity();
+        Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
+        when(usuarioRepository.findAllByNomeCompletoContainingIgnoreCase(any(Pageable.class), anyString())).thenReturn(usuarioEntityPage);
+
+        // Ação (ACT)
+        PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listarPorNome(pagina, quantidade, nome);
+
+        // Verificação (ASSERT)
+        assertNotNull(usuarioEntityPage1);
+    }
+
+    @Test
+    public void deveListarUsuariosPorCargoComSucesso() throws RegraDeNegocioException {
+        // Criar variaveis (SETUP)
+        Integer pagina = 4;
+        Integer quantidade = 6;
+        Cargos cargo = Cargos.GESTOR;
+
+        UsuarioEntity usuarioEntity = getUsuarioEntity();
+        Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
+        when(usuarioRepository.findAllByCargosContainingIgnoreCase(any(Pageable.class), any())).thenReturn(usuarioEntityPage);
+
+        // Ação (ACT)
+        PageDTO<UsuarioDTO> usuarioEntities = usuarioService.listarPorCargo(pagina, quantidade, cargo);
+
+        // Verificação (ASSERT)
+        assertNotNull(usuarioEntities);
+    }
+
+    @Test
+    public void deveFindUsuarioDTObyEmailComSucesso() throws RegraDeNegocioException {
+        // Criar variaveis (SETUP)
+        String email = "gustavo@dbccompany.com.br";
+        when(usuarioRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(getUsuarioEntity()));
+
+        // Ação (ACT)
+        UsuarioDTO usuarioDTO = usuarioService.findUsuarioDTObyEmail(email);
+
+        // Verificação (ASSERT)
+        assertNotNull(usuarioDTO);
+        assertEquals(10, usuarioDTO.getIdUsuario());
+        assertEquals("gustavo@dbccompany.com.br", usuarioDTO.getEmail());
+    }
+
+    @Test
     public void deveTestarDeletarUsuarioComSucesso() throws RegraDeNegocioException {
         // Criar variaveis (SETUP)
         Integer id = 10;
@@ -266,8 +314,6 @@ public class UsuarioServiceTest {
 
         return usuarioEntity;
     }
-
-
 
     private static UsuarioDTO getUsuarioDTO() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();

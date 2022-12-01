@@ -14,6 +14,7 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -103,7 +104,6 @@ public class UsuarioService {
                 .map(usuario -> {
                     UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
                     Optional<CargoEntity> cargo = usuario.getCargos().stream().findFirst();
-
                     dto.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
                     return dto;
                 })
@@ -125,7 +125,6 @@ public class UsuarioService {
                 .map(usuario -> {
                     UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
                     Optional<CargoEntity> cargo = usuario.getCargos().stream().findFirst();
-
                     dto.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
                     return dto;
                 })
@@ -141,10 +140,9 @@ public class UsuarioService {
 
     public void deletar(Integer id) throws RegraDeNegocioException {
         UsuarioEntity usuario = findById(id);
-        usuarioRepository.delete(usuario);
-    }
+        usuarioRepository.delete(usuario);}
 
-    private static void confirmarSenha(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    private static void confirmarSenha(@NotNull UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         if (!usuarioCreateDTO.getSenha().equals(usuarioCreateDTO.getSenhaIgual())){
             throw new RegraDeNegocioException("Senha diferente!");
         }
