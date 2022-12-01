@@ -22,7 +22,7 @@ public class VagaEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VAGA_SEQ")
     @SequenceGenerator(name = "VAGA_SEQ", sequenceName = "seq_vaga", allocationSize = 1)
     @Column(name = "codigo_vaga")
-    private Integer codigo;
+    private Integer idVaga;
 
 
     @Column(name = "id_programa", insertable = false, updatable = false)

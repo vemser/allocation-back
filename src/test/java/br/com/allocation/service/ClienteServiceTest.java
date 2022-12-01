@@ -145,11 +145,11 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void deveTestarFindByEmailComSucesso(){
+    public void deveTestarFindByEmailComSucesso() throws RegraDeNegocioException {
         //SETUP
         String email = "cocacolabr@mail.com.br";
         ClienteEntity clienteEntity = getClienteEntity();
-        when(clienteRepository.findByEmail(anyString())).thenReturn(clienteEntity);
+        when(clienteRepository.findByEmail(anyString())).thenReturn(Optional.of(clienteEntity));
         //ACT
         ClienteEntity cliente = clienteService.findByEmail(email);
 

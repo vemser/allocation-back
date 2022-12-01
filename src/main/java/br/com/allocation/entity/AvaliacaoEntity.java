@@ -27,7 +27,13 @@ public class AvaliacaoEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AVALIACAO")
     @SequenceGenerator(name = "SEQ_AVALIACAO", sequenceName = "seq_avaliacao", allocationSize = 1)
     @Column(name = "codigo_avaliacao")
-    private Integer codigo;
+    private Integer idAvaliacao;
+
+    @Column(name = "id_aluno", insertable = false, updatable = false)
+    private Integer idAluno;
+
+    @Column(name = "codigo_vaga", insertable = false, updatable = false)
+    private Integer idVaga;
 
     @Column(name = "descricao")
     private String descricao;
@@ -55,7 +61,6 @@ public class AvaliacaoEntity {
     @Enumerated(EnumType.STRING)
     private SituacaoAluno situacao;
 
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_aluno", referencedColumnName = "id_aluno")
@@ -69,6 +74,5 @@ public class AvaliacaoEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "avaliacao", fetch = FetchType.LAZY)
     private Set<ReservaAlocacaoEntity> reservasAlocacoes = new HashSet<>();
-
 
 }

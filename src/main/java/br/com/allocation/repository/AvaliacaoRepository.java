@@ -9,6 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface AvaliacaoRepository extends JpaRepository<AvaliacaoEntity, Integer> {
-    //Set<AvaliacaoEntity> findAllByStatusAvalicao(Situacao situacao);
-    //Optional<AvaliacaoEntity> findByCodigo(Avaliacao avaliacao);
 }

@@ -25,6 +25,7 @@ public class LoginWithIdDTO {
     private String senha;
 
     private Set<CargoEntity> cargos;
+
     @NotNull
     @NotBlank
     @Email

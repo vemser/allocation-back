@@ -25,7 +25,7 @@ public class AvaliacaoService {
 
     public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
-        avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getCodigoVaga()));
+        avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getIdVaga()));
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
         //avaliacaoEntity.setSituacao(Situacao.valueOf(avaliacaoCreateDTO.getSituacao()));
 
@@ -67,7 +67,7 @@ public class AvaliacaoService {
     public AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
         AvaliacaoDTO dto = objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
         dto.setEmailAluno(avaliacaoEntity.getAluno().getEmail());
-        dto.setCodigoVaga(avaliacaoEntity.getVaga().getCodigo());
+        dto.setIdVaga(avaliacaoEntity.getVaga().getIdVaga());
         return dto;
     }
 //    public void cancelarAvaliacao(Integer idAvaliacao) throws RegraDeNegocioException {

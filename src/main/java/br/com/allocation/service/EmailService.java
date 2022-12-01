@@ -78,7 +78,7 @@ public class EmailService {
         }
     }
 
-    private String getContentFromTemplate(Map<String, Object> dados,
+    public String getContentFromTemplate(Map<String, Object> dados,
                                           String templateName) throws IOException, TemplateException {
         Template template = fmConfiguration.getTemplate(templateName);
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);

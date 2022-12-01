@@ -3,6 +3,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
@@ -33,6 +34,13 @@ public class AlunoService {
 
         ProgramaEntity programa = programaService.findById(alunoCreate.getIdPrograma());
         alunoEntity.setPrograma(programa);
+        for (var tecnologia: alunoCreate.getTecnologias()){
+            if(tecnologiaService.findByName(tecnologia) == null){
+                TecnologiaCreateDTO tecnologiaCreateDTO = new TecnologiaCreateDTO();
+                tecnologiaCreateDTO.setNome(tecnologia);
+                tecnologiaService.create(tecnologiaCreateDTO);
+            }
+        }
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
         alunoRepository.save(alunoEntity);
@@ -60,9 +68,15 @@ public class AlunoService {
                 alunoEntity.getStatusAluno());
     }
 
-    public AlunoDTO editar(Integer id, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
-        this.findById(id);
+    public AlunoDTO editar(Integer idAluno, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
+        this.findById(idAluno);
+
         AlunoEntity alunoEntity = converterEntity(alunoCreateDTO);
+        ProgramaEntity programa = programaService.findById(alunoCreateDTO.getIdPrograma());
+        alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreateDTO.getTecnologias()));
+        alunoEntity.setPrograma(programa);
+        alunoEntity.setIdAluno(idAluno);
+
         return converterEmDTO(alunoRepository.save(alunoEntity));
     }
 
