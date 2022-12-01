@@ -172,7 +172,7 @@ public class ClienteServiceTest {
         clienteCreateDTO.setNome("Coca Cola");
         clienteCreateDTO.setTelefone("711112459798");
         clienteCreateDTO.setEmail("cocacolabr@mail.com.br");
-        clienteCreateDTO.setSituacao(String.valueOf(Situacao.ATIVO));
+        clienteCreateDTO.setSituacao(Situacao.valueOf(String.valueOf(Situacao.ATIVO)));
         return clienteCreateDTO;
     }
 
