@@ -4,7 +4,6 @@ import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
-import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.Situacao;
@@ -31,16 +30,10 @@ public class VagaService {
     private final static Integer QUANTIDADE_INICIAL_ALOCADO = 0;
 
     public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
-        VagaEntity vaga = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-        ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
-        ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
-
-        vaga.setPrograma(programa);
-        vaga.setSituacao(Situacao.valueOf(vagaCreate.getSituacao()));
-        vaga.setCliente(cliente);
-        vaga.setQuantidadeAlocados(QUANTIDADE_INICIAL_ALOCADO);
-
-        VagaEntity vagaEntity = vagaRepository.save(vaga);
+        programaService.findById(vagaCreate.getIdPrograma());
+        vagaCreate.setQuantidadeAlocados(QUANTIDADE_INICIAL_ALOCADO);
+        VagaEntity vagaEntity1 = converterEntity(vagaCreate);
+        VagaEntity vagaEntity = vagaRepository.save(vagaEntity1);
         return converterEmDTO(vagaEntity);
     }
 
@@ -61,22 +54,14 @@ public class VagaService {
     }
 
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
-        VagaEntity vagaEntity = findById(idVaga);
-        vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-
-        ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
-        ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
-        vagaEntity.setCliente(cliente);
-        vagaEntity.setPrograma(programa);
-        vagaEntity.setIdVaga(idVaga);
-
-        vagaEntity = vagaRepository.save(vagaEntity);
-
-
-        return converterEmDTO(vagaEntity);
+        this.findById(idVaga);
+        programaService.findById(vagaCreate.getIdPrograma());
+        VagaEntity vagaEntity1 = objectMapper.convertValue(vagaCreate,VagaEntity.class);
+        return converterEmDTO(vagaRepository.save(vagaEntity1));
     }
 
     public VagaDTO converterEmDTO(VagaEntity vagaEntity) {
+
         ClienteDTO clienteDTO = clienteService.converterEmDTO(vagaEntity.getCliente());
         VagaDTO vagaDTO = new VagaDTO(vagaEntity.getIdVaga(),
                 vagaEntity.getNome(),
@@ -89,6 +74,10 @@ public class VagaService {
                 vagaEntity.getDataCriacao(),
                 clienteDTO);
         return vagaDTO;
+    }
+
+    public VagaEntity converterEntity(VagaCreateDTO vagaCreateDTO) {
+        return objectMapper.convertValue(vagaCreateDTO, VagaEntity.class);
     }
 
     public void deletar(Integer idVaga) throws RegraDeNegocioException {
@@ -124,5 +113,11 @@ public class VagaService {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }
+//    public void verificarAlocado(Integer idVagaEntity, Integer idVagaDTO){
+//        if (!(idVagaDTO.equals(idVagaEntity))) {
+//            vaga.setQuantidade(vaga.getQuantidade() - 1);
+//            vagaRepository.save(vaga);
+//        }
+//    }
 
 }

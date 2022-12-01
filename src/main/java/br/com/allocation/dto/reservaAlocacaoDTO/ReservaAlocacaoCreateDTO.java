@@ -41,6 +41,9 @@ public class ReservaAlocacaoCreateDTO {
     @Schema(description = "Data cancelamento", example = "2022-12-26")
     private LocalDate dataCancelamento;
 
+    @Schema(description = "Data cancelamento", example = "2022-12-26")
+    private LocalDate dataFinalizado;
+
     @Enumerated(EnumType.STRING)
     @Schema(description = "Status Alocação Aluno", example = "RESERVADO")
     private StatusAluno statusAluno;
