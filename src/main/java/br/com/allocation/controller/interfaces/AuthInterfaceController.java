@@ -53,7 +53,7 @@ public interface AuthInterfaceController {
             }
     )
     @PutMapping("/atualizar-senha")
-    public ResponseEntity<String> atualizarSenha(String senha, @RequestParam String token) throws RegraDeNegocioException;
+    public ResponseEntity<String> atualizarSenha(String senha, String confirmarSenha, @RequestParam String token) throws RegraDeNegocioException;
 
     @Operation(summary = "Upload na imagem", description = "upload na foto de perfil do usuario")
     @ApiResponses(

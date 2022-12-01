@@ -60,8 +60,8 @@ public class AuthController implements AuthInterfaceController {
     }
 
     @Override
-    public ResponseEntity<String> atualizarSenha(String senha, @RequestParam String token) throws RegraDeNegocioException {
-        return ResponseEntity.ok(usuarioService.atualizarSenha(senha, token));
+    public ResponseEntity<String> atualizarSenha(String senha, String confirmarSenha, @RequestParam String token) throws RegraDeNegocioException {
+        return ResponseEntity.ok(usuarioService.atualizarSenha(senha, confirmarSenha,token));
     }
 
     @Override
