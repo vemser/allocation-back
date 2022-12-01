@@ -51,23 +51,6 @@ public class AlunoService {
         return objectMapper.convertValue(alunoCreateDTO, AlunoEntity.class);
     }
 
-    public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
-        String emProcesso = "Não";
-        Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologias()
-                .stream()
-                .map(tecnologiaService::converterEmDTO)
-                .collect(Collectors.toSet());
-
-        return new AlunoDTO(alunoEntity.getIdAluno(),
-                alunoEntity.getNome(),
-                alunoEntity.getEmail(),
-                alunoEntity.getArea(),
-                tecnologiaDTOS,
-                alunoEntity.getPrograma().getIdPrograma(),
-                emProcesso,
-                alunoEntity.getStatusAluno());
-    }
-
     public AlunoDTO editar(Integer idAluno, AlunoCreateDTO alunoCreateDTO) throws RegraDeNegocioException {
         this.findById(idAluno);
 
@@ -95,6 +78,10 @@ public class AlunoService {
                 alunoDTOList);
     }
 
+    public AlunoDTO listarPorEmail(String email) throws RegraDeNegocioException {
+        return converterEmDTO(findByEmail(email));
+    }
+
     public AlunoEntity findById(Integer id) throws RegraDeNegocioException {
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado"));
@@ -112,8 +99,25 @@ public class AlunoService {
                 .collect(Collectors.toList());
     }
 
+    public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
+        String emProcesso = "Não";
+        Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologias()
+                .stream()
+                .map(tecnologiaService::converterEmDTO)
+                .collect(Collectors.toSet());
+
+        return new AlunoDTO(alunoEntity.getIdAluno(),
+                alunoEntity.getNome(),
+                alunoEntity.getEmail(),
+                alunoEntity.getArea(),
+                tecnologiaDTOS,
+                alunoEntity.getPrograma().getIdPrograma(),
+                emProcesso,
+                alunoEntity.getStatusAluno());
+    }
+
     public AlunoEntity findByEmail(String email) throws RegraDeNegocioException {
-        return alunoRepository.findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado!"));
+        return alunoRepository.findByEmailIgnoreCase(email).orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado!"));
     }
 
     public AlunoEntity alterarStatusAluno(Integer idAluno,

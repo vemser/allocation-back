@@ -27,13 +27,24 @@ public interface AvaliacaoInterfaceController {
     @Operation(summary = "Listar pagina de avalições", description = "Lista pagina de avaliações")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Avaliações Listadas com sucesso"),
+                    @ApiResponse(responseCode = "200", description = "Avaliações Listadas com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping
     ResponseEntity<PageDTO<AvaliacaoDTO>> listar(Integer pagina, Integer tamanho);
+
+    @Operation(summary = "Listar avaliação por id", description = "Lista avaliação")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Avaliação Listada com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/{idAvaliacao}")
+    public ResponseEntity<AvaliacaoDTO> listarPorId(@PathVariable("idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException ;
 
     @Operation(summary = "Editar avaliação", description = "Editar uma avaliação e salva no banco de dados")
     @ApiResponses(

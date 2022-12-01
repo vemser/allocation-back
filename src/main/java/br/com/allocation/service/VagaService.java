@@ -53,6 +53,10 @@ public class VagaService {
         );
     }
 
+    public VagaDTO listarPorId(Integer idVaga) throws RegraDeNegocioException {
+        return converterEmDTO(findById(idVaga));
+    }
+
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         this.findById(idVaga);
         programaService.findById(vagaCreate.getIdPrograma());
@@ -83,10 +87,6 @@ public class VagaService {
     public void deletar(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
         vagaRepository.delete(vaga);
-    }
-
-    public VagaDTO pegarVaga(Integer idVaga) throws RegraDeNegocioException {
-        return objectMapper.convertValue(findById(idVaga), VagaDTO.class);
     }
 
     public VagaEntity findById(Integer idVaga) throws RegraDeNegocioException {

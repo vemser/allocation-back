@@ -38,6 +38,11 @@ public class ClienteController implements ClienteInterfaceController {
     }
 
     @Override
+    public ResponseEntity<ClienteDTO> listarPorEmail(String email) throws RegraDeNegocioException {
+        return ResponseEntity.ok(clienteService.listarPorEmail(email));
+    }
+
+    @Override
     public ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate, Integer idCliente) throws RegraDeNegocioException {
         log.info("Editando o Cliente...");
         ClienteDTO cliente = clienteService.editar(idCliente, clienteCreate);

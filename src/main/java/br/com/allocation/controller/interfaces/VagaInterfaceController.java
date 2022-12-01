@@ -37,6 +37,17 @@ public interface VagaInterfaceController {
     @GetMapping
     ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho);
 
+    @Operation(summary = "Lista vaga por id", description = "Listar vaga por id")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Listar vaga do banco"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/{idVaga}")
+    public ResponseEntity<VagaDTO> listarPoId(@PathVariable("idVaga") Integer idVaga) throws RegraDeNegocioException;
+
     @Operation(summary = "Editar a vaga por id", description = "Editar vaga por id")
     @ApiResponses(
             value = {

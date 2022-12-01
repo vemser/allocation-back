@@ -39,6 +39,11 @@ public class AlunoController implements AlunoInterfaceController {
     }
 
     @Override
+    public ResponseEntity<AlunoDTO> listarPorEmail(String email) throws RegraDeNegocioException {
+        return ResponseEntity.ok(alunoService.listarPorEmail(email));
+    }
+
+    @Override
     public ResponseEntity<AlunoDTO> editar(@Valid @RequestBody AlunoCreateDTO alunoCreate,
                                            @PathVariable(name = "idAluno") Integer idAluno) throws RegraDeNegocioException {
         log.info("Editando o Aluno...");

@@ -1,5 +1,6 @@
 package br.com.allocation.controller;
 
+import br.com.allocation.controller.interfaces.CargoInterfaceController;
 import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -17,11 +18,11 @@ import javax.validation.Valid;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/cargo")
-public class CargoController {
+public class CargoController implements CargoInterfaceController {
 
     private final UsuarioService usuarioService;
 
-    @PutMapping("/atualizar")
+    @Override
     public ResponseEntity<UsuarioDTO> atualizarCargo(@RequestBody @Valid UsuarioCargosDTO usuarioCargosDTO) throws RegraDeNegocioException {
         log.info("Atualizando . . .");
         return ResponseEntity.ok(usuarioService.atualizarCargo(usuarioCargosDTO));

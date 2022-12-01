@@ -150,7 +150,7 @@ public class ClienteServiceTest {
         //SETUP
         String email = "cocacolabr@mail.com.br";
         ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
-        when(clienteRepository.findByEmail(anyString())).thenReturn(Optional.of(clienteEntity));
+        when(clienteRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(clienteEntity));
         //ACT
         ClienteEntity cliente = clienteService.findByEmail(email);
 

@@ -39,6 +39,15 @@ public class ProgramaController implements ProgramaInterfaceController {
     }
 
     @Override
+    public ResponseEntity<PageDTO<ProgramaDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome){
+        return ResponseEntity.ok(programaService.listarPorNome(pagina, tamanho, nome));
+    }
+
+    public ResponseEntity<ProgramaDTO> listarPorId(Integer idPrograma) throws RegraDeNegocioException {
+        return ResponseEntity.ok(programaService.listarPorId(idPrograma));
+    }
+
+    @Override
     public ResponseEntity<ProgramaDTO> editar(@Valid @RequestBody ProgramaCreateDTO programaCreate, Integer idPrograma) throws RegraDeNegocioException {
         log.info("Editando o Programa...");
         ProgramaDTO programa = programaService.editar(idPrograma, programaCreate);

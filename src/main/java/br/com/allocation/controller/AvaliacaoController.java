@@ -34,6 +34,12 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
     public ResponseEntity<PageDTO<AvaliacaoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(avaliacaoService.listar(pagina, tamanho));
     }
+
+    @Override
+    public ResponseEntity<AvaliacaoDTO> listarPorId(Integer idAvaliacao) throws RegraDeNegocioException {
+        return ResponseEntity.ok(avaliacaoService.listarPorId(idAvaliacao));
+    }
+
     @Override
     public ResponseEntity<AvaliacaoDTO> editar(@Valid @RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO, Integer idAvaliacao) throws RegraDeNegocioException {
         log.info("Editando Avaliação...");

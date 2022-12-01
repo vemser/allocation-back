@@ -43,9 +43,9 @@ public interface ReservaAlocacaoInterface {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping("/{codigo}")
+    @PutMapping("/{idReservaAlocacao}")
     ResponseEntity<ReservaAlocacaoDTO> editar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
-                                        @PathVariable(name = "codigo") Integer codigo) throws RegraDeNegocioException;
+                                        @PathVariable(name = "idReservaAlocacao") Integer idReservaAlocacao) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar Reserva alocação", description = "Deleta  Reserva alocação do banco de dados")
     @ApiResponses(
@@ -56,6 +56,6 @@ public interface ReservaAlocacaoInterface {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @DeleteMapping("/{codigo}")
-    ResponseEntity<Void> deletar(@PathVariable(name = "codigo") Integer codigo) throws RegraDeNegocioException;
+    @DeleteMapping("/{idReservaAlocacao}")
+    ResponseEntity<Void> deletar(@PathVariable(name = "idReservaAlocacao") Integer idReservaAlocacao) throws RegraDeNegocioException;
 }
