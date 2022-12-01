@@ -150,8 +150,11 @@ public class UsuarioService {
         return "Verifique seu email para trocar a senha.";
     }
 
-    public String atualizarSenha(String senha, String token) throws RegraDeNegocioException {
+    public String atualizarSenha(String senha, String confirmarSenha, String token) throws RegraDeNegocioException {
         validarSenha(senha);
+        if(!confirmarSenha.equals(senha)){
+            throw new RegraDeNegocioException("Senhas diferentes!");
+        }
 
         UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
         UsuarioEntity usuarioEntity = (UsuarioEntity) tokenObject.getPrincipal();

@@ -100,7 +100,7 @@ public class EmailService {
         Map<String, Object> dados = new HashMap<>();
         Template template = null;
 
-        String link = "host/atualizar-senha?token=" + token;
+        String link = "versel/atualizar-senha?token=" + token;
 
         dados.put("nome", usuarioEntity.getNomeCompleto());
         dados.put("email", from);

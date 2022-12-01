@@ -8,6 +8,7 @@ import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
+import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
@@ -119,14 +120,10 @@ public class AlunoService {
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
         String emProcesso = "Não";
 
-        Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologias()
-                .stream()
-                .map(tecnologiaService::converterEmDTO)
-                .collect(Collectors.toSet());
         List<String> tecs = new ArrayList<>();
-        for (var tecnologias : tecnologiaDTOS){
-            tecs.add(tecnologias.getNome());
-        }
+
+        alunoEntity.getTecnologias()
+                .forEach(entity -> tecs.add(entity.getNome()));
 
         return new AlunoDTO(alunoEntity.getIdAluno(),
                 alunoEntity.getNome(),
