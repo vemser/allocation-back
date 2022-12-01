@@ -3,6 +3,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
+import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.repository.TecnologiaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +49,8 @@ public class TecnologiaService {
     public Set<TecnologiaEntity> findBySet(List<String> tecnologias){
         return tecnologiaRepository.findAllByNomeIn(tecnologias);
     }
+
+
 
     public TecnologiaEntity converteEmEntity(TecnologiaCreateDTO tecnologiaCreateDTO){
         return objectMapper.convertValue(tecnologiaCreateDTO, TecnologiaEntity.class);

@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -69,7 +71,7 @@ public class AlunoService {
 
         List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
-                .collect(Collectors.toList());
+                .toList();
 
         return new PageDTO<>(paginaRepository.getTotalElements(),
                 paginaRepository.getTotalPages(),
@@ -101,16 +103,21 @@ public class AlunoService {
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
         String emProcesso = "Não";
+
         Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologias()
                 .stream()
                 .map(tecnologiaService::converterEmDTO)
                 .collect(Collectors.toSet());
+        List<String> tecs = new ArrayList<>();
+        for (var tecnologias : tecnologiaDTOS){
+            tecs.add(tecnologias.getNome());
+        }
 
         return new AlunoDTO(alunoEntity.getIdAluno(),
                 alunoEntity.getNome(),
                 alunoEntity.getEmail(),
                 alunoEntity.getArea(),
-                tecnologiaDTOS,
+                tecs,
                 alunoEntity.getPrograma().getIdPrograma(),
                 emProcesso,
                 alunoEntity.getStatusAluno());
