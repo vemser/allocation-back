@@ -13,6 +13,7 @@ import br.com.allocation.service.EmailService;
 import br.com.allocation.service.FileService;
 import br.com.allocation.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,6 +52,16 @@ public class AuthController implements AuthInterfaceController {
             throws RegraDeNegocioException {
 
         return new ResponseEntity<>(usuarioService.create(usuarioCreateDTO, cargo), HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<String> recuperarSenha(String email) throws RegraDeNegocioException {
+        return ResponseEntity.ok(usuarioService.recuperarSenha(email));
+    }
+
+    @Override
+    public ResponseEntity<String> atualizarSenha(String senha, @RequestParam String token) throws RegraDeNegocioException {
+        return ResponseEntity.ok(usuarioService.atualizarSenha(senha, token));
     }
 
     @Override

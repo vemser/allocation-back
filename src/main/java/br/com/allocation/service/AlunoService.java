@@ -3,8 +3,8 @@ package br.com.allocation.service;
 import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
+import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
@@ -36,8 +36,8 @@ public class AlunoService {
 
         ProgramaEntity programa = programaService.findById(alunoCreate.getIdPrograma());
         alunoEntity.setPrograma(programa);
-        for (var tecnologia: alunoCreate.getTecnologias()){
-            if(tecnologiaService.findByName(tecnologia) == null){
+        for (var tecnologia : alunoCreate.getTecnologias()) {
+            if (tecnologiaService.findByName(tecnologia) == null) {
                 TecnologiaCreateDTO tecnologiaCreateDTO = new TecnologiaCreateDTO();
                 tecnologiaCreateDTO.setNome(tecnologia);
                 tecnologiaService.create(tecnologiaCreateDTO);
@@ -72,6 +72,21 @@ public class AlunoService {
         List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
                 .toList();
+
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                alunoDTOList);
+    }
+
+    public PageDTO<AlunoDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<AlunoEntity> paginaRepository = alunoRepository.findAllByNomeContainingIgnoreCase(pageRequest, nome);
+
+        List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .collect(Collectors.toList());
 
         return new PageDTO<>(paginaRepository.getTotalElements(),
                 paginaRepository.getTotalPages(),
@@ -127,14 +142,26 @@ public class AlunoService {
         return alunoRepository.findByEmailIgnoreCase(email).orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado!"));
     }
 
-    public AlunoEntity alterarDisponibilidadeAluno(Integer idAluno, StatusAluno statusAluno) throws RegraDeNegocioException {
+    public AlunoEntity alterarStatusAluno(Integer idAluno,
+                                          ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = findById(idAluno);
-        alunoEntity.setStatusAluno(statusAluno);
+        alunoEntity.setStatusAluno(reservaAlocacaoCreateDTO.getStatusAluno());
         return alunoRepository.save(alunoEntity);
     }
 
-    public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity, ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        //Se o aluno já estiver alocado/reservado não deve alocar
+    public void alterarStatusAlunoCancelado(Integer idAluno,
+                                            ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
+        AlunoEntity alunoEntity = findById(idAluno);
+        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)
+                || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)
+                || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.INATIVO)) {
+            alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
+        }
+        alunoRepository.save(alunoEntity);
+    }
+
+    public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity,
+                                              ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         if (alunoEntity.getReservaAlocacao() != null) {
             validarVaga(alunoEntity.getReservaAlocacao().getVaga().getIdVaga(), reservaAlocacaoCreateDTO.getIdVaga());
         }
@@ -144,8 +171,10 @@ public class AlunoService {
             }
         }
     }
-    public void verificarSealunoTemReserva(AlunoEntity alunoEntity,ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO){
-        if (alunoEntity.getIdAluno().equals(reservaAlocacaoCreateDTO.getIdAluno())){
+
+    public void verificarSeAlunoTemReserva(AlunoEntity alunoEntity,
+                                           ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) {
+        if (alunoEntity.getIdAluno().equals(reservaAlocacaoCreateDTO.getIdAluno())) {
             new RegraDeNegocioException("Aluno já tem uma reserva alocação");
         }
     }

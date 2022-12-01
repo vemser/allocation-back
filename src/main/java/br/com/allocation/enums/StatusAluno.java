@@ -4,7 +4,7 @@ public enum StatusAluno {
     ALOCADO,
     DISPONIVEL,
     RESERVADO,
-    DESALOCADO
+    INATIVO
 
 
 }

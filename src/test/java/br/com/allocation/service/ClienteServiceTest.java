@@ -7,6 +7,7 @@ import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ClienteRepository;
+import br.com.allocation.service.factory.ClienteFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -52,8 +53,8 @@ public class ClienteServiceTest {
     @Test
     public void deveTestarSalvarComSucesso(){
         //SETUP
-        ClienteEntity cliente = getClienteEntity();
-        ClienteCreateDTO clienteCreateDTO = getClienteCreateDTO();
+        ClienteEntity cliente = ClienteFactory.getClienteEntity();
+        ClienteCreateDTO clienteCreateDTO = ClienteFactory.getClienteCreateDTO();
         when(clienteRepository.save(any())).thenReturn(cliente);
         //ACT
         ClienteDTO clienteDTO = clienteService.salvar(clienteCreateDTO);
@@ -70,7 +71,7 @@ public class ClienteServiceTest {
         Integer pagina = 4;
         Integer quantidade = 10;
 
-        ClienteEntity clienteEntity = getClienteEntity();
+        ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
 
         Page<ClienteEntity> clienteEntityPage = new PageImpl<>(List.of(clienteEntity));
 
@@ -85,12 +86,12 @@ public class ClienteServiceTest {
     @Test
     public void deveTestarEditarComSucesso() throws RegraDeNegocioException {
         //SETUP
-        ClienteEntity clienteEntity = getClienteEntity();
-        ClienteCreateDTO clienteCreateDTO = getClienteCreateDTO();
+        ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
+        ClienteCreateDTO clienteCreateDTO = ClienteFactory.getClienteCreateDTO();
         Integer id = 1;
         clienteEntity.setSituacao(Situacao.FECHADO);
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(clienteEntity));
-        ClienteEntity cliente = getClienteEntity();
+        ClienteEntity cliente = ClienteFactory.getClienteEntity();
         when(clienteRepository.save(any())).thenReturn(cliente);
 
         //ACT
@@ -105,7 +106,7 @@ public class ClienteServiceTest {
     public void deveTestarDeleteComSucesso() throws RegraDeNegocioException {
         //SETUP
         Integer id = 1;
-        ClienteEntity cliente = getClienteEntity();
+        ClienteEntity cliente = ClienteFactory.getClienteEntity();
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(cliente));
 
         //ACT
@@ -119,7 +120,7 @@ public class ClienteServiceTest {
     public void deveTestarFindByIdComSucesso() throws RegraDeNegocioException {
         //SETUP
         Integer id = 1;
-        ClienteEntity clienteEntity = getClienteEntity();
+        ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(clienteEntity));
         //ACT
         ClienteEntity cliente = clienteService.findById(id);
@@ -148,7 +149,7 @@ public class ClienteServiceTest {
     public void deveTestarFindByEmailComSucesso() throws RegraDeNegocioException {
         //SETUP
         String email = "cocacolabr@mail.com.br";
-        ClienteEntity clienteEntity = getClienteEntity();
+        ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
         when(clienteRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(clienteEntity));
         //ACT
         ClienteEntity cliente = clienteService.findByEmail(email);
@@ -157,23 +158,6 @@ public class ClienteServiceTest {
         assertNotNull(cliente);
     }
 
-    private static ClienteEntity getClienteEntity(){
-        ClienteEntity clienteEntity = new ClienteEntity();
-        clienteEntity.setIdCliente(1);
-        clienteEntity.setNome("Coca Cola");
-        clienteEntity.setTelefone("711112459798");
-        clienteEntity.setEmail("cocacolabr@mail.com.br");
-        clienteEntity.setSituacao(Situacao.ATIVO);
-        return clienteEntity;
-    }
 
-    private static ClienteCreateDTO getClienteCreateDTO(){
-        ClienteCreateDTO clienteCreateDTO = new ClienteCreateDTO();
-        clienteCreateDTO.setNome("Coca Cola");
-        clienteCreateDTO.setTelefone("711112459798");
-        clienteCreateDTO.setEmail("cocacolabr@mail.com.br");
-        clienteCreateDTO.setSituacao(Situacao.ATIVO);
-        return clienteCreateDTO;
-    }
 
 }

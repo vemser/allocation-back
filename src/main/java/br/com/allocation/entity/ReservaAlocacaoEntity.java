@@ -25,7 +25,6 @@ public class ReservaAlocacaoEntity {
     @Column(name = "codigo_reserva_alocacao")
     private Integer codigo;
 
-
     @Column(name = "descricao")
     private String descricao;
 
