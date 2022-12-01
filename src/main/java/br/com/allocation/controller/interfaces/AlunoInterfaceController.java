@@ -36,6 +36,17 @@ public interface AlunoInterfaceController {
     @GetMapping
     ResponseEntity<PageDTO<AlunoDTO>> listar(Integer pagina, Integer tamanho);
 
+    @Operation(summary = "Lista aluno por email", description = "Lista um aluno por email!")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Aluno Listado com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/email/{email}")
+    public ResponseEntity<AlunoDTO> listarPorEmail(@PathVariable("email") String email) throws RegraDeNegocioException;
+
     @Operation(summary = "Editar aluno", description = "Editar um aluno e salva no banco de dados")
     @ApiResponses(
             value = {

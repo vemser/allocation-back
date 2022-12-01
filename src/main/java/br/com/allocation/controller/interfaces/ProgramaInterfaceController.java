@@ -27,13 +27,35 @@ public interface ProgramaInterfaceController {
     @Operation(summary = "Listar pagina de programas", description = "Lista uma pagina de programas")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Programas Listados com sucesso"),
+                    @ApiResponse(responseCode = "200", description = "Programas Listados com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping
     ResponseEntity<PageDTO<ProgramaDTO>> listar(Integer pagina, Integer tamanho);
+
+    @Operation(summary = "Listar pagina de programas por nome", description = "Lista uma pagina de programas por nome")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Programas Listados com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/nome/{nome}")
+    ResponseEntity<PageDTO<ProgramaDTO>> listarPorNome(Integer pagina, Integer tamanho, @PathVariable("nome") String nome);
+
+    @Operation(summary = "Listar um programa por id", description = "Lista um programa por id")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Programas Listados com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/{idPrograma}")
+    public ResponseEntity<ProgramaDTO> listarPorId(@PathVariable("idPrograma") Integer idPrograma) throws RegraDeNegocioException;
 
     @Operation(summary = "Editar programa", description = "Editar um programa no banco de dados")
     @ApiResponses(

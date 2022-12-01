@@ -2,18 +2,14 @@ package br.com.allocation.enums;
 
 public enum SituacaoAluno {
 
-    AVALIADO("AVALIADO"),
-    AGENDADO("AGENDADO"),
-    ENTREVISTADO("ENTREVISTADO"),
-    APROVADO("APROVADO"),
-    REPROVADO("REPROVADO"),
-    CANCELADO("CANCELADO"),
-    FINALIZADO("FINALIZADO");
+    AVALIADO,
+    AGENDADO_RH,
+    ENTREVISTADO_RH,
+    AGENDADO_CLIENTE,
+    ENTREVISTADO_CLIENTE,
+    APROVADO,
+    REPROVADO,
+    CANCELADO,
+    FINALIZADO
 
-    private String value;
-    SituacaoAluno(String str) {
-    }
-    public String getValue() {
-        return value;
-    }
 }

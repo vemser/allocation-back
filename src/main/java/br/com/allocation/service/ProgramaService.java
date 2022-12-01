@@ -41,6 +41,21 @@ public class ProgramaService {
         return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
     }
 
+    public PageDTO<ProgramaDTO> listarPorNome(Integer pagina, Integer tamanho, String nome){
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<ProgramaEntity> paginaRepository = programaRepository.findAllByNomeContainingIgnoreCase(nome, pageRequest);
+
+        List<ProgramaDTO> ClientePagina = paginaRepository.getContent().stream()
+                .map(x -> objectMapper.convertValue(x, ProgramaDTO.class))
+                .toList();
+
+        return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
+    }
+
+    public ProgramaDTO listarPorId(Integer idPrograma) throws RegraDeNegocioException {
+        return objectMapper.convertValue(findById(idPrograma), ProgramaDTO.class);
+    }
+
     public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate) throws RegraDeNegocioException {
         ProgramaEntity programaEntity = findById(idPrograma);
         programaEntity.setSituacao(Situacao.valueOf(programaCreate.getSituacao()));
@@ -64,7 +79,7 @@ public class ProgramaService {
     }
 
     public ProgramaEntity findByNome(String nome) throws RegraDeNegocioException {
-        return programaRepository.findByNome(nome)
+        return programaRepository.findByNomeContainingIgnoreCase(nome)
                 .orElseThrow(() -> new RegraDeNegocioException("Programa não encontrado"));
     }
 }

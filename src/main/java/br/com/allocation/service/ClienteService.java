@@ -43,6 +43,10 @@ public class ClienteService {
                 clienteDTOList);
     }
 
+    public ClienteDTO listarPorEmail(String email) throws RegraDeNegocioException {
+        return converterEmDTO(findByEmail(email));
+    }
+
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
         this.findById(idCliente);
         ClienteEntity clienteEntity = converterEntity(clienteCreate);
@@ -63,7 +67,7 @@ public class ClienteService {
     }
 
     public ClienteEntity findByEmail(String email) throws RegraDeNegocioException {
-        return clienteRepository.findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Email cliente não encontrado ou não existe."));
+        return clienteRepository.findByEmailIgnoreCase(email).orElseThrow(() -> new RegraDeNegocioException("Email cliente não encontrado ou não existe."));
     }
 
     public ClienteEntity converterEntity(ClienteCreateDTO clienteCreateDTO) {
@@ -71,11 +75,10 @@ public class ClienteService {
     }
 
     public ClienteDTO converterEmDTO(ClienteEntity clienteEntity) {
-        ClienteDTO clienteDTO = new ClienteDTO(clienteEntity.getIdCliente(),
+        return new ClienteDTO(clienteEntity.getIdCliente(),
                 clienteEntity.getNome(),
                 clienteEntity.getEmail(),
                 clienteEntity.getTelefone(),
                 clienteEntity.getSituacao());
-        return clienteDTO;
     }
 }

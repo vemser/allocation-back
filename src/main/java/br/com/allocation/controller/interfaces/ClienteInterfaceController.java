@@ -27,13 +27,24 @@ public interface ClienteInterfaceController {
     @Operation(summary = "Listar pagina de clientes", description = "Lista uma pagina de clientes")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Clientes Listados com sucesso"),
+                    @ApiResponse(responseCode = "200", description = "Clientes Listados com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping
     ResponseEntity<PageDTO<ClienteDTO>> listar(Integer pagina, Integer tamanho);
+
+    @Operation(summary = "Listar pagina de clientes", description = "Lista uma pagina de clientes")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Clientes Listados com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/email/{email}")
+    public ResponseEntity<ClienteDTO> listarPorEmail(@PathVariable("email") String email) throws RegraDeNegocioException;
 
     @Operation(summary = "Editar cliente", description = "Editar um cliente no banco de dados")
     @ApiResponses(

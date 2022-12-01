@@ -60,6 +60,10 @@ public class VagaService {
         );
     }
 
+    public VagaDTO listarPorId(Integer idVaga) throws RegraDeNegocioException {
+        return converterEmDTO(findById(idVaga));
+    }
+
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity = findById(idVaga);
         vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
@@ -72,13 +76,12 @@ public class VagaService {
 
         vagaEntity = vagaRepository.save(vagaEntity);
 
-
         return converterEmDTO(vagaEntity);
     }
 
     public VagaDTO converterEmDTO(VagaEntity vagaEntity) {
         ClienteDTO clienteDTO = clienteService.converterEmDTO(vagaEntity.getCliente());
-        VagaDTO vagaDTO = new VagaDTO(vagaEntity.getIdVaga(),
+        return new VagaDTO(vagaEntity.getIdVaga(),
                 vagaEntity.getNome(),
                 vagaEntity.getQuantidade(),
                 vagaEntity.getQuantidadeAlocados(),
@@ -88,16 +91,11 @@ public class VagaService {
                 vagaEntity.getDataFechamento(),
                 vagaEntity.getDataCriacao(),
                 clienteDTO);
-        return vagaDTO;
     }
 
     public void deletar(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
         vagaRepository.delete(vaga);
-    }
-
-    public VagaDTO pegarVaga(Integer idVaga) throws RegraDeNegocioException {
-        return objectMapper.convertValue(findById(idVaga), VagaDTO.class);
     }
 
     public VagaEntity findById(Integer idVaga) throws RegraDeNegocioException {
