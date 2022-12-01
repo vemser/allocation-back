@@ -55,9 +55,6 @@ public class AvaliacaoEntity {
     @Enumerated(EnumType.STRING)
     private SituacaoAluno situacao;
 
-//    @Column(name = "situacao")
-//    @Enumerated(EnumType.STRING)
-//    private Avaliacao avaliacao;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

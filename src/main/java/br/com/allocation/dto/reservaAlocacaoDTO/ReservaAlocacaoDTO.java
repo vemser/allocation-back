@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,6 +22,9 @@ public class ReservaAlocacaoDTO {
     private AlunoDTO aluno;
     private AvaliacaoDTO avaliacaoEntity;
     private StatusAluno situacao;
-
+    private LocalDate dataReserva;
+    private LocalDate dataAlocacao;
+    private LocalDate dataCancelamento;
+    private LocalDate dataFinalizado;
 
 }
