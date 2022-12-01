@@ -152,7 +152,7 @@ public class ProgramaServiceTest {
         //SETUP
         String nome = "Vem ser 11";
         ProgramaEntity programaEntity = getProgramaEntity();
-        when(programaRepository.findByNome(anyString())).thenReturn(Optional.of(programaEntity));
+        when(programaRepository.findByNomeContainingIgnoreCase(anyString())).thenReturn(Optional.of(programaEntity));
         //ACT
         ProgramaEntity programa = programaService.findByNome(nome);
         //ASSERT
