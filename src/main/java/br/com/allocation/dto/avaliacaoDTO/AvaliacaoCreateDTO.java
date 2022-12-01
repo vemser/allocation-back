@@ -40,11 +40,10 @@ public class AvaliacaoCreateDTO {
 
     @Schema(description = "Data da entrevista",example = "2022-12-20")
     private LocalDate dataEntrevista;
-    
+
     @Schema(description = "Data da resposta",example = "2022-12-22")
     private LocalDate dataResposta;
-
-    @NotNull(message = "Data não pode ser vazio ou nulo.")
+    
     @Schema(description = "Data criacao")
     private LocalDate dataCriacao;
 
