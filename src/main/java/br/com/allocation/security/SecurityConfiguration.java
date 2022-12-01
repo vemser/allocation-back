@@ -35,6 +35,9 @@ public class SecurityConfiguration {
                                 .antMatchers("/cliente/**").permitAll()
                                 .antMatchers("/avaliacao/**").permitAll()
                                 .antMatchers("/vaga/**").permitAll()
+                                .antMatchers("/usuario/**").permitAll()
+                                .antMatchers("/programa/**").permitAll()
+                                .antMatchers("/cargo/**").permitAll()
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

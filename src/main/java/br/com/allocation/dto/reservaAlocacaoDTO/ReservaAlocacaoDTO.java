@@ -22,6 +22,7 @@ public class ReservaAlocacaoDTO {
     private AlunoDTO aluno;
     private AvaliacaoDTO avaliacaoEntity;
     private StatusAluno statusAluno;
+    private String descricao;
     private LocalDate dataReserva;
     private LocalDate dataAlocacao;
     private LocalDate dataCancelamento;
