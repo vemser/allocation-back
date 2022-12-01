@@ -78,6 +78,21 @@ public class AlunoService {
                 alunoDTOList);
     }
 
+    public PageDTO<AlunoDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<AlunoEntity> paginaRepository = alunoRepository.findAllByNomeContainingIgnoreCase(pageRequest, nome);
+
+        List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .collect(Collectors.toList());
+
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                alunoDTOList);
+    }
+
     public AlunoDTO listarPorEmail(String email) throws RegraDeNegocioException {
         return converterEmDTO(findByEmail(email));
     }
