@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TecnologiaDTO {
-    private String nome;
+public class TecnologiaDTO extends TecnologiaCreateDTO {
+    private Integer idTecnologia;
 }

@@ -11,4 +11,6 @@ import java.util.Set;
 public interface TecnologiaRepository extends JpaRepository<TecnologiaEntity,Integer> {
     Page<TecnologiaEntity> findByNomeIsLikeIgnoreCase(String nomeTecnologia, Pageable pageable);
     Set<TecnologiaEntity> findAllByNomeIn(List<String> tecnologias);
+
+    TecnologiaEntity findByNome(String nome);
 }
