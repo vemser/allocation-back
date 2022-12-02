@@ -44,7 +44,7 @@ public interface AuthInterfaceController {
             }
     )
     @PostMapping("/recuperar-senha")
-    public ResponseEntity<String> recuperarSenha(String email) throws RegraDeNegocioException;
+    public ResponseEntity<String> recuperarSenha(@RequestBody String email) throws RegraDeNegocioException;
 
     @Operation(summary = "Atualizar senha.", description = "Atualiza a senha do usuario.")
     @ApiResponses(

@@ -3,6 +3,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
+import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +57,16 @@ public class ProgramaService {
         return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
     }
 
-    public ProgramaDTO listarPorId(Integer idPrograma) throws RegraDeNegocioException {
-        return objectMapper.convertValue(findById(idPrograma), ProgramaDTO.class);
+    public PageDTO<ProgramaDTO> listarPorId(Integer idPrograma) throws RegraDeNegocioException {
+        List<ProgramaDTO> list = List.of(objectMapper.convertValue(findById(idPrograma), ProgramaDTO.class));
+        Page<ProgramaDTO> page = new PageImpl<>(list);
+
+        return new PageDTO<>(page.getTotalElements(),
+                page.getTotalPages(),
+                0,
+                1,
+                list
+        );
     }
 
     public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate) throws RegraDeNegocioException {

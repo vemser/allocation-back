@@ -1,5 +1,6 @@
 package br.com.allocation.service.factory;
 
+import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.enums.Area;
 import br.com.allocation.enums.StatusAluno;
@@ -22,5 +23,13 @@ public class AlunoFactory {
                 Collections.emptySet(),
                 Collections.emptySet());
         return alunoEntity;
+    }
+
+    public static AlunoDTO getAlunoDTO(){
+        AlunoDTO alunoDTO = new AlunoDTO();
+        alunoDTO.setIdAluno(1);
+        alunoDTO.setStatusAluno(StatusAluno.DISPONIVEL);
+        alunoDTO.setEmail("kaio@bol.com");
+        return alunoDTO;
     }
 }

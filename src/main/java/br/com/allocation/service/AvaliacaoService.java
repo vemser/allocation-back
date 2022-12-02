@@ -3,6 +3,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoAluno;
@@ -11,6 +12,7 @@ import br.com.allocation.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -65,8 +67,16 @@ public class AvaliacaoService {
                 avaliacaoDTOList);
     }
 
-    public AvaliacaoDTO listarPorId(Integer idAvaliacao) throws RegraDeNegocioException {
-        return converterEmDTO(findById(idAvaliacao));
+    public PageDTO<AvaliacaoDTO> listarPorId(Integer idAvaliacao) throws RegraDeNegocioException {
+        List<AvaliacaoDTO> list = List.of(converterEmDTO(findById(idAvaliacao)));
+        Page<AvaliacaoDTO> page = new PageImpl<>(list);
+
+        return new PageDTO<>(page.getTotalElements(),
+                page.getTotalPages(),
+                0,
+                1,
+                list
+        );
     }
 
     public AvaliacaoEntity findById(Integer id) throws RegraDeNegocioException {
