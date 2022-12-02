@@ -141,6 +141,18 @@ public class UsuarioServiceTest {
         UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
     }
 
+    @Test(expected = RegraDeNegocioException.class)
+    public void deveTestarAdicionarUsuarioComSenhaFracaMenor () throws RegraDeNegocioException {
+        // Criar variaveis (SETUP)
+        UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
+        usuarioCreateDTO.setSenha("aaaaaaa1");
+        usuarioCreateDTO.setSenhaIgual("aaaaaaa1");
+        Cargos cargos = Cargos.ADMINISTRADOR;
+
+        // Ação (ACT)
+        UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
+    }
+
     @Test
     public void deveTestarEditarUsuarioComSucesso() throws RegraDeNegocioException {
 
@@ -183,6 +195,24 @@ public class UsuarioServiceTest {
 
         // Ação (ACT)
         PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listar(pagina, quantidade);
+
+        // Verificação (ASSERT)
+        assertNotNull(usuarioEntityPage1);
+    }
+
+    @Test
+    public void deveTestarListarPorEmailPagComSucesso() throws RegraDeNegocioException {
+        // Criar variaveis (SETUP)
+        Integer pagina = 4;
+        Integer quantidade = 6;
+        String email = "gustavo@dbccompany.com.br";
+
+        UsuarioEntity usuarioEntity = getUsuarioEntity();
+        Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
+        when(usuarioRepository.findAllByEmail(any(Pageable.class), anyString())).thenReturn(usuarioEntityPage);
+
+        // Ação (ACT)
+        PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listarPorEmailPag(pagina, quantidade,email);
 
         // Verificação (ASSERT)
         assertNotNull(usuarioEntityPage1);
