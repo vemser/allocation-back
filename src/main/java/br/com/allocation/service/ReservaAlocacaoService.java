@@ -33,14 +33,18 @@ public class ReservaAlocacaoService {
 
 
     public ReservaAlocacaoDTO salvar(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
+        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
+
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
+        alunoService.verificarDisponibilidadeAluno(reservaAlocacaoEntity.getAluno(), reservaAlocacaoCreateDTO);
         alunoService.alterarStatusAluno(reservaAlocacaoCreateDTO.getIdAluno(),
                 reservaAlocacaoCreateDTO);
+
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         aluno.setReservaAlocacao(saveAlocacaoReserva);
+
         ReservaAlocacaoDTO reservaAlocacaoDTO = converterEmDTO(saveAlocacaoReserva);
-        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         return reservaAlocacaoDTO;
     }
 
@@ -52,7 +56,16 @@ public class ReservaAlocacaoService {
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         aluno.setReservaAlocacao(saveAlocacaoReserva);
-        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
+
+        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+            alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
+        }
+        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)) {
+            if (reservaAlocacaoCreateDTO.getIdVaga().equals(reservaAlocacaoEntity.getVaga().getIdVaga())) {
+                alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
+            }
+        }
+
         return converterEmDTO(saveAlocacaoReserva);
     }
 
@@ -80,7 +93,6 @@ public class ReservaAlocacaoService {
                 reservaAlocacaoDTOList);
     }
 
-
     public ReservaAlocacaoEntity findById(Integer id) throws RegraDeNegocioException {
         ReservaAlocacaoEntity alocacaoEntity = reservaAlocacaoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Reserva não encontrada!"));
@@ -89,8 +101,6 @@ public class ReservaAlocacaoService {
 
     private ReservaAlocacaoEntity converterEntity(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = alunoService.findById(reservaAlocacaoCreateDTO.getIdAluno());
-        alunoService.verificarDisponibilidadeAluno(alunoEntity, reservaAlocacaoCreateDTO);
-        alunoService.verificarSeAlunoTemReserva(alunoEntity,reservaAlocacaoCreateDTO);
         VagaEntity vagaEntity = vagaService.findById(reservaAlocacaoCreateDTO.getIdVaga());
         AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(reservaAlocacaoCreateDTO.getIdAvaliacao());
 
@@ -98,18 +108,16 @@ public class ReservaAlocacaoService {
             alunoService.alterarStatusAlunoCancelado(alunoEntity.getIdAluno(), reservaAlocacaoCreateDTO);
         }
 
-
-        ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(null,
+        return new ReservaAlocacaoEntity(null,
                 reservaAlocacaoCreateDTO.getDescricao(),
                 reservaAlocacaoCreateDTO.getDataReserva(),
                 reservaAlocacaoCreateDTO.getDataAlocacao(),
                 reservaAlocacaoCreateDTO.getDataCancelamento(),
                 null,
-                alunoEntity.getStatusAluno(),
+                reservaAlocacaoCreateDTO.getStatusAluno(),
                 alunoEntity,
                 vagaEntity,
                 avaliacaoEntity);
-        return reservaAlocacaoEntity;
     }
 
     private ReservaAlocacaoDTO converterEmDTO(ReservaAlocacaoEntity reservaAlocacaoEntity) {

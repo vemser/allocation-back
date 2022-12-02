@@ -140,26 +140,17 @@ public class AlunoService {
 
     public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity,
                                               ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        if (alunoEntity.getReservaAlocacao() != null) {
-            validarVaga(alunoEntity.getReservaAlocacao().getVaga().getIdVaga(), reservaAlocacaoCreateDTO.getIdVaga());
-        }
-        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
-            if (alunoEntity.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+
+        if (alunoEntity.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+            if (!reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.DISPONIVEL)) {
+                throw new RegraDeNegocioException("Aluno não está disponivel!");
+            }
+        } else if (alunoEntity.getStatusAluno().equals(StatusAluno.RESERVADO)) {
+            if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)) {
                 throw new RegraDeNegocioException("Aluno não está disponivel!");
             }
         }
     }
 
-    public void verificarSeAlunoTemReserva(AlunoEntity alunoEntity,
-                                           ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) {
-        if (alunoEntity.getIdAluno().equals(reservaAlocacaoCreateDTO.getIdAluno())) {
-            new RegraDeNegocioException("Aluno já tem uma reserva alocação");
-        }
-    }
 
-    private void validarVaga(Integer idVagaEntity, Integer idVagaDTO) throws RegraDeNegocioException {
-        if (!(idVagaDTO.equals(idVagaEntity))) {
-            throw new RegraDeNegocioException("Aluno não está disponivel!");
-        }
-    }
 }

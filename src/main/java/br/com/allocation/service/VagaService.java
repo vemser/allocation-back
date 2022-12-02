@@ -113,11 +113,5 @@ public class VagaService {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }
-//    public void verificarAlocado(Integer idVagaEntity, Integer idVagaDTO){
-//        if (!(idVagaDTO.equals(idVagaEntity))) {
-//            vaga.setQuantidade(vaga.getQuantidade() - 1);
-//            vagaRepository.save(vaga);
-//        }
-//    }
 
 }
