@@ -25,8 +25,7 @@ public class TecnologiaService {
     public TecnologiaDTO create(TecnologiaCreateDTO tecnologiaCreate){
         TecnologiaEntity tecnologiaEntity = converteEmEntity(tecnologiaCreate);
         tecnologiaRepository.save(tecnologiaEntity);
-        TecnologiaDTO tecnologiaDTO = converterEmDTO(tecnologiaEntity);
-        return tecnologiaDTO;
+        return converterEmDTO(tecnologiaEntity);
     }
 
     public PageDTO<TecnologiaDTO> buscarPorTecnologia(String nomeTecnologia, PageRequest pageRequest){
@@ -49,8 +48,6 @@ public class TecnologiaService {
     public Set<TecnologiaEntity> findBySet(List<String> tecnologias){
         return tecnologiaRepository.findAllByNomeIn(tecnologias);
     }
-
-
 
     public TecnologiaEntity converteEmEntity(TecnologiaCreateDTO tecnologiaCreateDTO){
         return objectMapper.convertValue(tecnologiaCreateDTO, TecnologiaEntity.class);
