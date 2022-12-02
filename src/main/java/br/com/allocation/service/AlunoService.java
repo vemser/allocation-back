@@ -96,8 +96,34 @@ public class AlunoService {
                 alunoDTOList);
     }
 
-    public AlunoDTO listarPorEmail(String email) throws RegraDeNegocioException {
-        return converterEmDTO(findByEmail(email));
+    public PageDTO<AlunoDTO> listarPorEmail(Integer pagina, Integer tamanho, String email) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<AlunoEntity> paginaRepository = alunoRepository.findAllByEmailIgnoreCase(pageRequest, email);
+
+        List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .collect(Collectors.toList());
+
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                alunoDTOList);
+    }
+
+    public PageDTO<AlunoDTO> listarDisponiveis(Integer pagina, Integer tamanho) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<AlunoEntity> paginaRepository = alunoRepository.findAllByStatusAluno(pageRequest, StatusAluno.DISPONIVEL);
+
+        List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .collect(Collectors.toList());
+
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                alunoDTOList);
     }
 
     public AlunoEntity findById(Integer id) throws RegraDeNegocioException {
@@ -108,13 +134,6 @@ public class AlunoService {
     public void deletar(Integer id) throws RegraDeNegocioException {
         this.findById(id);
         alunoRepository.deleteById(id);
-    }
-
-    public List<AlunoDTO> disponiveis() {
-        return alunoRepository.findAllByStatusAluno(StatusAluno.DISPONIVEL)
-                .stream()
-                .map(this::converterEmDTO)
-                .collect(Collectors.toList());
     }
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
@@ -159,26 +178,17 @@ public class AlunoService {
 
     public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity,
                                               ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        if (alunoEntity.getReservaAlocacao() != null) {
-            validarVaga(alunoEntity.getReservaAlocacao().getVaga().getIdVaga(), reservaAlocacaoCreateDTO.getIdVaga());
-        }
-        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
-            if (alunoEntity.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+
+        if (alunoEntity.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+            if (!reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.DISPONIVEL)) {
+                throw new RegraDeNegocioException("Aluno não está disponivel!");
+            }
+        } else if (alunoEntity.getStatusAluno().equals(StatusAluno.RESERVADO)) {
+            if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)) {
                 throw new RegraDeNegocioException("Aluno não está disponivel!");
             }
         }
     }
 
-    public void verificarSeAlunoTemReserva(AlunoEntity alunoEntity,
-                                           ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) {
-        if (alunoEntity.getIdAluno().equals(reservaAlocacaoCreateDTO.getIdAluno())) {
-            new RegraDeNegocioException("Aluno já tem uma reserva alocação");
-        }
-    }
 
-    private void validarVaga(Integer idVagaEntity, Integer idVagaDTO) throws RegraDeNegocioException {
-        if (!(idVagaDTO.equals(idVagaEntity))) {
-            throw new RegraDeNegocioException("Aluno não está disponivel!");
-        }
-    }
 }

@@ -3,6 +3,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,13 +23,12 @@ public class RelatorioService {
 
     @Scheduled(cron = "0 0 * * * MON")
     public void enviarRelatiorio() throws RegraDeNegocioException {
-        List<UsuarioDTO> usuarios = usuarioService.findAllUsers();
+        List<UsuarioDTO> usuarios = usuarioService.listarPorCargo(0, 20, Cargos.GESTOR).getElementos();
         List<VagaDTO> vagas = vagaService.findAllWithSituacaoAberto();
-        List<AlunoDTO> alunos = alunoService.disponiveis();
+        List<AlunoDTO> alunos = alunoService.listarDisponiveis(0,20).getElementos().stream().toList();
 
         for(UsuarioDTO usuario:usuarios){
-            emailService.sendEmail(vagas,usuario, alunos);
+            emailService.sendEmail(vagas,usuario,alunos);
         }
-
     }
 }

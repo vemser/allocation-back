@@ -40,8 +40,8 @@ public class AlunoController implements AlunoInterfaceController {
     }
 
     @Override
-    public ResponseEntity<AlunoDTO> listarPorEmail(String email) throws RegraDeNegocioException {
-        return ResponseEntity.ok(alunoService.listarPorEmail(email));
+    public ResponseEntity<PageDTO<AlunoDTO>> listarPorEmail(Integer pagina, Integer tamanho, String email) {
+        return ResponseEntity.ok(alunoService.listarPorEmail(pagina, tamanho, email));
     }
 
     @Override
@@ -65,9 +65,10 @@ public class AlunoController implements AlunoInterfaceController {
         log.info("Aluno deletado com sucesso");
         return ResponseEntity.noContent().build();
     }
+
     @Override
-    public List<AlunoDTO> disponiveis() {
-        return alunoService.disponiveis();
+    public ResponseEntity<PageDTO<AlunoDTO>> disponiveis(Integer pagina, Integer tamanho) {
+        return ResponseEntity.ok(alunoService.listarDisponiveis(pagina, tamanho));
     }
 
 }

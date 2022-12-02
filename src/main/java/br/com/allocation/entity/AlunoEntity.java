@@ -67,7 +67,7 @@ public class AlunoEntity {
             joinColumns = @JoinColumn(name = "id_aluno"),
             inverseJoinColumns = @JoinColumn(name = "id_tecnologia")
     )
-    private Set<TecnologiaEntity> tecnologias;
+    private Set<TecnologiaEntity> tecnologias = new HashSet<>();
 
     @JsonIgnore
     @OneToOne(mappedBy = "aluno", cascade = CascadeType.ALL)

@@ -12,6 +12,7 @@ import br.com.allocation.repository.VagaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -53,8 +54,16 @@ public class VagaService {
         );
     }
 
-    public VagaDTO listarPorId(Integer idVaga) throws RegraDeNegocioException {
-        return converterEmDTO(findById(idVaga));
+    public PageDTO<VagaDTO> listarPorId(Integer idVaga) throws RegraDeNegocioException {
+        List<VagaDTO> list = List.of(converterEmDTO(findById(idVaga)));
+        Page<VagaDTO> page = new PageImpl<>(list);
+
+        return new PageDTO<>(page.getTotalElements(),
+                page.getTotalPages(),
+                0,
+                1,
+                list
+        );
     }
 
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
@@ -113,11 +122,5 @@ public class VagaService {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }
-//    public void verificarAlocado(Integer idVagaEntity, Integer idVagaDTO){
-//        if (!(idVagaDTO.equals(idVagaEntity))) {
-//            vaga.setQuantidade(vaga.getQuantidade() - 1);
-//            vagaRepository.save(vaga);
-//        }
-//    }
 
 }
