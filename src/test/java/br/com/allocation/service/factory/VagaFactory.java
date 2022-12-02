@@ -22,8 +22,7 @@ public class VagaFactory {
                 "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.",
                 ClienteFactory.getClienteEntity(),
                 Collections.emptySet(),
-                ProgramaFactory.getProgramaEntity(),
-                Collections.emptySet());
+                ProgramaFactory.getProgramaEntity());
         return vagaEntity;
     }
     public static VagaCreateDTO getvagaCreateDTO(){

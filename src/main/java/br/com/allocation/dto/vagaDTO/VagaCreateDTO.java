@@ -26,7 +26,7 @@ public class VagaCreateDTO {
     @Schema(description = "Quantidade de pessoas para a vaga", example = "2")
     private Integer quantidade;
 
-    @NotNull(message = "Quantidade não pode ser vazio ou nulo.")
+
     @Schema(description = "Quantidade de pessoas alocadas na vaga", example = "1")
     private Integer quantidadeAlocados ;
 
@@ -50,7 +50,6 @@ public class VagaCreateDTO {
     @Schema(description = "Data criação")
     private LocalDate dataCriacao;
 
-    @NotBlank(message = "observacoes não pode ser vazio ou nulo.")
     @Schema(description = "Observaçoes sobre a vaga", example = "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String observacoes;
 

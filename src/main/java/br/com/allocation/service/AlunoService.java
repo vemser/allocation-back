@@ -5,10 +5,8 @@ import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
-import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
@@ -19,9 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor

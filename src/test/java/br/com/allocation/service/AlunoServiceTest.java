@@ -2,13 +2,10 @@ package br.com.allocation.service;
 
 import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
-import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.enums.Area;

@@ -19,8 +19,7 @@ public class AlunoFactory {
                 StatusAluno.DISPONIVEL,
                 Collections.emptySet(),
                 null,
-                Collections.emptySet(),
-                null);
+                Collections.emptySet());
         return alunoEntity;
     }
 }

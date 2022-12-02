@@ -7,6 +7,7 @@ import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,5 +123,10 @@ public class VagaService {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }
+   public void adicionarQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
+       VagaEntity vaga = findById(idVaga);
+       vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() + 1);
+       vagaRepository.save(vaga);
+   }
 
 }
