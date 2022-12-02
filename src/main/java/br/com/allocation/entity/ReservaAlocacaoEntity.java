@@ -1,7 +1,5 @@
 package br.com.allocation.entity;
 
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.StatusAluno;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

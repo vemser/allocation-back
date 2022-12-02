@@ -2,9 +2,11 @@ package br.com.allocation.controller.interfaces;
 
 import br.com.allocation.dto.loginDTO.LoginDTO;
 import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
+import br.com.allocation.dto.usuarioDTO.FileDTO;
 import br.com.allocation.dto.usuarioDTO.MensagemDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.entity.FileEntity;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,8 +66,8 @@ public interface AuthInterfaceController {
             }
     )
     @PostMapping("/upload/")
-    ResponseEntity<MensagemDTO> uploadFile(@RequestParam("file") MultipartFile file,
-                                           @RequestParam("email") String email);
+    ResponseEntity<FileDTO> uploadFile(@RequestParam("file") MultipartFile file,
+                                       @RequestParam("email") String email) throws RegraDeNegocioException, IOException;
 
     @Operation(summary = "Logar com email do usuario.", description = "Loga no sistema com login email.")
     @ApiResponses(
