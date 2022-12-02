@@ -38,15 +38,15 @@ public class VagaCreateDTO {
     @Schema(description = "situacao da vaga", example = "ATIVO")
     private Situacao situacao;
 
-    @NotNull(message = "Data não pode ser vazio ou nulo.")
+
     @Schema(description = "Data abertura vaga", example = "2022-12-20")
     private LocalDate dataAbertura;
 
-    @NotNull(message = "Data não pode ser vazio ou nulo.")
+
     @Schema(description = "Data fechamento vaga", example = "2022-12-26")
     private LocalDate dataFechamento;
 
-    @NotNull(message = "Data não pode ser vazio ou nulo.")
+
     @Schema(description = "Data criação")
     private LocalDate dataCriacao;
 

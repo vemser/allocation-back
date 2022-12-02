@@ -18,7 +18,8 @@ public class AlunoFactory {
                 "xxx",
                 StatusAluno.DISPONIVEL,
                 Collections.emptySet(),
-                null,
+                ProgramaFactory.getProgramaEntity(),
+                Collections.emptySet(),
                 Collections.emptySet());
         return alunoEntity;
     }

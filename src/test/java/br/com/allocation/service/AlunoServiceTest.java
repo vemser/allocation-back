@@ -251,7 +251,7 @@ public class AlunoServiceTest {
         Integer id = 1;
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         AlunoEntity alunoEntity = getAlunoEntity();
-        alunoEntity.setStatusAluno(StatusAluno.INATIVO);
+        alunoEntity.setStatusAluno(StatusAluno.FINALIZADO);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
 
@@ -266,7 +266,7 @@ public class AlunoServiceTest {
         Integer id = 1;
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         AlunoEntity alunoEntity = getAlunoEntity();
-        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.INATIVO);
+        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.FINALIZADO);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
 

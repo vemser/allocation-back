@@ -166,7 +166,7 @@ public class AlunoService {
         AlunoEntity alunoEntity = findById(idAluno);
         if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)
                 || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)
-                || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.INATIVO)) {
+                || reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.FINALIZADO)) {
             alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
         }
         alunoRepository.save(alunoEntity);

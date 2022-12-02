@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,12 +36,20 @@ public class VagaService {
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
 
+        bloquearAlteracaoEmQuantAlocados(vagaCreate);
         VagaEntity vagaEntity = converterEntity(vagaCreate);
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
+        vagaEntity.setDataCriacao(LocalDate.now());
 
         vagaEntity = vagaRepository.save(vagaEntity);
         return converterEmDTO(vagaEntity);
+    }
+
+    private static void bloquearAlteracaoEmQuantAlocados(VagaCreateDTO vagaCreate) {
+        if (vagaCreate.getQuantidadeAlocados() != null){
+            vagaCreate.setQuantidadeAlocados(0);
+        }
     }
 
     public PageDTO<VagaDTO> listar(Integer pagina, Integer tamanho) {
@@ -59,6 +68,7 @@ public class VagaService {
         );
     }
 
+
     public PageDTO<VagaDTO> listarPorId(Integer idVaga) throws RegraDeNegocioException {
         List<VagaDTO> list = List.of(converterEmDTO(findById(idVaga)));
         Page<VagaDTO> page = new PageImpl<>(list);
@@ -74,11 +84,15 @@ public class VagaService {
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         findById(idVaga);
         VagaEntity vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
+
+        bloquearAlteracaoEmQuantAlocados(vagaCreate);
+
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
         vagaEntity.setIdVaga(idVaga);
+        vagaEntity.setDataCriacao(LocalDate.now());
 
         vagaEntity = vagaRepository.save(vagaEntity);
 

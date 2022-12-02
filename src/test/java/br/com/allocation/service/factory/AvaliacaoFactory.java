@@ -16,7 +16,8 @@ public class AvaliacaoFactory {
                 LocalDate.now().plusDays(4),
                 LocalDate.now().plusDays(2),
                 SituacaoAluno.AGENDADO_CLIENTE,AlunoFactory.getAlunoEntity(),
-                VagaFactory.getVagaEntity());
+                VagaFactory.getVagaEntity(),
+                Collections.emptySet());
         return avaliacaoEntity;
     }
 }
