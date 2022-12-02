@@ -226,7 +226,7 @@ public class EmailServiceTest {
         verify(emailSender).send((MimeMessage) any());
 
     }
-    
+
 
     private static UsuarioDTO getUsuarioDTO(){
         UsuarioDTO usuarioDTO = new UsuarioDTO();

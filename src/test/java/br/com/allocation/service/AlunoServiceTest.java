@@ -118,9 +118,9 @@ public class AlunoServiceTest {
 
         AlunoEntity alunoEntity = getAlunoEntity();
 
-        Page<AlunoEntity> clienteEntityPage = new PageImpl<>(List.of(alunoEntity));
+        Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
 
-        when(alunoRepository.findAll(any(Pageable.class))).thenReturn(clienteEntityPage);
+        when(alunoRepository.findAll(any(Pageable.class))).thenReturn(alunoEntities);
         //ACT
         PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listar(pagina, quantidade);
 
@@ -132,14 +132,17 @@ public class AlunoServiceTest {
     public void deveTestarListarPorEmailComSucesso() throws RegraDeNegocioException {
         //SETUP
         String email = "kaio@email.com";
+        Integer pagina = 4;
+        Integer quantidade = 10;
         AlunoEntity alunoEntity = getAlunoEntity();
-        when(alunoRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(alunoEntity));
+        Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
+
+        when(alunoRepository.findAllByEmailIgnoreCase(any(Pageable.class), anyString())).thenReturn(alunoEntities);
         //ACT
-        AlunoDTO alunoDTO = alunoService.listarPorEmail(email);
+        PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listarPorEmail(pagina, quantidade, email);
 
         //ASSERT
-        assertNotNull(alunoDTO);
-        assertNotNull(email, alunoDTO.getEmail());
+        assertNotNull(alunoDTOPageDTO);
     }
 
     @Test
@@ -186,16 +189,18 @@ public class AlunoServiceTest {
     @Test
     public void deveTestarDisponiveisComSucesso(){
         //SETUP
-        StatusAluno status = StatusAluno.DISPONIVEL;
-        Set<AlunoEntity> alunoEntities = new HashSet<>();
-        alunoEntities.add(getAlunoEntity());
-        when(alunoRepository.findAllByStatusAluno(status)).thenReturn(alunoEntities);
+        StatusAluno statusAluno = StatusAluno.DISPONIVEL;
+        Integer pagina = 4;
+        Integer quantidade = 10;
+        AlunoEntity alunoEntity = getAlunoEntity();
+        Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
 
+        when(alunoRepository.findAllByStatusAluno(any(Pageable.class), any())).thenReturn(alunoEntities);
         //ACT
-        List<AlunoDTO> alunoDTOS = alunoService.disponiveis();
+        PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listarDisponiveis(pagina, quantidade);
 
         //ASSERT
-        assertNotNull(alunoDTOS);
+        assertNotNull(alunoDTOPageDTO);
     }
 
     @Test
