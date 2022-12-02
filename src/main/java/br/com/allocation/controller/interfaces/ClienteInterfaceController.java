@@ -44,7 +44,7 @@ public interface ClienteInterfaceController {
             }
     )
     @GetMapping("/email/{email}")
-    public ResponseEntity<ClienteDTO> listarPorEmail(@PathVariable("email") String email) throws RegraDeNegocioException;
+    public ResponseEntity<PageDTO<ClienteDTO>> listarPorEmail(Integer pagina, Integer tamanho ,String email);
 
     @Operation(summary = "Editar cliente", description = "Editar um cliente no banco de dados")
     @ApiResponses(

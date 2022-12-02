@@ -29,8 +29,8 @@ public class SecurityConfiguration {
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/auth", "/auth/atualizar-senha", "/auth/register", "/auth/recuperar-senha").permitAll()
-                                .antMatchers("/auth/upload/", "/auth/logged").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+                        authz.antMatchers("/auth", "/auth/atualizar-senha", "/auth/register", "/auth/recuperar-senha", "/auth/upload/").permitAll()
+                                .antMatchers( "/auth/logged").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
                                 .antMatchers("/tecnologia/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
                                 .antMatchers("/aluno/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
 
