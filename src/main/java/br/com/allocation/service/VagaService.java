@@ -70,6 +70,22 @@ public class VagaService {
         );
     }
 
+    public PageDTO<VagaDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<VagaEntity> paginaDoRepositorio = vagaRepository.findAllByNomeContainingIgnoreCase(pageRequest, nome);
+
+        List<VagaDTO> vagas = paginaDoRepositorio.getContent().stream()
+                .map(this::converterEmDTO)
+                .toList();
+
+        return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
+                paginaDoRepositorio.getTotalPages(),
+                pagina,
+                tamanho,
+                vagas
+        );
+    }
+
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         findById(idVaga);
         VagaEntity vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);

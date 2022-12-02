@@ -55,7 +55,7 @@ public interface ProgramaInterfaceController {
             }
     )
     @GetMapping("/{idPrograma}")
-    public ResponseEntity<ProgramaDTO> listarPorId(@PathVariable("idPrograma") Integer idPrograma) throws RegraDeNegocioException;
+    public ResponseEntity<PageDTO<ProgramaDTO>> listarPorId(Integer idPrograma) throws RegraDeNegocioException;
 
     @Operation(summary = "Editar programa", description = "Editar um programa no banco de dados")
     @ApiResponses(

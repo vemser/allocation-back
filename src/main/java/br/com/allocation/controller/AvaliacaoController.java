@@ -36,7 +36,7 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
     }
 
     @Override
-    public ResponseEntity<AvaliacaoDTO> listarPorId(Integer idAvaliacao) throws RegraDeNegocioException {
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> listarPorId(Integer idAvaliacao) throws RegraDeNegocioException {
         return ResponseEntity.ok(avaliacaoService.listarPorId(idAvaliacao));
     }
 

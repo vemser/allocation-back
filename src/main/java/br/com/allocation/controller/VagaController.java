@@ -44,6 +44,11 @@ public class VagaController implements VagaInterfaceController {
     }
 
     @Override
+    public ResponseEntity<PageDTO<VagaDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome) throws RegraDeNegocioException {
+        return ResponseEntity.ok(vagaService.listarPorNome(pagina, tamanho, nome));
+    }
+
+    @Override
     public ResponseEntity<VagaDTO> editar(Integer idVaga, VagaCreateDTO vagaCreateDTO) throws RegraDeNegocioException {
 
         log.info("Editando a vaga...");
