@@ -63,4 +63,36 @@ public interface UsuarioInterfaceController {
     @DeleteMapping("/{idUsuario}")
     ResponseEntity<Void> deletar(@PathVariable("idUsuario") Integer idUsuario) throws RegraDeNegocioException;
 
+    @Operation(summary = "Listar por usuario por email", description = "Listar por usuario por email")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Listar por usuario por email"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/listarPorEmail")
+    ResponseEntity<PageDTO<UsuarioDTO>> listarPorEmail(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException;
+
+    @Operation(summary = "Listar usuario por nome paginado", description = "Listar por usuario por nome paginado")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Listar por usuario por nome paginado do banco"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/listarPorNome")
+    ResponseEntity<PageDTO<UsuarioDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome);
+
+    @Operation(summary = "Listar usuario por cargo paginado", description = "Listar por usuario por come paginado")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Listar por usuario por cargo paginado do banco"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/listarPorCargo")
+    ResponseEntity<PageDTO<UsuarioDTO>> listarPorCargo(Integer pagina, Integer tamanho, Cargos cargos) throws RegraDeNegocioException;
 }

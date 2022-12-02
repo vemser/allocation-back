@@ -1,5 +1,6 @@
 package br.com.allocation.dto.alunoDTO;
 
+import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.enums.Area;
 import br.com.allocation.enums.StatusAluno;
@@ -7,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -17,7 +19,7 @@ public class AlunoDTO {
     private String nome;
     private String email;
     private Area area;
-    private Set<TecnologiaDTO> tecnologias;
+    private List<String> tecnologias;
     private Integer idPrograma;
     private String emProcesso;
     private StatusAluno statusAluno;

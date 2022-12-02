@@ -38,8 +38,8 @@ public class ClienteController implements ClienteInterfaceController {
     }
 
     @Override
-    public ResponseEntity<ClienteDTO> listarPorEmail(String email) throws RegraDeNegocioException {
-        return ResponseEntity.ok(clienteService.listarPorEmail(email));
+    public ResponseEntity<PageDTO<ClienteDTO>> listarPorEmail(Integer pagina, Integer tamanho ,String email){
+        return ResponseEntity.ok(clienteService.listarPorEmail(pagina, tamanho, email));
     }
 
     @Override

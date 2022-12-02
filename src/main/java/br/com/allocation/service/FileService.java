@@ -1,5 +1,6 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.usuarioDTO.FileDTO;
 import br.com.allocation.entity.FileEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -20,15 +21,24 @@ public class FileService {
     private final FileRepository fileRepository;
     private final UsuarioService usuarioService;
 
-    public FileEntity store(MultipartFile file, String email) throws IOException, RegraDeNegocioException {
-        UsuarioEntity usuario = usuarioService.findUsuarioEntityByEmail(email);
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        FileEntity fileDB = new FileEntity();
-        fileDB.setName(fileName);
-        fileDB.setType(file.getContentType());
-        fileDB.setData(file.getBytes());
-        fileDB.setUsuario(usuario);
-        return fileRepository.save(fileDB);
+    private final ObjectMapper objectMapper;
+
+    public FileDTO store(MultipartFile file, String email) throws IOException, RegraDeNegocioException {
+        try {
+            UsuarioEntity usuario = usuarioService.findUsuarioEntityByEmail(email);
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            FileEntity fileDB = new FileEntity();
+            fileDB.setName(fileName);
+            fileDB.setType(file.getContentType());
+            fileDB.setData(file.getBytes());
+            fileDB.setUsuario(usuario);
+            FileEntity fileEntity = fileRepository.save(fileDB);
+            FileDTO fileDTO = objectMapper.convertValue(fileEntity, FileDTO.class);
+            return fileDTO;
+        }
+        catch (Exception e){
+            throw new RegraDeNegocioException("Ocorreu um erro ao enviar a imagem!");
+        }
     }
 
     public String getImage(String email) throws RegraDeNegocioException {

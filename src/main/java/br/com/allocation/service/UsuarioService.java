@@ -150,8 +150,11 @@ public class UsuarioService {
         return "Verifique seu email para trocar a senha.";
     }
 
-    public String atualizarSenha(String senha, String token) throws RegraDeNegocioException {
+    public String atualizarSenha(String senha, String confirmarSenha, String token) throws RegraDeNegocioException {
         validarSenha(senha);
+        if(!confirmarSenha.equals(senha)){
+            throw new RegraDeNegocioException("Senhas diferentes!");
+        }
 
         UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
         UsuarioEntity usuarioEntity = (UsuarioEntity) tokenObject.getPrincipal();
@@ -232,6 +235,26 @@ public class UsuarioService {
         return usuarioRepository.findByEmailIgnoreCase(email);
     }
 
+
+    public PageDTO<UsuarioDTO> listarPorEmailPag(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmail(pageRequest,email);
+        List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
+                .map(usuario -> {
+                    UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
+                    Optional<CargoEntity> cargo = usuario.getCargos().stream().findFirst();
+                    dto.setCargo(objectMapper.convertValue(cargo, CargoDTO.class));
+                    return dto;
+                })
+                .toList();
+
+        return new PageDTO<>(paginaDoRepositorio.getTotalElements(),
+                paginaDoRepositorio.getTotalPages(),
+                pagina,
+                tamanho,
+                usuarios
+        );
+    }
     public UsuarioEntity findUsuarioEntityByEmail(String email) throws RegraDeNegocioException {
         return findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
     }

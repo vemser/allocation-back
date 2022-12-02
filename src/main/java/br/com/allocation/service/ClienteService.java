@@ -43,9 +43,21 @@ public class ClienteService {
                 clienteDTOList);
     }
 
-    public ClienteDTO listarPorEmail(String email) throws RegraDeNegocioException {
-        return converterEmDTO(findByEmail(email));
+    public PageDTO<ClienteDTO> listarPorEmail(Integer pagina, Integer tamanho, String email) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<ClienteEntity> paginaRepository = clienteRepository.findAllByEmailIgnoreCase(pageRequest, email);
+
+        List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .toList();
+
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                clienteDTOList);
     }
+
 
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
         this.findById(idCliente);

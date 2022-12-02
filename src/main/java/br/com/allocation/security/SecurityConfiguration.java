@@ -3,6 +3,7 @@ package br.com.allocation.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,16 +29,38 @@ public class SecurityConfiguration {
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/auth/**").permitAll()
-                                .antMatchers("/tecnologia/**").permitAll()
-                                .antMatchers("/aluno/**").permitAll()
-                                .antMatchers("/reserva-alocacao/**").permitAll()
-                                .antMatchers("/cliente/**").permitAll()
-                                .antMatchers("/avaliacao/**").permitAll()
-                                .antMatchers("/vaga/**").permitAll()
-                                .antMatchers("/usuario/**").permitAll()
-                                .antMatchers("/programa/**").permitAll()
-                                .antMatchers("/cargo/**").permitAll()
+                        authz.antMatchers("/auth", "/auth/atualizar-senha", "/auth/register", "/auth/recuperar-senha", "/auth/upload/").permitAll()
+                                .antMatchers( "/auth/logged").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+                                .antMatchers("/tecnologia/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+                                .antMatchers("/aluno/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+
+                                .antMatchers(HttpMethod.POST,"/reserva-alocacao/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS")
+                                .antMatchers(HttpMethod.PUT,"/reserva-alocacao/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS")
+                                .antMatchers(HttpMethod.DELETE,"/reserva-alocacao/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS")
+                                .antMatchers(HttpMethod.GET,"/reserva-alocacao/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+
+                                .antMatchers(HttpMethod.POST, "/cliente/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+                                .antMatchers(HttpMethod.PUT, "/cliente/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+                                .antMatchers(HttpMethod.DELETE, "/cliente/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+                                .antMatchers(HttpMethod.GET, "/cliente/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+
+                                .antMatchers(HttpMethod.POST,"/avaliacao/**").hasAnyRole("ADMINISTRADOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+                                .antMatchers(HttpMethod.PUT,"/avaliacao/**").hasAnyRole("ADMINISTRADOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+                                .antMatchers(HttpMethod.DELETE,"/avaliacao/**").hasAnyRole("ADMINISTRADOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+                                .antMatchers(HttpMethod.GET,"/avaliacao/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+
+                                .antMatchers(HttpMethod.POST,"/vaga/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS")
+                                .antMatchers(HttpMethod.PUT,"/vaga/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS")
+                                .antMatchers(HttpMethod.DELETE,"/vaga/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS")
+                                .antMatchers(HttpMethod.GET,"/vaga/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+
+                                .antMatchers(HttpMethod.POST,"/usuario/**").hasAnyRole("ADMINISTRADOR")
+                                .antMatchers(HttpMethod.PUT,"/usuario/**").hasAnyRole("ADMINISTRADOR")
+                                .antMatchers(HttpMethod.DELETE,"/usuario/**").hasAnyRole("ADMINISTRADOR")
+                                .antMatchers(HttpMethod.GET,"/usuario/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+
+                                .antMatchers("/programa/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
+                                .antMatchers("/cargo/**").hasAnyRole("ADMINISTRADOR")
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

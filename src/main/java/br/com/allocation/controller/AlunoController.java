@@ -8,6 +8,7 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.AlunoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -41,6 +42,11 @@ public class AlunoController implements AlunoInterfaceController {
     @Override
     public ResponseEntity<AlunoDTO> listarPorEmail(String email) throws RegraDeNegocioException {
         return ResponseEntity.ok(alunoService.listarPorEmail(email));
+    }
+
+    @Override
+    public ResponseEntity<PageDTO<AlunoDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome) {
+        return ResponseEntity.ok(alunoService.listarPorNome(pagina, tamanho, nome));
     }
 
     @Override

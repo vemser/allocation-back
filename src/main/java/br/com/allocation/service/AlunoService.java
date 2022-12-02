@@ -8,6 +8,7 @@ import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
+import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,7 +46,7 @@ public class AlunoService {
         }
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
-        alunoRepository.save(alunoEntity);
+        alunoEntity = alunoRepository.save(alunoEntity);
         return converterEmDTO(alunoEntity);
     }
 
@@ -66,6 +69,21 @@ public class AlunoService {
     public PageDTO<AlunoDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<AlunoEntity> paginaRepository = alunoRepository.findAll(pageRequest);
+
+        List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .toList();
+
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                alunoDTOList);
+    }
+
+    public PageDTO<AlunoDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<AlunoEntity> paginaRepository = alunoRepository.findAllByNomeContainingIgnoreCase(pageRequest, nome);
 
         List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
@@ -101,16 +119,17 @@ public class AlunoService {
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
         String emProcesso = "Não";
-        Set<TecnologiaDTO> tecnologiaDTOS = alunoEntity.getTecnologias()
-                .stream()
-                .map(tecnologiaService::converterEmDTO)
-                .collect(Collectors.toSet());
+
+        List<String> tecs = new ArrayList<>();
+
+        alunoEntity.getTecnologias()
+                .forEach(entity -> tecs.add(entity.getNome()));
 
         return new AlunoDTO(alunoEntity.getIdAluno(),
                 alunoEntity.getNome(),
                 alunoEntity.getEmail(),
                 alunoEntity.getArea(),
-                tecnologiaDTOS,
+                tecs,
                 alunoEntity.getPrograma().getIdPrograma(),
                 emProcesso,
                 alunoEntity.getStatusAluno());
