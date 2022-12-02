@@ -21,7 +21,7 @@ public class ReservaAlocacaoEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RESERVA_ALOCACAO_SEQ")
     @SequenceGenerator(name = "RESERVA_ALOCACAO_SEQ", sequenceName = "seq_reserva_alocacao", allocationSize = 1)
     @Column(name = "codigo_reserva_alocacao")
-    private Integer codigo;
+    private Integer idReservaAlocacao;
 
     @Column(name = "descricao")
     private String descricao;
@@ -43,7 +43,7 @@ public class ReservaAlocacaoEntity {
     private StatusAluno statusAluno;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_aluno", referencedColumnName = "id_aluno")
     private AlunoEntity aluno;
 
@@ -53,7 +53,7 @@ public class ReservaAlocacaoEntity {
     private VagaEntity vaga;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "codigo_avaliacao", referencedColumnName = "codigo_avaliacao")
     private AvaliacaoEntity avaliacao;
 }
