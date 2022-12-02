@@ -198,6 +198,21 @@ public class AlunoServiceTest {
         assertNotNull(alunoDTOS);
     }
 
+    @Test
+    public void deveTestarAlterarStatusAluno() throws RegraDeNegocioException {
+        //SETUP
+        AlunoEntity alunoEntity = getAlunoEntity();
+        Integer id = 1;
+        ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
+        when(alunoRepository.save(any())).thenReturn(alunoEntity);
+        when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
+        //ACT
+        AlunoEntity alunoEntity1 = alunoService.alterarStatusAluno(id, reservaAlocacaoCreateDTO);
+
+        //ASSERT
+        assertNotNull(alunoEntity1);
+    }
+
 //    @Test
 //    public void deveTestarAlterarDisponibilidadeAlunoComSucesso() throws RegraDeNegocioException {
 //        //SETUP
