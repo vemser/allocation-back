@@ -9,6 +9,7 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ProgramaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,11 @@ public class ProgramaService {
 
     public void deletar(Integer idPrograma) throws RegraDeNegocioException {
         ProgramaEntity programaEntity = findById(idPrograma);
-        programaRepository.delete(programaEntity);
+        try {
+            programaRepository.delete(programaEntity);
+        }catch (DataIntegrityViolationException ex){
+            throw new RegraDeNegocioException("Não é possivel deletar pois existem registros atrelados a esse programa.");
+        }
     }
 
     public ProgramaEntity findById(Integer id) throws RegraDeNegocioException {

@@ -56,7 +56,7 @@ public class AlunoEntity {
     private Set<AvaliacaoEntity> avaliacoes = new HashSet<>();
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_programa", referencedColumnName = "id_programa")
     private ProgramaEntity programa;
 
@@ -70,6 +70,6 @@ public class AlunoEntity {
     private Set<TecnologiaEntity> tecnologias = new HashSet<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "aluno", cascade = CascadeType.ALL)
-    private ReservaAlocacaoEntity reservaAlocacao;
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
+    private Set<ReservaAlocacaoEntity> reservaAlocacaos = new HashSet<>();
 }

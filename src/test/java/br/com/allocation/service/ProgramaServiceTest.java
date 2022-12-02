@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -113,6 +114,20 @@ public class ProgramaServiceTest {
         //ACT
         programaService.deletar(id);
 
+        //ASSERT
+        verify(programaRepository, times(1)).delete(any());
+
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void deveTestarDeleteComErro() throws RegraDeNegocioException {
+        //SETUP
+        Integer id = 2;
+        ProgramaEntity programaEntity = getProgramaEntity();
+        when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
+        //ACT
+        doThrow(DataIntegrityViolationException.class).when(programaRepository).delete(any());
+        programaService.deletar(id);
         //ASSERT
         verify(programaRepository, times(1)).delete(any());
 
