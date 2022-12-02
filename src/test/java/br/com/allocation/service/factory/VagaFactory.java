@@ -40,4 +40,14 @@ public class VagaFactory {
         return vagaCreateDTO;
     }
 
+    public static VagaDTO getVagaDTO(){
+        VagaDTO vagaDTO = new VagaDTO();
+        vagaDTO.setIdVaga(1);
+        vagaDTO.setSituacao(Situacao.ABERTO);
+        vagaDTO.setDataAbertura(LocalDate.now());
+        vagaDTO.setDataCriacao(LocalDate.now());
+        vagaDTO.setDataFechamento(LocalDate.now());
+        return vagaDTO;
+    }
+
 }
