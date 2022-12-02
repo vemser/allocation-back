@@ -4,6 +4,7 @@ import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
+import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.Situacao;
@@ -169,13 +170,14 @@ public class ProgramaServiceTest {
 
     @Test
     public void deveTestarListarPorIdComSucesso() throws RegraDeNegocioException {
+
         //SETUP
         Integer id = 1;
         ProgramaEntity programaEntity = getProgramaEntity();
         when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
 
         //ACT
-        ProgramaDTO programaDTO = programaService.listarPorId(id);
+        PageDTO<ProgramaDTO> programaDTO = programaService.listarPorId(id);
         //ASSERT
         assertNotNull(programaDTO);
 
@@ -219,6 +221,14 @@ public class ProgramaServiceTest {
         programaEntity.setDataCriacao(LocalDate.now());
         programaEntity.setDataTermino(LocalDate.of(2023,05,01));
         programaEntity.setSituacao(Situacao.ATIVO);
+        return programaEntity;
+    }
+
+    private static ProgramaDTO getProgramaDTO(){
+        ProgramaDTO programaEntity = new ProgramaDTO();
+        programaEntity.setIdPrograma(1);
+        programaEntity.setNome("Vem ser 11");
+        programaEntity.setDescricao("Vem ser vemser");
         return programaEntity;
     }
 
