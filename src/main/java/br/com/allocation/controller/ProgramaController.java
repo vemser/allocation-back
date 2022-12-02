@@ -43,7 +43,8 @@ public class ProgramaController implements ProgramaInterfaceController {
         return ResponseEntity.ok(programaService.listarPorNome(pagina, tamanho, nome));
     }
 
-    public ResponseEntity<ProgramaDTO> listarPorId(Integer idPrograma) throws RegraDeNegocioException {
+    @Override
+    public ResponseEntity<PageDTO<ProgramaDTO>> listarPorId(Integer idPrograma) throws RegraDeNegocioException {
         return ResponseEntity.ok(programaService.listarPorId(idPrograma));
     }
 

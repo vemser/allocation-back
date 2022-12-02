@@ -44,7 +44,7 @@ public interface AvaliacaoInterfaceController {
             }
     )
     @GetMapping("/{idAvaliacao}")
-    public ResponseEntity<AvaliacaoDTO> listarPorId(@PathVariable("idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException ;
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> listarPorId(Integer idAvaliacao) throws RegraDeNegocioException ;
 
     @Operation(summary = "Editar avaliação", description = "Editar uma avaliação e salva no banco de dados")
     @ApiResponses(
