@@ -18,9 +18,9 @@ public class AlunoFactory {
                 "xxx",
                 StatusAluno.DISPONIVEL,
                 Collections.emptySet(),
-                ProgramaFactory.getProgramaEntity(),
+                null,
                 Collections.emptySet(),
-                ReservaAlocacaoFactory.getReservaAlocacaoEntity());
+                null);
         return alunoEntity;
     }
 }

@@ -129,6 +129,26 @@ public class AlunoServiceTest {
     }
 
     @Test
+    public void deveTestarListarPorNomeComSucesso(){
+        //SETUP
+        String nome = "kaio";
+        Integer pagina = 4;
+        Integer quantidade = 10;
+
+        AlunoEntity alunoEntity = getAlunoEntity();
+
+        Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
+
+        when(alunoRepository.findAllByNomeContainingIgnoreCase(any(Pageable.class), anyString())).thenReturn(alunoEntities);
+        //ACT
+        PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listarPorNome(pagina, quantidade, nome);
+
+        //ASSERT
+        assertNotNull(alunoDTOPageDTO);
+    }
+
+
+    @Test
     public void deveTestarListarPorEmailComSucesso() throws RegraDeNegocioException {
         //SETUP
         String email = "kaio@email.com";
@@ -218,22 +238,64 @@ public class AlunoServiceTest {
         assertNotNull(alunoEntity1);
     }
 
-//    @Test
-//    public void deveTestarAlterarDisponibilidadeAlunoComSucesso() throws RegraDeNegocioException {
-//        //SETUP
-//        AlunoEntity alunoEntity = getAlunoEntity();
-//        Integer id = 1;
-//        StatusAluno statusAluno = StatusAluno.INATIVO;
-//        when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
-//        AlunoEntity aluno2 = getAlunoEntity();
-//        aluno2.setStatusAluno(statusAluno);
-//        when(alunoRepository.save(any())).thenReturn(aluno2);
-//        //ACT
-//        AlunoEntity aluno = alunoService.alterarDisponibilidadeAluno(id, statusAluno);
-//        //ASSERT
-//        assertNotNull(aluno);
-//
-//    }
+    @Test
+    public void deveTestarFindByEmailComSucesso() throws RegraDeNegocioException {
+        AlunoEntity alunoEntity = getAlunoEntity();
+        String email = "kaio@email.com";
+        when(alunoRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(alunoEntity));
+
+        alunoEntity = alunoService.findByEmail(email);
+
+        assertNotNull(alunoEntity);
+    }
+
+    @Test
+    public void deveTestarAlterarStatusAlunoCancelado() throws RegraDeNegocioException {
+        Integer id = 1;
+        ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
+        AlunoEntity alunoEntity = getAlunoEntity();
+        alunoEntity.setStatusAluno(StatusAluno.INATIVO);
+        when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
+        when(alunoRepository.save(any())).thenReturn(alunoEntity);
+
+        alunoService.alterarStatusAlunoCancelado(id, reservaAlocacaoCreateDTO);
+
+        verify(alunoRepository, times(1)).save(alunoEntity);
+
+    }
+
+    @Test
+    public void deveTestarAlterarStatusAlunoCanceladoInativo() throws RegraDeNegocioException {
+        Integer id = 1;
+        ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
+        AlunoEntity alunoEntity = getAlunoEntity();
+        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.INATIVO);
+        when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
+        when(alunoRepository.save(any())).thenReturn(alunoEntity);
+
+        alunoService.alterarStatusAlunoCancelado(id, reservaAlocacaoCreateDTO);
+
+        verify(alunoRepository, times(1)).save(alunoEntity);
+
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void deveTestarVerificarDisponibilidadeComErroSemAluno() throws RegraDeNegocioException {
+        AlunoEntity alunoEntity = getAlunoEntity();
+        alunoEntity.setStatusAluno(StatusAluno.ALOCADO);
+        ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
+        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.ALOCADO);
+        alunoService.verificarDisponibilidadeAluno(alunoEntity,reservaAlocacaoCreateDTO);
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void deveTestarVerificarDisponibilidadeComErroAluno() throws RegraDeNegocioException {
+        AlunoEntity alunoEntity = getAlunoEntity();
+        alunoEntity.setStatusAluno(StatusAluno.RESERVADO);
+        ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
+        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.RESERVADO);
+        alunoService.verificarDisponibilidadeAluno(alunoEntity,reservaAlocacaoCreateDTO);
+    }
 
     private static AlunoEntity getAlunoEntity(){
         AlunoEntity alunoEntity = new AlunoEntity();
@@ -304,6 +366,7 @@ public class AlunoServiceTest {
         reservaAlocacaoCreateDTO.setDataReserva(LocalDate.of(2023,05,02));
         reservaAlocacaoCreateDTO.setIdVaga(1);
         reservaAlocacaoCreateDTO.setIdAvaliacao(1);
+        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.ALOCADO);
         return reservaAlocacaoCreateDTO;
     }
 
