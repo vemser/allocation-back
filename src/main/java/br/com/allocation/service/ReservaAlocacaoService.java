@@ -62,60 +62,40 @@ public class ReservaAlocacaoService {
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
-
         if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
-            alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
-        }
+            alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);}
         if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)) {
             if (reservaAlocacaoCreateDTO.getIdVaga().equals(reservaAlocacaoEntity.getVaga().getIdVaga())) {
-                alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
-            }
-        }
-
-        return converterEmDTO(saveAlocacaoReserva);
-    }
-
+                alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);}}
+        return converterEmDTO(saveAlocacaoReserva);}
     public void deletar(Integer id) throws RegraDeNegocioException {
         ReservaAlocacaoEntity reservaLocacaoDelete = findById(id);
         AlunoEntity aluno =  reservaLocacaoDelete.getAluno();
-
         aluno.setStatusAluno(StatusAluno.DISPONIVEL);
         alunoRepository.save(aluno);
-
-        reservaAlocacaoRepository.delete(reservaLocacaoDelete);
-    }
-
+        reservaAlocacaoRepository.delete(reservaLocacaoDelete);}
     public PageDTO<ReservaAlocacaoDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
                 .findAll(pageRequest);
-
         List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage
                 .getContent().stream()
                 .map(this::converterEmDTO)
                 .collect(Collectors.toList());
-
         return new PageDTO<>(reservaAlocacaoEntityPage.getTotalElements(),
-                reservaAlocacaoEntityPage.getTotalPages(),
-                pagina,
-                tamanho,
-                reservaAlocacaoDTOList);
-    }
-
+                reservaAlocacaoEntityPage.getTotalPages(), pagina,
+                tamanho, reservaAlocacaoDTOList);}
     public ReservaAlocacaoEntity findById(Integer id) throws RegraDeNegocioException {
         return reservaAlocacaoRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Reserva não encontrada!"));
-    }
+                .orElseThrow(() -> new RegraDeNegocioException("Reserva não encontrada!"));}
 
     private ReservaAlocacaoEntity converterEntity(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = alunoService.findById(reservaAlocacaoCreateDTO.getIdAluno());
         VagaEntity vagaEntity = vagaService.findById(reservaAlocacaoCreateDTO.getIdVaga());
         AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(reservaAlocacaoCreateDTO.getIdAvaliacao());
-
         if (reservaAlocacaoCreateDTO.getDataCancelamento() != null || reservaAlocacaoCreateDTO.getDataFinalizado() != null) {
             alunoService.alterarStatusAlunoCancelado(alunoEntity.getIdAluno(), reservaAlocacaoCreateDTO);
         }
-
         return new ReservaAlocacaoEntity(null,
                 reservaAlocacaoCreateDTO.getDescricao(),
                 reservaAlocacaoCreateDTO.getDataReserva(),
@@ -123,9 +103,7 @@ public class ReservaAlocacaoService {
                 reservaAlocacaoCreateDTO.getDataCancelamento(),
                 null,
                 reservaAlocacaoCreateDTO.getStatusAluno(),
-                alunoEntity,
-                vagaEntity,
-                avaliacaoEntity);
+                alunoEntity, vagaEntity, avaliacaoEntity);
     }
 
     private ReservaAlocacaoDTO converterEmDTO(ReservaAlocacaoEntity reservaAlocacaoEntity) {

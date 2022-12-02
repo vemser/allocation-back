@@ -32,8 +32,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -67,7 +69,10 @@ public class ReservaAlocacaoServiceTest {
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = ReservaAlocacaoFactory.getReservaAlocacaoCreateDTO();
         ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         AlunoEntity aluno = AlunoFactory.getAlunoEntity();
-        when(alunoService.alterarStatusAluno(any(), any())).thenReturn(aluno);
+        Set<ReservaAlocacaoEntity> reservaAlocacaoEntitySet = new HashSet<>();
+        reservaAlocacaoEntitySet.add(reservaAlocacaoEntity);
+        aluno.setReservaAlocacaos(reservaAlocacaoEntitySet);
+
         when(reservaAlocacaoRepository.save(any())).thenReturn(reservaAlocacaoEntity);
         when(alunoService.findById(anyInt())).thenReturn(aluno);
         //ACT
@@ -83,7 +88,7 @@ public class ReservaAlocacaoServiceTest {
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = ReservaAlocacaoFactory.getReservaAlocacaoCreateDTO();
         ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         AlunoEntity aluno = AlunoFactory.getAlunoEntity();
-        when(alunoService.alterarStatusAluno(any(), any())).thenReturn(aluno);
+
         when(alunoService.findById(anyInt())).thenReturn(aluno);
         //ACT
         doThrow(DataIntegrityViolationException.class).when(reservaAlocacaoRepository).save(any());
@@ -102,11 +107,15 @@ public class ReservaAlocacaoServiceTest {
         aluno.setStatusAluno(StatusAluno.ALOCADO);
         reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.ALOCADO);
         reservaAlocacaoEntity.setAluno(aluno);
+        Set<ReservaAlocacaoEntity> reservaAlocacaoEntitySet = new HashSet<>();
+        reservaAlocacaoEntitySet.add(reservaAlocacaoEntity);
+        aluno.setReservaAlocacaos(reservaAlocacaoEntitySet);
         when(alunoService.findById(anyInt())).thenReturn(aluno);
         when(reservaAlocacaoRepository.findById(anyInt())).thenReturn(Optional.of(reservaAlocacaoEntity));
         ReservaAlocacaoEntity reservaAlocacao = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         reservaAlocacao.setDescricao("abc");
         when(reservaAlocacaoRepository.save(any())).thenReturn(reservaAlocacao);
+
 
         ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.editar(codigo, reservaAlocacaoCreateDTO);
 
@@ -126,6 +135,9 @@ public class ReservaAlocacaoServiceTest {
         reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.RESERVADO);
         reservaAlocacaoCreateDTO.setIdVaga(2);
         reservaAlocacaoEntity.setAluno(aluno);
+        Set<ReservaAlocacaoEntity> reservaAlocacaoEntitySet = new HashSet<>();
+        reservaAlocacaoEntitySet.add(reservaAlocacaoEntity);
+        aluno.setReservaAlocacaos(reservaAlocacaoEntitySet);
         when(alunoService.findById(anyInt())).thenReturn(aluno);
         when(vagaService.findById(anyInt())).thenReturn(vagaEntity);
         when(reservaAlocacaoRepository.findById(anyInt())).thenReturn(Optional.of(reservaAlocacaoEntity));
