@@ -35,7 +35,7 @@ public interface VagaInterfaceController {
             }
     )
     @GetMapping
-    ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho);
+    ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Lista vaga por id", description = "Listar vaga por id")
     @ApiResponses(
@@ -46,7 +46,7 @@ public interface VagaInterfaceController {
             }
     )
     @GetMapping("/{idVaga}")
-    public ResponseEntity<VagaDTO> listarPoId(@PathVariable("idVaga") Integer idVaga) throws RegraDeNegocioException;
+    public ResponseEntity<PageDTO<VagaDTO>> listarPoId(@PathVariable("idVaga") Integer idVaga) throws RegraDeNegocioException;
 
     @Operation(summary = "Editar a vaga por id", description = "Editar vaga por id")
     @ApiResponses(

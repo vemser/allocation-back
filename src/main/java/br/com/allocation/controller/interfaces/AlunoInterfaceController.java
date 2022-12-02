@@ -36,16 +36,16 @@ public interface AlunoInterfaceController {
     @GetMapping
     ResponseEntity<PageDTO<AlunoDTO>> listar(Integer pagina, Integer tamanho);
 
-    @Operation(summary = "Lista aluno por email", description = "Lista um aluno por email!")
+    @Operation(summary = "Lista alunos por email", description = "Lista um alunos por email!")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Aluno Listado com sucesso"),
+                    @ApiResponse(responseCode = "200", description = "Alunos Listados com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping("/email/{email}")
-    public ResponseEntity<AlunoDTO> listarPorEmail(@PathVariable("email") String email) throws RegraDeNegocioException;
+    public ResponseEntity<PageDTO<AlunoDTO>> listarPorEmail(Integer pagina, Integer tamanho, String email) ;
 
     @Operation(summary = "Lista aluno por email", description = "Lista um aluno por email!")
     @ApiResponses(
@@ -81,15 +81,16 @@ public interface AlunoInterfaceController {
     )
     @DeleteMapping("{idAluno}")
     ResponseEntity<Void> deletar(@PathVariable(name = "idAluno") Integer idAluno) throws RegraDeNegocioException;
+
     @Operation(summary = "Listar alunos disponiveis para alocação e reserva", description = "Listar alunos disponiveis para alocacao!")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Alunos disponiveis listado com sucesso!"),
+                    @ApiResponse(responseCode = "200", description = "Alunos disponiveis listado com sucesso!"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "404", description = "Não encontrado"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping("/disponiveis")
-    List<AlunoDTO> disponiveis();
+    public ResponseEntity<PageDTO<AlunoDTO>> disponiveis(Integer pagina, Integer tamanho);
 }

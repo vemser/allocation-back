@@ -13,8 +13,9 @@ import java.util.Set;
 
 @Repository
 public interface AlunoRepository extends JpaRepository<AlunoEntity, Integer> {
-    Set<AlunoEntity> findAllByStatusAluno(StatusAluno statusAluno);
+    Page<AlunoEntity> findAllByStatusAluno(Pageable pageable, StatusAluno statusAluno);
     Optional<AlunoEntity> findByEmailIgnoreCase(String email);
     Optional<AlunoEntity> findByNome(String nome);
     Page<AlunoEntity> findAllByNomeContainingIgnoreCase(Pageable pageable, String nome);
+    Page<AlunoEntity> findAllByEmailIgnoreCase(Pageable pageable, String email);
 }

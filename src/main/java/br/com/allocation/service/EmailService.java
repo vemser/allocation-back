@@ -5,6 +5,7 @@ import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.entity.VagaEntity;
+import br.com.allocation.exceptions.RegraDeNegocioException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class EmailService {
 
     private final JavaMailSender emailSender;
 
-    public void sendEmail(List<VagaDTO> vagaDTO, UsuarioDTO usuario, List<AlunoDTO> alunoDTO) {
+    public void sendEmail(List<VagaDTO> vagaDTO, UsuarioDTO usuario, List<AlunoDTO> alunoDTO)  throws RegraDeNegocioException {
 
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         Map<String, Object> dados = new HashMap<>();
@@ -47,11 +48,9 @@ public class EmailService {
         if(alunoDTO.size() == 0){
             todosAlunos = "Nenhuma aluno disponível!";
         }
-
         for (VagaDTO vagas: vagaDTO) {
             nomeVagas.add(vagas.getNome());
             todasVagas = nomeVagas.toString();
-
         }
         dados.put("vaga", todasVagas);
         for (AlunoDTO aluno: alunoDTO) {

@@ -119,6 +119,25 @@ public class ProgramaServiceTest {
     }
 
     @Test
+    public void deveTestarListarPorNomeComSucesso() {
+        //SETUP
+        Integer pagina = 4;
+        Integer quantidade = 10;
+        String nome = "Vem ser 11";
+
+        ProgramaEntity programa = getProgramaEntity();
+
+        Page<ProgramaEntity> programaEntityPage = new PageImpl<>(List.of(programa));
+
+        when(programaRepository.findAllByNomeContainingIgnoreCase(anyString(), any(Pageable.class))).thenReturn(programaEntityPage);
+        //ACT
+        PageDTO<ProgramaDTO> programaDTOPageDTO = programaService.listarPorNome(pagina, quantidade, nome);
+
+        //ASSERT
+        assertNotNull(programaDTOPageDTO);
+    }
+
+    @Test
     public void deveTestarFindByIdComSucesso() throws RegraDeNegocioException {
         //SETUP
         Integer id = 1;
@@ -130,6 +149,20 @@ public class ProgramaServiceTest {
         assertNotNull(programa);
         assertNotNull(programa.getIdPrograma());
         assertEquals(1, programa.getIdPrograma());
+
+    }
+
+    @Test
+    public void deveTestarListarPorIdComSucesso() throws RegraDeNegocioException {
+        //SETUP
+        Integer id = 1;
+        ProgramaEntity programaEntity = getProgramaEntity();
+        when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
+
+        //ACT
+        ProgramaDTO programaDTO = programaService.listarPorId(id);
+        //ASSERT
+        assertNotNull(programaDTO);
 
     }
 

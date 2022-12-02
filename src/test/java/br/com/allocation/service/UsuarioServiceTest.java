@@ -166,20 +166,6 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void deveListarTodosUsuariosComSucesso() {
-        // Criar variaveis (SETUP)
-        UsuarioEntity usuarioEntity = getUsuarioEntity();
-        List<UsuarioEntity> usuarioEntityList = List.of(usuarioEntity);
-        when(usuarioRepository.findAll()).thenReturn(usuarioEntityList);
-
-        // Ação (ACT)
-        List<UsuarioDTO> usuarios = usuarioService.findAllUsers();
-
-        // Verificação (ASSERT)
-        assertNotNull(usuarios);
-    }
-
-    @Test
     public void deveListarUsuariosPaginadoComSucesso() {
         // Criar variaveis (SETUP)
         Integer pagina = 4;
