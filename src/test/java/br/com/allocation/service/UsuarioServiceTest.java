@@ -12,6 +12,7 @@ import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.CargoRepository;
 import br.com.allocation.repository.UsuarioRepository;
+import br.com.allocation.security.TokenService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,7 +28,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -55,6 +55,12 @@ public class UsuarioServiceTest {
 
     @Mock
     private CargoService cargoService;
+
+    @Mock
+    private TokenService tokenService;
+
+    @Mock
+    private EmailService emailService;
 
 
     @Before
@@ -286,6 +292,20 @@ public class UsuarioServiceTest {
 
         assertNotNull(loginWithIdDTO);
         assertEquals(usuarioEntity.getIdUsuario(), loginWithIdDTO.getIdUsuario());
+    }
+
+    @Test
+    public void deveTestarRecuperarSenhaComSucesso() throws RegraDeNegocioException {
+        String email = "gustavo@dbccompany.com.br";
+        UsuarioEntity usuarioEntity = getUsuarioEntity();
+        String token = "12312412412dqwdqwdq12";
+        when(tokenService.getTokenRecuperarSenha(any())).thenReturn(token);
+        when(usuarioRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(usuarioEntity));
+
+        String recuperar = usuarioService.recuperarSenha(email);
+
+        assertNotNull(recuperar);
+
     }
 
     private static UsuarioEntity getUsuarioEntity() {

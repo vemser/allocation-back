@@ -65,7 +65,6 @@ public class RelatorioServiceTest {
         usuarioDTOList.add(usuario);
         vagaDTOList.add(vaga);
         alunoDTOList.add(aluno);
-        CargoEntity cargoEntity = getCargoEntity();
         when(usuarioService.listarPorCargo(anyInt(), anyInt(), any())).thenReturn(usuarioDTOPageDTO);
         when(vagaService.findAllWithSituacaoAberto()).thenReturn(vagaDTOList);
 
