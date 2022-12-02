@@ -43,17 +43,17 @@ public class ReservaAlocacaoEntity {
     private StatusAluno statusAluno;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_aluno", referencedColumnName = "id_aluno")
     private AlunoEntity aluno;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "codigo_vaga", referencedColumnName = "codigo_vaga")
     private VagaEntity vaga;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "codigo_avaliacao", referencedColumnName = "codigo_avaliacao")
     private AvaliacaoEntity avaliacao;
 }

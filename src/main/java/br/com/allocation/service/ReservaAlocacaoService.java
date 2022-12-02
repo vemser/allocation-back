@@ -15,6 +15,7 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import br.com.allocation.repository.ReservaAlocacaoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,6 @@ public class ReservaAlocacaoService {
 
 
     public ReservaAlocacaoDTO salvar(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
 
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
@@ -41,10 +41,17 @@ public class ReservaAlocacaoService {
         alunoService.alterarStatusAluno(reservaAlocacaoCreateDTO.getIdAluno(),
                 reservaAlocacaoCreateDTO);
 
-        ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
-        aluno.setReservaAlocacao(saveAlocacaoReserva);
+        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
 
-        ReservaAlocacaoDTO reservaAlocacaoDTO = converterEmDTO(saveAlocacaoReserva);
+        try {
+            reservaAlocacaoEntity = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
+        }catch (DataIntegrityViolationException ex){
+            throw new RegraDeNegocioException("Erro ao resevar, aluno já cadastrado!");
+        }
+
+        aluno.setReservaAlocacao(reservaAlocacaoEntity);
+
+        ReservaAlocacaoDTO reservaAlocacaoDTO = converterEmDTO(reservaAlocacaoEntity);
         return reservaAlocacaoDTO;
     }
 
@@ -71,9 +78,10 @@ public class ReservaAlocacaoService {
 
     public void deletar(Integer id) throws RegraDeNegocioException {
         ReservaAlocacaoEntity reservaLocacaoDelete = this.findById(id);
-        reservaAlocacaoRepository.deleteById(reservaLocacaoDelete.getCodigo());
-        reservaLocacaoDelete.getAluno().setStatusAluno(StatusAluno.DISPONIVEL);
-        alunoRepository.save(reservaLocacaoDelete.getAluno());
+        AlunoEntity aluno =  reservaLocacaoDelete.getAluno();
+        aluno.setStatusAluno(StatusAluno.DISPONIVEL);
+        alunoRepository.save(aluno);
+        reservaAlocacaoRepository.delete(reservaLocacaoDelete);
     }
 
     public PageDTO<ReservaAlocacaoDTO> listar(Integer pagina, Integer tamanho) {

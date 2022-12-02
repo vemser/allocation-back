@@ -62,7 +62,7 @@ public class AvaliacaoEntity {
     private SituacaoAluno situacao;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_aluno", referencedColumnName = "id_aluno")
     private AlunoEntity aluno;
 
@@ -72,7 +72,7 @@ public class AvaliacaoEntity {
     private VagaEntity vaga;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "avaliacao", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "avaliacao", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ReservaAlocacaoEntity> reservasAlocacoes = new HashSet<>();
 
 }
