@@ -8,11 +8,11 @@ import javax.persistence.Lob;
 @Data
 public class FileDTO {
 
-    private String name;
+    private Integer id;
 
-    private String fileURI;
+    private String name;
 
     private String type;
 
-    private Integer data;
+    private byte[] data;
 }

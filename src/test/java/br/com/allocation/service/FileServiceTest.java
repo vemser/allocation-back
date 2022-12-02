@@ -1,14 +1,21 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.usuarioDTO.FileDTO;
 import br.com.allocation.entity.FileEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.FileRepository;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,9 +41,16 @@ public class FileServiceTest {
     @Mock
     private UsuarioService usuarioService;
 
-    @Mock
-    private StringUtils stringUtils;
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    @Before
+    public void init() {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        ReflectionTestUtils.setField(fileService, "objectMapper", objectMapper);
+    }
     @Test
     public void deveTestarStoreComSucesso() throws RegraDeNegocioException, IOException {
         //Setup
@@ -89,10 +103,69 @@ public class FileServiceTest {
         when(usuarioService.findUsuarioEntityByEmail(anyString())).thenReturn(usuario);
         when(fileRepository.save(any())).thenReturn(fileEntity);
         //ACT
-        FileEntity fileEntity1 = fileService.store(file, usuario.getEmail());
+        FileDTO fileDTO = fileService.store(file, usuario.getEmail());
 
         //ASSERT
-        assertNotNull(fileEntity1);
+        assertNotNull(fileDTO);
+
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void deveTestarStoreComErro() throws RegraDeNegocioException, IOException {
+        //Setup
+        FileEntity fileEntity = getFileEntity();
+        UsuarioEntity usuario = getUsuarioEntity();
+        fileEntity.setData(null);
+        MultipartFile file = new MultipartFile() {
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String getOriginalFilename() {
+                return null;
+            }
+
+            @Override
+            public String getContentType() {
+                return "png";
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public long getSize() {
+                return 0;
+            }
+
+            @Override
+            public byte[] getBytes() throws IOException {
+                return null;
+            }
+
+            @Override
+            public InputStream getInputStream() throws IOException {
+                return null;
+            }
+
+            @Override
+            public void transferTo(File dest) throws IOException, IllegalStateException {
+
+            }
+
+        };
+        file = null;
+
+        when(usuarioService.findUsuarioEntityByEmail(anyString())).thenReturn(usuario);
+        //ACT
+        FileDTO fileDTO = fileService.store(file, usuario.getEmail());
+
+        //ASSERT
+        assertNull(fileDTO);
 
     }
 
