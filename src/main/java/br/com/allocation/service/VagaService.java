@@ -157,9 +157,8 @@ public class VagaService {
 
     public void alterarQuantidadeDeVagas(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
-
-        if (vaga.getQuantidadeAlocados() < vaga.getQuantidade()){
-            vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() + 1);
+        if (vaga.getQuantidade() > 0){
+            vaga.setQuantidade(vaga.getQuantidade() - 1);
             vagaRepository.save(vaga);
         }else {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
