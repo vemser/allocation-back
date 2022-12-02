@@ -34,12 +34,12 @@ public class VagaController implements VagaInterfaceController {
     }
 
     @Override
-    public ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho) {
+    public ResponseEntity<PageDTO<VagaDTO>> listar(Integer pagina, Integer tamanho) throws RegraDeNegocioException {
         return ResponseEntity.ok(vagaService.listar(pagina, tamanho));
     }
 
     @Override
-    public ResponseEntity<VagaDTO> listarPoId(Integer idVaga) throws RegraDeNegocioException {
+    public ResponseEntity<PageDTO<VagaDTO>> listarPoId(Integer idVaga) throws RegraDeNegocioException {
         return ResponseEntity.ok(vagaService.listarPorId(idVaga));
     }
 

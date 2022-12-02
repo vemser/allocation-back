@@ -72,12 +72,6 @@ public class UsuarioService {
         return converterEmDTO(usuario);
     }
 
-    public List<UsuarioDTO> findAllUsers(){
-        return usuarioRepository.findAll()
-                .stream()
-                .map(this::converterEmDTO)
-                .toList();
-    }
 
     public PageDTO<UsuarioDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
