@@ -45,13 +45,13 @@ public interface ReservaAlocacaoInterface {
             }
     )
     @GetMapping("/filtro")
-    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, @RequestBody String nomeAluno, @RequestBody String nomeVaga);
+    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, @RequestParam(required = false) String nomeAluno, @RequestParam(required = false) String nomeVaga);
 
 
     @Operation(summary = "Editar Reserva alocação", description = "Editar uma Reserva alocação e salva no banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Reserva alocação Editada com sucesso"),
+                    @ApiResponse(responseCode = "200", description = "Reserva alocação Editada com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }

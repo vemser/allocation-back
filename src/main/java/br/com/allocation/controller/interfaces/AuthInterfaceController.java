@@ -43,8 +43,8 @@ public interface AuthInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping("/recuperar-senha")
-    public ResponseEntity<String> recuperarSenha(@RequestParam("email") String email) throws RegraDeNegocioException;
+    @PostMapping("/recuperar-senha/{email}")
+    public ResponseEntity<String> recuperarSenha(@PathVariable("email") String email) throws RegraDeNegocioException;
 
     @Operation(summary = "Atualizar senha.", description = "Atualiza a senha do usuario.")
     @ApiResponses(
