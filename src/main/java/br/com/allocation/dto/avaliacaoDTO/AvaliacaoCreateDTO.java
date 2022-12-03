@@ -1,6 +1,5 @@
 package br.com.allocation.dto.avaliacaoDTO;
 
-import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.TipoAvaliacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -52,7 +51,7 @@ public class AvaliacaoCreateDTO {
     private TipoAvaliacao tipoAvaliacao;
 
     @NotNull(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "situação",example = "")
+    @Schema(description = "situação",example = "AVALIADO")
     private String situacao;
 
 

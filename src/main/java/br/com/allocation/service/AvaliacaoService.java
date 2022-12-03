@@ -50,6 +50,8 @@ public class AvaliacaoService {
     public AvaliacaoDTO editar(Integer id, AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(id);
         avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
+        avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
+        avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getIdVaga()));
         avaliacaoEntity.setIdAvaliacao(id);
         avaliacaoEntity.setDataCriacao(LocalDate.now());
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
