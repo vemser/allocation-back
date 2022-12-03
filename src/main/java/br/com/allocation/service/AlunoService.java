@@ -28,6 +28,7 @@ public class AlunoService {
     private final TecnologiaService tecnologiaService;
     private final ProgramaService programaService;
 
+
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
 
@@ -133,6 +134,7 @@ public class AlunoService {
     }
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
+
         String emProcesso = "Não";
 
         List<String> tecs = new ArrayList<>();
@@ -147,6 +149,7 @@ public class AlunoService {
                 tecs,
                 alunoEntity.getPrograma().getIdPrograma(),
                 emProcesso,
+//                alunoEntity.getAlunoEmProcesso(),
                 alunoEntity.getStatusAluno());
     }
 

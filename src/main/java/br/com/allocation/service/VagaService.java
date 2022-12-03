@@ -37,6 +37,7 @@ public class VagaService {
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
 
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
+        vagaCreate.setSituacao(Situacao.ABERTO);
         VagaEntity vagaEntity = converterEntity(vagaCreate);
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
@@ -98,7 +99,10 @@ public class VagaService {
     }
 
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
-        findById(idVaga);
+        VagaEntity vagaEntity1 = findById(idVaga);
+        if (vagaCreate.getSituacao().equals(Situacao.FECHADO)){
+            fecharVaga(vagaEntity1);
+        }
         VagaEntity vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
 
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
@@ -160,11 +164,20 @@ public class VagaService {
         if (vaga.getQuantidade() > 0){
             vaga.setQuantidade(vaga.getQuantidade() - 1);
             vagaRepository.save(vaga);
+            fecharVaga(vaga);
         }else {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }
-   public void adicionarQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
+
+    public void fecharVaga(VagaEntity vaga) {
+        if (vaga.getQuantidade() == 0){
+            vaga.setSituacao(Situacao.FECHADO);
+            vagaRepository.save(vaga);
+        }
+    }
+
+    public void adicionarQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
        VagaEntity vaga = findById(idVaga);
        vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() + 1);
        vagaRepository.save(vaga);
