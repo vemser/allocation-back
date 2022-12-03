@@ -59,6 +59,7 @@ public class ClienteService {
     }
 
 
+
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
         this.findById(idCliente);
         ClienteEntity clienteEntity = converterEntity(clienteCreate);
