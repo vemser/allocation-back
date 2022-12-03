@@ -8,7 +8,6 @@ import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.Situacao;
-import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +47,7 @@ public class VagaService {
     }
 
     private static void bloquearAlteracaoEmQuantAlocados(VagaCreateDTO vagaCreate) {
-        if (vagaCreate.getQuantidadeAlocados() != null){
+        if (vagaCreate.getQuantidadeAlocados() != null) {
             vagaCreate.setQuantidadeAlocados(0);
         }
     }
@@ -100,7 +99,7 @@ public class VagaService {
 
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity1 = findById(idVaga);
-        if (vagaCreate.getSituacao().equals(Situacao.FECHADO)){
+        if (vagaCreate.getSituacao().equals(Situacao.FECHADO)) {
             fecharVaga(vagaEntity1);
         }
         VagaEntity vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
@@ -161,7 +160,7 @@ public class VagaService {
 
     public void alterarQuantidadeDeVagas(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
-        if (vaga.getQuantidade() > 0){
+        if (vaga.getQuantidade() > 0) {
             vaga.setQuantidade(vaga.getQuantidade() - 1);
             vagaRepository.save(vaga);
             fecharVaga(vaga);
@@ -171,16 +170,16 @@ public class VagaService {
     }
 
     public void fecharVaga(VagaEntity vaga) {
-        if (vaga.getQuantidade() == 0){
+        if (vaga.getQuantidade() == 0) {
             vaga.setSituacao(Situacao.FECHADO);
             vagaRepository.save(vaga);
         }
     }
 
     public void adicionarQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
-       VagaEntity vaga = findById(idVaga);
-       vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() + 1);
-       vagaRepository.save(vaga);
-   }
+        VagaEntity vaga = findById(idVaga);
+        vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() + 1);
+        vagaRepository.save(vaga);
+    }
 
 }

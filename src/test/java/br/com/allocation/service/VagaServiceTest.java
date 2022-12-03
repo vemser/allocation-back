@@ -1,13 +1,10 @@
 package br.com.allocation.service;
 
 import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
-import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.Situacao;
-import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
 import br.com.allocation.service.factory.ClienteFactory;
@@ -26,10 +23,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,7 +94,7 @@ public class VagaServiceTest {
     }
 
     @Test
-    public void deveTestarlistarPorNome(){
+    public void deveTestarlistarPorNome() {
         Integer pagina = 2;
         Integer tamanho = 10;
         String nome = "Desenvolvedor(a) Java - Back-End";
@@ -110,7 +108,6 @@ public class VagaServiceTest {
         PageDTO<VagaDTO> vagaDTOPageDTO = vagaService.listarPorNome(pagina, tamanho, nome);
 
         assertNotNull(vagaDTOPageDTO);
-
 
     }
 
@@ -134,7 +131,29 @@ public class VagaServiceTest {
         when(programaService.findById(any())).thenReturn(ProgramaFactory.getProgramaEntity());
         when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
 
+
         when(vagaRepository.save(any())).thenReturn(vagaEntity);
+        vagaService.fecharVaga(vagaEntity);
+        VagaDTO vagaDTO = vagaService.editar(id, vagaCreateDTO);
+
+        assertNotNull(vagaDTO);
+        assertEquals("vaga", vagaCreateDTO.getNome());
+        Assertions.assertEquals("cocacolabr@mail.com.br", vagaCreateDTO.getEmailCliente());
+        Assertions.assertEquals(id, vagaDTO.getIdVaga());
+
+    }
+    @Test
+    public void deveTestarEditarComErro() throws RegraDeNegocioException {
+        Integer id = 2;
+        VagaCreateDTO vagaCreateDTO = VagaFactory.getvagaCreateDTO();
+        VagaEntity vagaEntity = VagaFactory.getVagaEntity();
+        vagaCreateDTO.setSituacao(Situacao.FECHADO);
+        when(programaService.findById(any())).thenReturn(ProgramaFactory.getProgramaEntity());
+        when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
+
+
+        when(vagaRepository.save(any())).thenReturn(vagaEntity);
+        vagaService.fecharVaga(vagaEntity);
         VagaDTO vagaDTO = vagaService.editar(id, vagaCreateDTO);
 
         assertNotNull(vagaDTO);
@@ -152,6 +171,7 @@ public class VagaServiceTest {
         vagaService.deletar(id);
         verify(vagaRepository, times(1)).delete(any());
     }
+
     @Test
     public void deveTestarFindAllWithSituacaoAberto() {
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
@@ -187,7 +207,7 @@ public class VagaServiceTest {
 
         assertNotNull(vagaEntity);
 
-        Assertions.assertEquals(vagaEntity.getIdVaga(),id);
+        Assertions.assertEquals(vagaEntity.getIdVaga(), id);
     }
 
     @Test
@@ -198,14 +218,14 @@ public class VagaServiceTest {
 
         when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
         vagaService.findById(anyInt());
-        vagaEntity.setQuantidadeAlocados(vagaEntity.getQuantidadeAlocados()+ 1);
+        vagaEntity.setQuantidadeAlocados(vagaEntity.getQuantidadeAlocados() + 1);
         vagaRepository.save(any());
         vagaService.adicionarQuantidadeDeAlocados(anyInt());
 
         assertNotNull(vagaEntity);
 
-        Assertions.assertEquals(vagaEntity.getIdVaga(),idVaga);
-        Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(),2);
+        Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
+        Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(), 2);
 
     }
 
@@ -213,27 +233,42 @@ public class VagaServiceTest {
     public void deveTestarFecharVagaComSucesso() {
 
         VagaEntity vaga = VagaFactory.getVagaEntity();
-
         vaga.setSituacao(Situacao.FECHADO);
-        vagaService.fecharVaga(vaga);
         vagaRepository.save(vaga);
+        vagaService.fecharVaga(vaga);
 
         verify(vagaRepository, times(1)).save(vaga);
         assertNotNull(vaga.getSituacao());
-        assertEquals(vaga.getSituacao(),Situacao.FECHADO);
+        assertEquals(vaga.getSituacao(), Situacao.FECHADO);
+
+    }
+    @Test
+    public void deveTestarFecharVagaComErro() {
+        VagaEntity vaga = VagaFactory.getVagaEntity();
+        vaga.setQuantidade(0);
+        vaga.setSituacao(Situacao.FECHADO);
+        vagaRepository.save(vaga);
+        vagaService.fecharVaga(vaga);
+
+        assertNotNull(vaga.getSituacao());
+        assertEquals(vaga.getSituacao(), Situacao.FECHADO);
 
     }
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarAlterarQuantidadeDeVagasComErroAluno() throws RegraDeNegocioException {
-        VagaEntity vaga = VagaFactory.getVagaEntity();
+        VagaEntity vagaEntity = VagaFactory.getVagaEntity();
+        Integer idVaga = 2;
+        vagaEntity.setQuantidade(0);
+        when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
         vagaService.findById(anyInt());
-        when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vaga));
-        vaga.setQuantidade(vaga.getQuantidade() - 1);
-        vagaRepository.save(vaga);
-        vagaService.alterarQuantidadeDeVagas(vaga.getIdVaga());
+        vagaEntity.setQuantidadeAlocados(vagaEntity.getQuantidade() - 1);
+        vagaRepository.save(any());
+        vagaService.alterarQuantidadeDeVagas(idVaga);
+
+
+        assertNotNull(vagaEntity);
+        Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
+        Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(), 2);
     }
-//
-//    @Test(expected = RegraDeNegocioException.class)
-//    public void deveTestarFindByIdComErro() throws RegraDeNegocioException {
-//    }
+
 }
