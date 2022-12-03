@@ -1,4 +1,4 @@
-package br.com.allocation.security;
+package br.com.allocation.entity.security;
 
 
 import lombok.RequiredArgsConstructor;

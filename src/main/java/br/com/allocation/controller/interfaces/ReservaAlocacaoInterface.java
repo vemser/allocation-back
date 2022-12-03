@@ -28,13 +28,26 @@ public interface ReservaAlocacaoInterface {
     @Operation(summary = "Listar pagina de Reserva alocação", description = "Lista pagina Reserva alocação")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Reserva alocação Listadas com sucesso"),
+                    @ApiResponse(responseCode = "20", description = "Reserva alocação Listadas com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping
     ResponseEntity<PageDTO<ReservaAlocacaoDTO>> listar(Integer pagina, Integer tamanho);
+
+    @Operation(summary = "Filtra pagina de Reserva alocação", description = "Filtra pagina Reserva alocação")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Reserva alocação Listadas com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/filtro")
+    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, @RequestBody String nomeAluno, @RequestBody String nomeVaga);
+
+
     @Operation(summary = "Editar Reserva alocação", description = "Editar uma Reserva alocação e salva no banco de dados")
     @ApiResponses(
             value = {

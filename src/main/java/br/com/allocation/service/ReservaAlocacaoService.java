@@ -80,6 +80,22 @@ public class ReservaAlocacaoService {
         return converterEmDTO(saveAlocacaoReserva);
     }
 
+    public PageDTO<ReservaAlocacaoDTO> filtrar(Integer pagina, Integer tamanho, String nomeAluno, String nomeVaga) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
+                .findAllByFiltro(pageRequest, nomeAluno, nomeVaga);
+
+        List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage
+                .getContent().stream()
+                .map(this::converterEmDTO)
+                .collect(Collectors.toList());
+
+        return new PageDTO<>(reservaAlocacaoEntityPage.getTotalElements(),
+                reservaAlocacaoEntityPage.getTotalPages(),
+                pagina,
+                tamanho,
+                reservaAlocacaoDTOList);
+    }
 
     public void deletar(Integer id) throws RegraDeNegocioException {
         ReservaAlocacaoEntity reservaAlocacao = findById(id);
@@ -121,6 +137,7 @@ public class ReservaAlocacaoService {
         }
 
         return new ReservaAlocacaoEntity(null,
+                reservaAlocacaoCreateDTO.getIdAluno(),
                 reservaAlocacaoCreateDTO.getDescricao(),
                 reservaAlocacaoCreateDTO.getDataReserva(),
                 reservaAlocacaoCreateDTO.getDataAlocacao(),
