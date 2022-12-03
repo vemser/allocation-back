@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -29,6 +30,7 @@ public class ProgramaService {
     public ProgramaDTO salvar(ProgramaCreateDTO programaCreate) {
         ProgramaEntity programaEntity = objectMapper.convertValue(programaCreate, ProgramaEntity.class);
         programaEntity.setSituacao(Situacao.valueOf(programaCreate.getSituacao()));
+        programaEntity.setDataCriacao(LocalDate.now());
 
         return objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
     }
@@ -72,7 +74,7 @@ public class ProgramaService {
         programaEntity.setSituacao(Situacao.valueOf(programaCreate.getSituacao()));
         programaEntity.setNome(programaCreate.getNome());
         programaEntity.setDescricao(programaCreate.getDescricao());
-        programaEntity.setDataCriacao(programaCreate.getDataCriacao());
+        programaEntity.setDataCriacao(LocalDate.now());
         programaEntity.setDataTermino(programaCreate.getDataTermino());
 
         programaRepository.save(programaEntity);

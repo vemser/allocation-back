@@ -2,13 +2,10 @@ package br.com.allocation.service;
 
 import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.entity.AlunoEntity;
-import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.enums.Area;
@@ -254,7 +251,7 @@ public class AlunoServiceTest {
         Integer id = 1;
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         AlunoEntity alunoEntity = getAlunoEntity();
-        alunoEntity.setStatusAluno(StatusAluno.INATIVO);
+        alunoEntity.setStatusAluno(StatusAluno.FINALIZADO);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
 
@@ -269,7 +266,7 @@ public class AlunoServiceTest {
         Integer id = 1;
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         AlunoEntity alunoEntity = getAlunoEntity();
-        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.INATIVO);
+        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.FINALIZADO);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
 

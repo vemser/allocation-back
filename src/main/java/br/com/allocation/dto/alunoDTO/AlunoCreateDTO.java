@@ -21,7 +21,7 @@ public class AlunoCreateDTO {
     @Schema(description = "Nome do aluno", example = "Gustavo Lucena")
     private String nome;
 
-    //@Email
+
     @NotBlank(message = "email não pode ser vazio ou nulo.")
     @Schema(description = "email do usuario", example = "jhennyfer.sobrinho@dbccompany.com.br")
     private String email;
@@ -45,7 +45,7 @@ public class AlunoCreateDTO {
     @Schema(description = "Telefone do contato", example = "99595-1313")
     private String telefone;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+
     @Schema(description = "descrição", example = "xxxx")
     private String descricao;
 
