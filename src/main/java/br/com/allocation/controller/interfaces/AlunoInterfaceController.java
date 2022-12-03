@@ -44,7 +44,7 @@ public interface AlunoInterfaceController {
             }
     )
     @GetMapping("/email/{email}")
-    public ResponseEntity<PageDTO<AlunoDTO>> listarPorEmail(Integer pagina, Integer tamanho, String email) ;
+    public ResponseEntity<PageDTO<AlunoDTO>> listarPorEmail(Integer pagina, Integer tamanho, @PathVariable("email") String email) ;
 
     @Operation(summary = "Lista aluno por email", description = "Lista um aluno por email!")
     @ApiResponses(
