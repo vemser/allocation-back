@@ -80,6 +80,14 @@ public class ReservaAlocacaoService {
 
     public PageDTO<ReservaAlocacaoDTO> filtrar(Integer pagina, Integer tamanho, String nomeAluno, String nomeVaga) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+
+        if (nomeAluno != null){
+            nomeAluno = "%"+nomeAluno+"%";
+        }
+        if (nomeVaga != null){
+            nomeVaga = "%"+nomeVaga+"%";
+        }
+
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
                 .findAllByFiltro(pageRequest, nomeAluno, nomeVaga);
 
