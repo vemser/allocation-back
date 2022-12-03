@@ -46,6 +46,17 @@ public interface ClienteInterfaceController {
     @GetMapping("/email/{email}")
     public ResponseEntity<PageDTO<ClienteDTO>> listarPorEmail(Integer pagina, Integer tamanho ,@PathVariable("email") String email);
 
+    @Operation(summary = "Listar pagina de clientes", description = "Lista uma pagina de clientes")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Clientes Listados com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<PageDTO<ClienteDTO>> listarPorNome(Integer pagina, Integer tamanho ,@PathVariable("nome") String email);
+
     @Operation(summary = "Editar cliente", description = "Editar um cliente no banco de dados")
     @ApiResponses(
             value = {
