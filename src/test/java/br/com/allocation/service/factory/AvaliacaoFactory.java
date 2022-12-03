@@ -1,5 +1,6 @@
 package br.com.allocation.service.factory;
 
+import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.TipoAvaliacao;
@@ -19,5 +20,18 @@ public class AvaliacaoFactory {
                 VagaFactory.getVagaEntity(),
                 Collections.emptySet());
         return avaliacaoEntity;
+    }
+
+    public static AvaliacaoCreateDTO getAvaliacaoCreateDTO(){
+        AvaliacaoCreateDTO avaliacaoCreateDTO = new AvaliacaoCreateDTO();
+        avaliacaoCreateDTO.setIdVaga(1);
+        avaliacaoCreateDTO.setEmailAluno("kaio@bol.com");
+        avaliacaoCreateDTO.setDataAvaliacao(LocalDate.now());
+        avaliacaoCreateDTO.setTipoAvaliacao(TipoAvaliacao.INDIVIDUAL);
+        avaliacaoCreateDTO.setDataCriacao(LocalDate.now());
+        avaliacaoCreateDTO.setDescricao("xxxx");
+        avaliacaoCreateDTO.setNota(10);
+        avaliacaoCreateDTO.setSituacao(String.valueOf(SituacaoAluno.APROVADO));
+        return avaliacaoCreateDTO;
     }
 }
