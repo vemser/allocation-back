@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,16 +27,21 @@ public class FileService {
     public FileDTO store(MultipartFile file, String email) throws IOException, RegraDeNegocioException {
         try {
             UsuarioEntity usuario = usuarioService.findUsuarioEntityByEmail(email);
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            FileEntity fileEntityExiste = fileRepository.findFileEntitiesByUsuario(usuario);
             FileEntity fileDB = new FileEntity();
+            if(fileEntityExiste != null){
+                fileDB = fileEntityExiste;
+            }
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             fileDB.setName(fileName);
             fileDB.setType(file.getContentType());
             fileDB.setData(file.getBytes());
+
             fileDB.setUsuario(usuario);
             FileEntity fileEntity = fileRepository.save(fileDB);
             FileDTO fileDTO = objectMapper.convertValue(fileEntity, FileDTO.class);
             return fileDTO;
-        }
+            }
         catch (Exception e){
             throw new RegraDeNegocioException("Ocorreu um erro ao enviar a imagem!");
         }
