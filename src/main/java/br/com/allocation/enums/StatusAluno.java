@@ -5,8 +5,8 @@ public enum StatusAluno {
     DISPONIVEL,
     RESERVADO,
 
-    FINALIZADO,
-    INATIVO;
+    INATIVO,
+    FINALIZADO;
 
 
 }

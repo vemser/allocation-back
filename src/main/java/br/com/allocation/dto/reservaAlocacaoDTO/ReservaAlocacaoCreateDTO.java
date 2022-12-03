@@ -27,7 +27,7 @@ public class ReservaAlocacaoCreateDTO {
     @Schema(description = "id da avaliaçao", example = "5")
     private Integer idAvaliacao;
 
-    @NotBlank(message = "Nome não pode ser vazio ou nulo.")
+
     @Schema(description = "Descrição", example = "O que nós buscamos " +
             "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String descricao;

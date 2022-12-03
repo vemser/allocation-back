@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class AvaliacaoService {
         avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getIdVaga()));
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
         avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
+        avaliacaoEntity.setDataCriacao(LocalDate.now());
 
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
@@ -40,6 +42,7 @@ public class AvaliacaoService {
         AvaliacaoEntity avaliacaoEntity = findById(id);
         avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
         avaliacaoEntity.setIdAvaliacao(id);
+        avaliacaoEntity.setDataCriacao(LocalDate.now());
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }

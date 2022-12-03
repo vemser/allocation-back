@@ -63,6 +63,7 @@ public class SecurityConfiguration {
                                 .antMatchers("/cargo/**").hasAnyRole("ADMINISTRADOR")
                                 .anyRequest().authenticated()
                 );
+
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

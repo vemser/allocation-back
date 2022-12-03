@@ -26,7 +26,6 @@ public class VagaCreateDTO {
     @Schema(description = "Quantidade de pessoas para a vaga", example = "2")
     private Integer quantidade;
 
-    @NotNull(message = "Quantidade não pode ser vazio ou nulo.")
     @Schema(description = "Quantidade de pessoas alocadas na vaga", example = "1")
     private Integer quantidadeAlocados ;
 
@@ -38,18 +37,16 @@ public class VagaCreateDTO {
     @Schema(description = "situacao da vaga", example = "ATIVO")
     private Situacao situacao;
 
-    @NotNull(message = "Data não pode ser vazio ou nulo.")
     @Schema(description = "Data abertura vaga", example = "2022-12-20")
     private LocalDate dataAbertura;
 
-    @NotNull(message = "Data não pode ser vazio ou nulo.")
+
     @Schema(description = "Data fechamento vaga", example = "2022-12-26")
     private LocalDate dataFechamento;
 
-    @NotNull(message = "Data não pode ser vazio ou nulo.")
     @Schema(description = "Data criação")
     private LocalDate dataCriacao;
-    
+
     @Schema(description = "Observaçoes sobre a vaga", example = "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String observacoes;
 
@@ -57,6 +54,5 @@ public class VagaCreateDTO {
     @Schema(description = "email do cliente", example = "sicred@dbccompany.com.br")
     @Email
     private String emailCliente;
-
 
 }
