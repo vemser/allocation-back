@@ -165,6 +165,25 @@ public class ClienteServiceTest {
     }
 
     @Test
+    public void deveTestarListarPorNomeComSucesso(){
+        //SETUP
+        Integer pagina = 4;
+        Integer quantidade = 10;
+        String email = "cocacolabr@mail.com.br";
+
+        ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
+
+        Page<ClienteEntity> clienteEntityPage = new PageImpl<>(List.of(clienteEntity));
+
+        when(clienteRepository.findAllByNomeContainingIgnoreCase(any(Pageable.class), anyString())).thenReturn(clienteEntityPage);
+        //ACT
+        PageDTO<ClienteDTO> clienteDTOPageDTO = clienteService.listarPorNome(pagina, quantidade, email);
+
+        //ASSERT
+        assertNotNull(clienteDTOPageDTO);
+    }
+
+    @Test
     public void deveTestarFindByEmailComSucesso() throws RegraDeNegocioException {
         //SETUP
         String email = "cocacolabr@mail.com.br";
