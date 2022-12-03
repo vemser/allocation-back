@@ -11,7 +11,7 @@ import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
-import br.com.allocation.entity.security.TokenService;
+import br.com.allocation.security.TokenService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

@@ -8,7 +8,7 @@ import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
-import br.com.allocation.entity.security.TokenService;
+import br.com.allocation.security.TokenService;
 import br.com.allocation.service.FileService;
 import br.com.allocation.service.UsuarioService;
 import lombok.RequiredArgsConstructor;

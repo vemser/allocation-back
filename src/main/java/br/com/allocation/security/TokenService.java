@@ -1,4 +1,4 @@
-package br.com.allocation.entity.security;
+package br.com.allocation.security;
 
 import br.com.allocation.dto.loginDTO.LoginDTO;
 import br.com.allocation.entity.CargoEntity;
