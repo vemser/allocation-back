@@ -49,8 +49,7 @@ public class VagaCreateDTO {
     @NotNull(message = "Data não pode ser vazio ou nulo.")
     @Schema(description = "Data criação")
     private LocalDate dataCriacao;
-
-    @NotBlank(message = "observacoes não pode ser vazio ou nulo.")
+    
     @Schema(description = "Observaçoes sobre a vaga", example = "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String observacoes;
 

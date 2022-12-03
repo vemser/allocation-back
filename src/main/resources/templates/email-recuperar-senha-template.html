@@ -4,18 +4,11 @@
     <title>Allocation-API</title>
 </head>
 
-<style>
-    #linha-horizontal {
-        width: 300px;
-        border: 1px solid rgb(30, 98, 254);
-    }
-</style>
-
 <body>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td align="center" valign="top" bgcolor="#838383"
-            style="background: rgb(121,9,75); background: linear-gradient(32deg, rgb(30, 98, 254) 61%, rgb(30, 98, 254) 61%);">
+        <td align="center" valign="top" bgcolor="#FFFFFF"
+            style="background: rgb(121,9,75); background: linear-gradient(32deg, rgb(255, 255, 255) 61%, rgb(30, 98, 254) 61%);">
             <br> <br>
             <table width="600" cellspacing="0" cellpadding="0">
                 <tr>
@@ -36,12 +29,15 @@
                             <p>Olá ${nome} </p>
                         </div>
 
-                        <div style="font-size: 24px; color:rgb(255, 255, 255);">
+                        <div width="400"  style="font-size: 24px; color:rgb(255, 255, 255);">
 
                             <br>
                             <br>
-                            <p style="font-size:24px; color: rgb(0, 0, 0);">Entre no link para trocar a senha:</p>
-                            <p style="font-size:24px; color: rgb(0, 0, 0);"> <a href="link">${link}</a>
+                            <p style="font-size:24px; color: rgb(0, 0, 0);">Aperte o botão para trocar a senha:</p>
+
+                            <form action= ${link}">
+                                <input style="font-size:32px" type="submit" value="Recupere sua senha" />
+                            </form>
 
                             <br>
                             <br>
