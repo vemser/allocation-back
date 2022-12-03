@@ -8,8 +8,7 @@ import java.time.LocalDate;
 
 public class ReservaAlocacaoFactory {
     public static ReservaAlocacaoEntity getReservaAlocacaoEntity() {
-        ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(1,
-                2,
+        ReservaAlocacaoEntity reservaAlocacaoEntity = new ReservaAlocacaoEntity(1,1,
                 "xx",
                 LocalDate.now().plusDays(2),
                 LocalDate.now().plusMonths(1),
