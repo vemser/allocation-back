@@ -6,6 +6,7 @@ import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
 import br.com.allocation.dto.usuarioDTO.FileDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.security.TokenService;
@@ -59,8 +60,8 @@ public class AuthController implements AuthInterfaceController {
     }
 
     @Override
-    public ResponseEntity<String> atualizarSenha(@RequestBody String senha,@RequestBody String confirmarSenha, @RequestParam String token) throws RegraDeNegocioException {
-        return ResponseEntity.ok(usuarioService.atualizarSenha(senha, confirmarSenha,token));
+    public ResponseEntity<String> atualizarSenha(UsuarioSenhaDTO usuarioSenhaDTO, String token) throws RegraDeNegocioException {
+        return ResponseEntity.ok(usuarioService.atualizarSenha(usuarioSenhaDTO, token));
     }
 
     @Override

@@ -7,6 +7,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Cargos;
@@ -14,11 +15,16 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
 import br.com.allocation.security.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +41,9 @@ public class UsuarioService {
     private final CargoService cargoService;
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${jwt.secret}")
+    private String secret;
 
     public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
@@ -147,18 +156,21 @@ public class UsuarioService {
         return "Verifique seu email para trocar a senha.";
     }
 
-    public String atualizarSenha(String senha, String confirmarSenha, String token) throws RegraDeNegocioException {
-        validarSenha(senha);
-        if(!confirmarSenha.equals(senha)){
+    public String atualizarSenha(UsuarioSenhaDTO dto, String token) throws RegraDeNegocioException {
+        validarSenha(dto.getSenha());
+        if(!dto.getSenhaIgual().equals(dto.getSenha())){
             throw new RegraDeNegocioException("Senhas diferentes!");
         }
 
-        UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
-        UsuarioEntity usuarioEntity = (UsuarioEntity) tokenObject.getPrincipal();
+        Claims corpo = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token.replace("Bearer ", ""))
+                .getBody();
 
-        UsuarioEntity usuario = findById(usuarioEntity.getIdUsuario());
+        String userId = corpo.get(Claims.ID, String.class);
+        UsuarioEntity usuario = findById(Integer.valueOf(userId));
 
-        String senhaCriptografada = passwordEncoder.encode(senha);
+        String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
         usuario.setSenha(senhaCriptografada);
         usuarioRepository.save(usuario);
 
