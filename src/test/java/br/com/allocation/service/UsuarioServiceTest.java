@@ -337,30 +337,30 @@ public class UsuarioServiceTest {
 
     }
 
-    @Test
-    public void deveTertarAtualizarSenhaComSucesso() throws RegraDeNegocioException {
-        String senha = "123456qp";
-        String senhaIgual = "123456qp";
-        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
+//    @Test
+//    public void deveTertarAtualizarSenhaComSucesso() throws RegraDeNegocioException {
+//        String senha = "123456qp";
+//        String senhaIgual = "123456qp";
+//        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
+//
+//        when(tokenService.isValid(anyString())).thenReturn(new UsernamePasswordAuthenticationToken(getUsuarioEntity(), null, Collections.emptyList()));
+//        when(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(getUsuarioEntity()));
+//        when(passwordEncoder.encode(anyString())).thenReturn("vdhgvc8484dv");
+//
+//        usuarioService.atualizarSenha(senha, senhaIgual, token);
+//
+//        verify(usuarioRepository, times(1)).save(any());
+//    }
 
-        when(tokenService.isValid(anyString())).thenReturn(new UsernamePasswordAuthenticationToken(getUsuarioEntity(), null, Collections.emptyList()));
-        when(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(getUsuarioEntity()));
-        when(passwordEncoder.encode(anyString())).thenReturn("vdhgvc8484dv");
 
-        usuarioService.atualizarSenha(senha, senhaIgual, token);
-
-        verify(usuarioRepository, times(1)).save(any());
-    }
-
-
-    @Test(expected = RegraDeNegocioException.class)
-    public void deveTertarAtualizarSenhaComErro() throws RegraDeNegocioException {
-        String senha = "123456qp";
-        String senhaIgual = "123477qp";
-        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
-
-        usuarioService.atualizarSenha(senha, senhaIgual, token);
-    }
+//    @Test(expected = RegraDeNegocioException.class)
+//    public void deveTertarAtualizarSenhaComErro() throws RegraDeNegocioException {
+//        String senha = "123456qp";
+//        String senhaIgual = "123477qp";
+//        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
+//
+//        usuarioService.atualizarSenha(senha, senhaIgual, token);
+//    }
 
 
     private static UsuarioEntity getUsuarioEntity() {
