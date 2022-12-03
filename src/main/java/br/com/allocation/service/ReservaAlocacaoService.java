@@ -57,11 +57,12 @@ public class ReservaAlocacaoService {
         return converterEmDTO(reservaAlocacaoEntity);
     }
 
-    public ReservaAlocacaoDTO editar(Integer idReserva,
-                                     ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
+    public ReservaAlocacaoDTO editar(Integer idReserva, ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         this.findById(idReserva);
+
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
         reservaAlocacaoEntity.setIdReservaAlocacao(idReserva);
+
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
@@ -81,12 +82,9 @@ public class ReservaAlocacaoService {
     public PageDTO<ReservaAlocacaoDTO> filtrar(Integer pagina, Integer tamanho, String nomeAluno, String nomeVaga) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
 
-        if (nomeAluno != null){
-            nomeAluno = "%"+nomeAluno+"%";
-        }
-        if (nomeVaga != null){
-            nomeVaga = "%"+nomeVaga+"%";
-        }
+        nomeAluno = nomeAluno != null? "%"+nomeAluno+"%" : null;
+        nomeVaga = nomeVaga != null? "%"+nomeVaga+"%" : null;
+
 
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
                 .findAllByFiltro(pageRequest, nomeAluno, nomeVaga);
