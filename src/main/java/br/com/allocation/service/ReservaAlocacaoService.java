@@ -44,13 +44,11 @@ public class ReservaAlocacaoService {
                 reservaAlocacaoCreateDTO);
         aluno.setStatusAluno(StatusAluno.RESERVADO);
         alunoRepository.save(aluno);
-
-        adicionarQtdAlocadosEmVagas(reservaAlocacaoCreateDTO, reservaAlocacaoEntity, aluno);
-        ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
-        aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
-        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
-
         try {
+            adicionarQtdAlocadosEmVagas(reservaAlocacaoCreateDTO, reservaAlocacaoEntity, aluno);
+            ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
+            aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
+            vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
             reservaAlocacaoEntity = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         } catch (DataIntegrityViolationException ex) {
             throw new RegraDeNegocioException("Erro ao resevar, aluno já cadastrado!");
