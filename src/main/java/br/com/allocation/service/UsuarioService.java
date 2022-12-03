@@ -16,6 +16,7 @@ import br.com.allocation.repository.UsuarioRepository;
 import br.com.allocation.security.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -157,18 +158,20 @@ public class UsuarioService {
     }
 
     public String atualizarSenha(UsuarioSenhaDTO dto, String token) throws RegraDeNegocioException {
+
+        try{
+            UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
+            SecurityContextHolder.getContext().setAuthentication(tokenObject);
+        }catch (ExpiredJwtException ex){
+            throw new RegraDeNegocioException("Tempo para troca de senha expirou.");
+        }
+
         validarSenha(dto.getSenha());
         if(!dto.getSenhaIgual().equals(dto.getSenha())){
             throw new RegraDeNegocioException("Senhas diferentes!");
         }
 
-        Claims corpo = Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token.replace("Bearer ", ""))
-                .getBody();
-
-        String userId = corpo.get(Claims.ID, String.class);
-        UsuarioEntity usuario = findById(Integer.valueOf(userId));
+        UsuarioEntity usuario = findById(getIdLoggedUser());
 
         String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
         usuario.setSenha(senhaCriptografada);

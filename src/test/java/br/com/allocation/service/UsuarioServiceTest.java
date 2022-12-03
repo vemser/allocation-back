@@ -6,6 +6,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Cargos;
@@ -16,17 +17,21 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -60,6 +65,9 @@ public class UsuarioServiceTest {
 
     @Mock
     private EmailService emailService;
+
+    @Mock
+    private SecurityContextHolder securityContextHolder;
 
 
     @Before
@@ -337,30 +345,53 @@ public class UsuarioServiceTest {
 
     }
 
-//    @Test
-//    public void deveTertarAtualizarSenhaComSucesso() throws RegraDeNegocioException {
-//        String senha = "123456qp";
-//        String senhaIgual = "123456qp";
-//        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
-//
-//        when(tokenService.isValid(anyString())).thenReturn(new UsernamePasswordAuthenticationToken(getUsuarioEntity(), null, Collections.emptyList()));
-//        when(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(getUsuarioEntity()));
-//        when(passwordEncoder.encode(anyString())).thenReturn("vdhgvc8484dv");
-//
-//        usuarioService.atualizarSenha(senha, senhaIgual, token);
-//
-//        verify(usuarioRepository, times(1)).save(any());
-//    }
+    @Test
+    public void deveTertarAtualizarSenhaComSucesso() throws RegraDeNegocioException {
+        String senha = "123456qp";
+        String senhaIgual = "123456qp";
+        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
+        UsuarioSenhaDTO usuarioSenhaDTO = new UsuarioSenhaDTO(senha, senhaIgual);
+        UsernamePasswordAuthenticationToken dto = new UsernamePasswordAuthenticationToken(1,null, Collections.emptyList());
+        SecurityContextHolder.getContext().setAuthentication(dto);
+
+        when(tokenService.isValid(any())).thenReturn(dto);
+        when(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(getUsuarioEntity()));
+        when(passwordEncoder.encode(anyString())).thenReturn("vdhgvc8484dv");
+
+        usuarioService.atualizarSenha(usuarioSenhaDTO , token);
+
+        verify(usuarioRepository, times(1)).save(any());
+    }
 
 
-//    @Test(expected = RegraDeNegocioException.class)
-//    public void deveTertarAtualizarSenhaComErro() throws RegraDeNegocioException {
-//        String senha = "123456qp";
-//        String senhaIgual = "123477qp";
-//        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
-//
-//        usuarioService.atualizarSenha(senha, senhaIgual, token);
-//    }
+    @Test(expected = RegraDeNegocioException.class)
+    public void deveTertarAtualizarSenhaComErro() throws RegraDeNegocioException {
+        String senha = "123456qp";
+        String senhaIgual = "123477qp";
+        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
+        UsuarioSenhaDTO usuarioSenhaDTO = new UsuarioSenhaDTO(senha, senhaIgual);
+        UsernamePasswordAuthenticationToken dto = new UsernamePasswordAuthenticationToken(1,null, Collections.emptyList());
+        SecurityContextHolder.getContext().setAuthentication(dto);
+
+        usuarioService.atualizarSenha(usuarioSenhaDTO , token);
+    }
+
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void deveTertarAtualizarSenhaComErroDeToken() throws RegraDeNegocioException {
+        String senha = "123456qp";
+        String senhaIgual = "123477qp";
+        String token = "vksdbvisbvçdmd54v448d4v5e48v4efe5f8fw1";
+        UsuarioSenhaDTO usuarioSenhaDTO = new UsuarioSenhaDTO(senha, senhaIgual);
+        UsernamePasswordAuthenticationToken dto = new UsernamePasswordAuthenticationToken(1,null, Collections.emptyList());
+        SecurityContextHolder.getContext().setAuthentication(dto);
+
+        doThrow(ExpiredJwtException.class).when(tokenService).isValid(anyString());
+
+        usuarioService.atualizarSenha(usuarioSenhaDTO , token);
+
+        verify(usuarioRepository, times(1)).save(any());
+    }
 
 
     private static UsuarioEntity getUsuarioEntity() {
