@@ -60,6 +60,9 @@ public class UsuarioService {
     public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
         UsuarioEntity usuario = findById(id);
 
+        confirmarSenha(usuarioCreateDTO);
+        validarSenha(usuarioCreateDTO.getSenha());
+
         usuario.setEmail(usuarioCreateDTO.getEmail());
         usuario.setSenha(passwordEncoder.encode(usuarioCreateDTO.getSenha()));
         usuario.setNomeCompleto(usuarioCreateDTO.getNomeCompleto());
@@ -225,11 +228,6 @@ public class UsuarioService {
         return logado;
     }
 
-    public Optional<UsuarioEntity> findByEmail(String email) {
-        return usuarioRepository.findByEmailIgnoreCase(email);
-    }
-
-
     public PageDTO<UsuarioDTO> listarPorEmailPag(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmail(pageRequest,email);
@@ -251,6 +249,10 @@ public class UsuarioService {
     }
     public UsuarioEntity findUsuarioEntityByEmail(String email) throws RegraDeNegocioException {
         return findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
+    }
+
+    public Optional<UsuarioEntity> findByEmail(String email) {
+        return usuarioRepository.findByEmailIgnoreCase(email);
     }
 
     public UsuarioDTO findUsuarioDTObyEmail(String email) throws RegraDeNegocioException {

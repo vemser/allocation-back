@@ -23,6 +23,9 @@ public class ReservaAlocacaoEntity {
     @Column(name = "codigo_reserva_alocacao")
     private Integer idReservaAlocacao;
 
+    @Column(name = "id_aluno", insertable = false, updatable = false)
+    private Integer idAluno;
+
     @Column(name = "descricao")
     private String descricao;
 

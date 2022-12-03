@@ -26,7 +26,6 @@ public class VagaCreateDTO {
     @Schema(description = "Quantidade de pessoas para a vaga", example = "2")
     private Integer quantidade;
 
-
     @Schema(description = "Quantidade de pessoas alocadas na vaga", example = "1")
     private Integer quantidadeAlocados ;
 
@@ -38,14 +37,12 @@ public class VagaCreateDTO {
     @Schema(description = "situacao da vaga", example = "ATIVO")
     private Situacao situacao;
 
-
     @Schema(description = "Data abertura vaga", example = "2022-12-20")
     private LocalDate dataAbertura;
 
 
     @Schema(description = "Data fechamento vaga", example = "2022-12-26")
     private LocalDate dataFechamento;
-
 
     @Schema(description = "Data criação")
     private LocalDate dataCriacao;
@@ -57,6 +54,5 @@ public class VagaCreateDTO {
     @Schema(description = "email do cliente", example = "sicred@dbccompany.com.br")
     @Email
     private String emailCliente;
-
 
 }

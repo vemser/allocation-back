@@ -35,6 +35,12 @@ public class ReservaAlocacaoController implements ReservaAlocacaoInterface {
     public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(reservaAlocacaoService.listar(pagina, tamanho));
     }
+
+    @Override
+    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, @RequestBody String nomeAluno, @RequestBody String nomeVaga) {
+        return ResponseEntity.ok(reservaAlocacaoService.filtrar(pagina, tamanho, nomeAluno, nomeVaga));
+    }
+
     @Override
     public ResponseEntity<ReservaAlocacaoDTO> editar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
                                                      @PathVariable(name = "idReservaAlocacao") Integer idReservaAlocacao) throws RegraDeNegocioException {
