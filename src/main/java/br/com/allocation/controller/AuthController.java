@@ -16,7 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -31,7 +34,7 @@ public class AuthController implements AuthInterfaceController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final UsuarioService usuarioService;
-    private  final FileService fileService;
+    private final FileService fileService;
 
 
     @Override
@@ -59,8 +62,8 @@ public class AuthController implements AuthInterfaceController {
     }
 
     @Override
-    public ResponseEntity<String> atualizarSenha(@RequestBody String senha,@RequestBody String confirmarSenha, @RequestParam String token) throws RegraDeNegocioException {
-        return ResponseEntity.ok(usuarioService.atualizarSenha(senha, confirmarSenha,token));
+    public ResponseEntity<String> atualizarSenha(@RequestBody String senha, @RequestBody String confirmarSenha, @RequestParam String token) throws RegraDeNegocioException {
+        return ResponseEntity.ok(usuarioService.atualizarSenha(senha, confirmarSenha, token));
     }
 
     @Override

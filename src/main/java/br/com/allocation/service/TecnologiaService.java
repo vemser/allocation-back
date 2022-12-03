@@ -3,7 +3,6 @@ package br.com.allocation.service;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
-import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.repository.TecnologiaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,13 +21,13 @@ public class TecnologiaService {
     private final TecnologiaRepository tecnologiaRepository;
     private final ObjectMapper objectMapper;
 
-    public TecnologiaDTO create(TecnologiaCreateDTO tecnologiaCreate){
+    public TecnologiaDTO create(TecnologiaCreateDTO tecnologiaCreate) {
         TecnologiaEntity tecnologiaEntity = converteEmEntity(tecnologiaCreate);
         tecnologiaRepository.save(tecnologiaEntity);
         return converterEmDTO(tecnologiaEntity);
     }
 
-    public PageDTO<TecnologiaDTO> buscarPorTecnologia(String nomeTecnologia, PageRequest pageRequest){
+    public PageDTO<TecnologiaDTO> buscarPorTecnologia(String nomeTecnologia, PageRequest pageRequest) {
 
         Page<TecnologiaEntity> tecnologiaEntities = tecnologiaRepository.findByNomeIsLikeIgnoreCase(nomeTecnologia, pageRequest);
         List<TecnologiaDTO> tecnologiaDTOS = tecnologiaEntities.getContent().stream().map(this::converterEmDTO).collect(Collectors.toList());
@@ -41,15 +40,15 @@ public class TecnologiaService {
         );
     }
 
-    public TecnologiaDTO findByName(String nome){
-         return converterEmDTO(tecnologiaRepository.findByNome(nome));
+    public TecnologiaDTO findByName(String nome) {
+        return converterEmDTO(tecnologiaRepository.findByNome(nome));
     }
 
-    public Set<TecnologiaEntity> findBySet(List<String> tecnologias){
+    public Set<TecnologiaEntity> findBySet(List<String> tecnologias) {
         return tecnologiaRepository.findAllByNomeIn(tecnologias);
     }
 
-    public TecnologiaEntity converteEmEntity(TecnologiaCreateDTO tecnologiaCreateDTO){
+    public TecnologiaEntity converteEmEntity(TecnologiaCreateDTO tecnologiaCreateDTO) {
         return objectMapper.convertValue(tecnologiaCreateDTO, TecnologiaEntity.class);
     }
 

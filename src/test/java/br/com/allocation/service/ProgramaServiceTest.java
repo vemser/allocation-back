@@ -1,11 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
-import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -55,23 +52,21 @@ public class ProgramaServiceTest {
     }
 
     @Test
-    public void deveTestarSalvarComSucesso(){
-        //SETUP
+    public void deveTestarSalvarComSucesso() {
         ProgramaEntity programaEntity = getProgramaEntity();
         ProgramaCreateDTO programaCreateDTO = getProgramaCreateDTO();
         when(programaRepository.save(any())).thenReturn(programaEntity);
-        //ACT
+
         ProgramaDTO programaDTO = programaService.salvar(programaCreateDTO);
 
-        //ASSERT
+
         assertNotNull(programaDTO);
         assertNotNull(programaDTO.getIdPrograma());
         assertEquals(1, programaDTO.getIdPrograma());
     }
 
     @Test
-    public void deveTestarListarComSucesso(){
-        //SETUP
+    public void deveTestarListarComSucesso() {
         Integer pagina = 4;
         Integer quantidade = 10;
 
@@ -80,16 +75,14 @@ public class ProgramaServiceTest {
         Page<ProgramaEntity> programaEntityPage = new PageImpl<>(List.of(programa));
 
         when(programaRepository.findAll(any(Pageable.class))).thenReturn(programaEntityPage);
-        //ACT
+
         PageDTO<ProgramaDTO> programaDTOPageDTO = programaService.listar(pagina, quantidade);
 
-        //ASSERT
         assertNotNull(programaDTOPageDTO);
     }
 
     @Test
     public void deveTestarEditarComSucesso() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 1;
         ProgramaCreateDTO programaCreateDTO = getProgramaCreateDTO();
         ProgramaEntity programaEntity = getProgramaEntity();
@@ -97,10 +90,9 @@ public class ProgramaServiceTest {
         when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
         ProgramaEntity programaEntity1 = getProgramaEntity();
         when(programaRepository.save(any())).thenReturn(programaEntity1);
-        //ACT
-        ProgramaDTO programaDTO = programaService.editar(id,programaCreateDTO);
 
-        //ASSERT
+        ProgramaDTO programaDTO = programaService.editar(id, programaCreateDTO);
+
         assertNotNull(programaDTO);
         assertNotEquals(Situacao.FECHADO, programaDTO.getSituacao());
 
@@ -108,35 +100,31 @@ public class ProgramaServiceTest {
 
     @Test
     public void deveTestarDeleteComSucesso() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 1;
         ProgramaEntity programaEntity = getProgramaEntity();
         when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
-        //ACT
+
         programaService.deletar(id);
 
-        //ASSERT
         verify(programaRepository, times(1)).delete(any());
 
     }
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarDeleteComErro() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 2;
         ProgramaEntity programaEntity = getProgramaEntity();
         when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
-        //ACT
+
         doThrow(DataIntegrityViolationException.class).when(programaRepository).delete(any());
         programaService.deletar(id);
-        //ASSERT
+
         verify(programaRepository, times(1)).delete(any());
 
     }
 
     @Test
     public void deveTestarListarPorNomeComSucesso() {
-        //SETUP
         Integer pagina = 4;
         Integer quantidade = 10;
         String nome = "Vem ser 11";
@@ -146,22 +134,20 @@ public class ProgramaServiceTest {
         Page<ProgramaEntity> programaEntityPage = new PageImpl<>(List.of(programa));
 
         when(programaRepository.findAllByNomeContainingIgnoreCase(anyString(), any(Pageable.class))).thenReturn(programaEntityPage);
-        //ACT
+
         PageDTO<ProgramaDTO> programaDTOPageDTO = programaService.listarPorNome(pagina, quantidade, nome);
 
-        //ASSERT
         assertNotNull(programaDTOPageDTO);
     }
 
     @Test
     public void deveTestarFindByIdComSucesso() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 1;
         ProgramaEntity programaEntity = getProgramaEntity();
         when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
-        //ACT
+
         ProgramaEntity programa = programaService.findById(id);
-        //ASSERT
+
         assertNotNull(programa);
         assertNotNull(programa.getIdPrograma());
         assertEquals(1, programa.getIdPrograma());
@@ -170,42 +156,34 @@ public class ProgramaServiceTest {
 
     @Test
     public void deveTestarListarPorIdComSucesso() throws RegraDeNegocioException {
-
-        //SETUP
         Integer id = 1;
         ProgramaEntity programaEntity = getProgramaEntity();
         when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
 
-        //ACT
         PageDTO<ProgramaDTO> programaDTO = programaService.listarPorId(id);
-        //ASSERT
+
         assertNotNull(programaDTO);
 
     }
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarFindByIdComErro() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         Integer busca = 10;
         when(programaRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-
-        // Ação (ACT)
         ProgramaEntity programa = programaService.findById(busca);
 
-        //Assert
         assertNull(programa);
     }
 
     @Test
     public void deveTestarFindByNomeComSucesso() throws RegraDeNegocioException {
-        //SETUP
         String nome = "Vem ser 11";
         ProgramaEntity programaEntity = getProgramaEntity();
         when(programaRepository.findByNomeContainingIgnoreCase(anyString())).thenReturn(Optional.of(programaEntity));
-        //ACT
+
         ProgramaEntity programa = programaService.findByNome(nome);
-        //ASSERT
+
         assertNotNull(programa);
         assertNotNull(programa.getIdPrograma());
         assertEquals(1, programa.getIdPrograma());
@@ -213,29 +191,23 @@ public class ProgramaServiceTest {
     }
 
 
-    private static ProgramaEntity getProgramaEntity(){
+    private static ProgramaEntity getProgramaEntity() {
         ProgramaEntity programaEntity = new ProgramaEntity();
         programaEntity.setIdPrograma(1);
         programaEntity.setNome("Vem ser 11");
         programaEntity.setDescricao("Vem ser vemser");
         programaEntity.setDataCriacao(LocalDate.now());
-        programaEntity.setDataTermino(LocalDate.of(2023,05,01));
+        programaEntity.setDataTermino(LocalDate.of(2023, 05, 01));
         programaEntity.setSituacao(Situacao.ATIVO);
         return programaEntity;
     }
 
-    private static ProgramaDTO getProgramaDTO(){
-        ProgramaDTO programaEntity = new ProgramaDTO();
-        programaEntity.setIdPrograma(1);
-        programaEntity.setNome("Vem ser 11");
-        programaEntity.setDescricao("Vem ser vemser");
-        return programaEntity;
-    }
 
-    public static ProgramaCreateDTO getProgramaCreateDTO(){
+
+    public static ProgramaCreateDTO getProgramaCreateDTO() {
         ProgramaCreateDTO programaCreateDTO = new ProgramaCreateDTO();
         programaCreateDTO.setDataCriacao(LocalDate.now());
-        programaCreateDTO.setDataTermino(LocalDate.of(2023,05,01));
+        programaCreateDTO.setDataTermino(LocalDate.of(2023, 05, 01));
         programaCreateDTO.setNome("Vem ser 11");
         programaCreateDTO.setSituacao(String.valueOf(Situacao.ATIVO));
         programaCreateDTO.setDescricao("Vem ser vemser");

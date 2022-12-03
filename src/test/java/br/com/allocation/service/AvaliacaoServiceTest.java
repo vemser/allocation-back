@@ -3,10 +3,8 @@ package br.com.allocation.service;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.AvaliacaoEntity;
-import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AvaliacaoRepository;
@@ -64,9 +62,11 @@ public class AvaliacaoServiceTest {
         AvaliacaoCreateDTO avaliacaoCreateDTO = AvaliacaoFactory.getAvaliacaoCreateDTO();
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
         AlunoEntity alunoEntity = AlunoFactory.getAlunoEntity();
+
         when(vagaService.findById(anyInt())).thenReturn(vagaEntity);
         when(alunoService.findByEmail(anyString())).thenReturn(alunoEntity);
         when(avaliacaoRepository.save(any())).thenReturn(avaliacaoEntity);
+
 
         AvaliacaoDTO avaliacaoDTO = avaliacaoService.salvar(avaliacaoCreateDTO);
 
@@ -100,7 +100,6 @@ public class AvaliacaoServiceTest {
 
     @Test
     public void deveTestarListarComSucesso() {
-        // Criar variaveis (SETUP)
         Integer pagina = 4;
         Integer quantidade = 6;
 
@@ -108,27 +107,22 @@ public class AvaliacaoServiceTest {
         Page<AvaliacaoEntity> avaliacaoEntityPage = new PageImpl<>(List.of(avaliacaoEntity));
         when(avaliacaoRepository.findAll(any(Pageable.class))).thenReturn(avaliacaoEntityPage);
 
-        // Ação (ACT)
         PageDTO<AvaliacaoDTO> avaliacaoDTOPageDTO = avaliacaoService.listar(pagina, quantidade);
 
-        // Verificação (ASSERT)
         assertNotNull(avaliacaoDTOPageDTO);
     }
 
     @Test
     public void deveTestarListarPorId() throws RegraDeNegocioException {
         Integer id = 1;
-        Integer pagina = 4;
-        Integer quantidade = 6;
 
         AvaliacaoEntity avaliacaoEntity = AvaliacaoFactory.getAvalicaoEntity();
         Page<AvaliacaoEntity> avaliacaoEntityPage = new PageImpl<>(List.of(avaliacaoEntity));
         when(avaliacaoRepository.findById(anyInt())).thenReturn(Optional.of(avaliacaoEntity));
 
-        // Ação (ACT)
+
         PageDTO<AvaliacaoDTO> avaliacaoDTOPageDTO = avaliacaoService.listarPorId(id);
 
-        // Verificação (ASSERT)
         assertNotNull(avaliacaoDTOPageDTO);
     }
 
@@ -146,11 +140,12 @@ public class AvaliacaoServiceTest {
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarFindByIdComErro() throws RegraDeNegocioException {
-       Integer busca = 10;
-       when(avaliacaoRepository.findById(anyInt())).thenReturn(Optional.empty());
+        Integer busca = 10;
+        when(avaliacaoRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-       AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(busca);
+        AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(busca);
 
-       assertNull(avaliacaoEntity);
+        assertNull(avaliacaoEntity);
     }
+
 }

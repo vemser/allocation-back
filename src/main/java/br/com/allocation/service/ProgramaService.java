@@ -3,7 +3,6 @@ package br.com.allocation.service;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -35,7 +34,7 @@ public class ProgramaService {
         return objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
     }
 
-    public PageDTO<ProgramaDTO> listar(Integer pagina, Integer tamanho){
+    public PageDTO<ProgramaDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ProgramaEntity> paginaRepository = programaRepository.findAll(pageRequest);
 
@@ -46,7 +45,7 @@ public class ProgramaService {
         return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
     }
 
-    public PageDTO<ProgramaDTO> listarPorNome(Integer pagina, Integer tamanho, String nome){
+    public PageDTO<ProgramaDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ProgramaEntity> paginaRepository = programaRepository.findAllByNomeContainingIgnoreCase(nome, pageRequest);
 
@@ -85,7 +84,7 @@ public class ProgramaService {
         ProgramaEntity programaEntity = findById(idPrograma);
         try {
             programaRepository.delete(programaEntity);
-        }catch (DataIntegrityViolationException ex){
+        } catch (DataIntegrityViolationException ex) {
             throw new RegraDeNegocioException("Não é possivel deletar pois existem registros atrelados a esse programa.");
         }
     }

@@ -25,10 +25,10 @@ public class RelatorioService {
     public void enviarRelatiorio() throws RegraDeNegocioException {
         List<UsuarioDTO> usuarios = usuarioService.listarPorCargo(0, 20, Cargos.GESTOR).getElementos();
         List<VagaDTO> vagas = vagaService.findAllWithSituacaoAberto();
-        List<AlunoDTO> alunos = alunoService.listarDisponiveis(0,20).getElementos().stream().toList();
+        List<AlunoDTO> alunos = alunoService.listarDisponiveis(0, 20).getElementos().stream().toList();
 
-        for(UsuarioDTO usuario:usuarios){
-            emailService.sendEmail(vagas,usuario,alunos);
+        for (UsuarioDTO usuario : usuarios) {
+            emailService.sendEmail(vagas, usuario, alunos);
         }
     }
 }

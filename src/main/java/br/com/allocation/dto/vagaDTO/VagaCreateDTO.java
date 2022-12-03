@@ -27,7 +27,7 @@ public class VagaCreateDTO {
     private Integer quantidade;
 
     @Schema(description = "Quantidade de pessoas alocadas na vaga", example = "1")
-    private Integer quantidadeAlocados ;
+    private Integer quantidadeAlocados;
 
     @NotNull(message = "Id programa não pode ser nulo.")
     @Schema(description = "Id do programa", example = "1")

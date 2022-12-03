@@ -35,8 +35,7 @@ public class FileService {
             FileEntity fileEntity = fileRepository.save(fileDB);
             FileDTO fileDTO = objectMapper.convertValue(fileEntity, FileDTO.class);
             return fileDTO;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RegraDeNegocioException("Ocorreu um erro ao enviar a imagem!");
         }
     }

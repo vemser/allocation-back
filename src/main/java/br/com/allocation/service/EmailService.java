@@ -4,23 +4,23 @@ import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.UsuarioEntity;
-import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class EmailService {
 
     private final JavaMailSender emailSender;
 
-    public void sendEmail(List<VagaDTO> vagaDTO, UsuarioDTO usuario, List<AlunoDTO> alunoDTO)  throws RegraDeNegocioException {
+    public void sendEmail(List<VagaDTO> vagaDTO, UsuarioDTO usuario, List<AlunoDTO> alunoDTO) throws RegraDeNegocioException {
 
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         Map<String, Object> dados = new HashMap<>();
@@ -42,20 +42,20 @@ public class EmailService {
         List<String> nomeAlunos = new ArrayList<>();
         String todasVagas = null;
         String todosAlunos = null;
-        if(vagaDTO.size() == 0){
+        if (vagaDTO.size() == 0) {
             todasVagas = "Nenhuma vaga em aberto!";
         }
-        if(alunoDTO.size() == 0){
+        if (alunoDTO.size() == 0) {
             todosAlunos = "Nenhuma aluno disponível!";
         }
-        for (VagaDTO vagas: vagaDTO) {
+        for (VagaDTO vagas : vagaDTO) {
             nomeVagas.add(vagas.getNome());
             todasVagas = nomeVagas.toString();
         }
         dados.put("vaga", todasVagas);
-        for (AlunoDTO aluno: alunoDTO) {
-           nomeAlunos.add(aluno.getNome());
-           todosAlunos = nomeAlunos.toString();
+        for (AlunoDTO aluno : alunoDTO) {
+            nomeAlunos.add(aluno.getNome());
+            todosAlunos = nomeAlunos.toString();
 
         }
         dados.put("aluno", todosAlunos);
@@ -90,12 +90,12 @@ public class EmailService {
     }
 
     public String getContentFromTemplate(Map<String, Object> dados,
-                                          String templateName) throws IOException, TemplateException {
+                                         String templateName) throws IOException, TemplateException {
         Template template = fmConfiguration.getTemplate(templateName);
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
     }
 
-    public String geContentFromRecuperarSenha(UsuarioEntity usuarioEntity ,String token) throws IOException, TemplateException {
+    public String geContentFromRecuperarSenha(UsuarioEntity usuarioEntity, String token) throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
         Template template = null;
 

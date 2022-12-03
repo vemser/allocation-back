@@ -5,10 +5,7 @@ import br.com.allocation.dto.cargoDTO.CargoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
-import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.CargoEntity;
-import br.com.allocation.entity.UsuarioEntity;
-import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.factory.AlunoFactory;
 import br.com.allocation.service.factory.VagaFactory;
@@ -19,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -44,8 +40,6 @@ public class RelatorioServiceTest {
     @Mock
     private AlunoService alunoService;
 
-    @Mock
-    private CargoService cargoService;
 
     @Test
     public void deveTestarEnviarRelatorioComSucesso() throws RegraDeNegocioException {
@@ -68,7 +62,7 @@ public class RelatorioServiceTest {
         when(usuarioService.listarPorCargo(anyInt(), anyInt(), any())).thenReturn(usuarioDTOPageDTO);
         when(vagaService.findAllWithSituacaoAberto()).thenReturn(vagaDTOList);
 
-        when(alunoService.listarDisponiveis(anyInt(),anyInt())).thenReturn(alunoDTOPageDTO);
+        when(alunoService.listarDisponiveis(anyInt(), anyInt())).thenReturn(alunoDTOPageDTO);
 
         relatorioService.enviarRelatiorio();
 
@@ -76,12 +70,6 @@ public class RelatorioServiceTest {
 
     }
 
-    private static CargoEntity getCargoEntity(){
-        CargoEntity cargo = new CargoEntity();
-        cargo.setIdCargo(1);
-        cargo.setNome("ADMIN");
-        return cargo;
-    }
     private static UsuarioDTO getUsuarioDTO() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setIdUsuario(10);

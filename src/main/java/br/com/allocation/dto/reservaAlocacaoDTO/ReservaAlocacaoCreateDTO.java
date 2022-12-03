@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Getter

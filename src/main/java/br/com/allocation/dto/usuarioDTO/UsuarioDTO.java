@@ -1,7 +1,9 @@
 package br.com.allocation.dto.usuarioDTO;
 
 import br.com.allocation.dto.cargoDTO.CargoDTO;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor

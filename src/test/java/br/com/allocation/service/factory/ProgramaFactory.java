@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 
 public class ProgramaFactory {
-    public static ProgramaEntity getProgramaEntity(){
+    public static ProgramaEntity getProgramaEntity() {
         ProgramaEntity programaEntity = new ProgramaEntity(1,
                 "VemSer 10ed",
                 "Programa de formação profissional trilha Backend Vem Ser DBC 10º edição.",

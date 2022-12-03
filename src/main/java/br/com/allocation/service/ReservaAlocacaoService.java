@@ -164,13 +164,13 @@ public class ReservaAlocacaoService {
                 reservaAlocacaoEntity.getDataFinalizado());
     }
 
-    public void adicionarQtdAlocadosEmVagas (ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
-                ReservaAlocacaoEntity reservaAlocacaoEntity,
-                AlunoEntity aluno) throws RegraDeNegocioException {
-            if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
-                alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
-                vagaService.adicionarQuantidadeDeAlocados(reservaAlocacaoEntity.getVaga().getIdVaga());
-            }
+    public void adicionarQtdAlocadosEmVagas(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
+                                            ReservaAlocacaoEntity reservaAlocacaoEntity,
+                                            AlunoEntity aluno) throws RegraDeNegocioException {
+        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+            alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
+            vagaService.adicionarQuantidadeDeAlocados(reservaAlocacaoEntity.getVaga().getIdVaga());
         }
+    }
 
 }

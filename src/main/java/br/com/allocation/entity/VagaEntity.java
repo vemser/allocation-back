@@ -35,7 +35,7 @@ public class VagaEntity {
     private Integer quantidade;
 
     @Column(name = "quantidade_alocados")
-    private Integer quantidadeAlocados ;
+    private Integer quantidadeAlocados;
 
     @Column(name = "data_abertura")
     private LocalDate dataAbertura;
@@ -54,7 +54,7 @@ public class VagaEntity {
     private String observacoes;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     private ClienteEntity cliente;
 
@@ -68,6 +68,6 @@ public class VagaEntity {
     private ProgramaEntity programa;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "vaga", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "vaga", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ReservaAlocacaoEntity> resevasAlocacoes;
 }

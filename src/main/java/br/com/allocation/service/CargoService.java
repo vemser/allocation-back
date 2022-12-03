@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CargoService {
     private final CargoRepository cargoRepository;
+
     public CargoEntity findByIdCargo(Integer idCargo) {
         return cargoRepository.findByIdCargo(idCargo);
     }
+
     public CargoEntity findByNome(String nome) throws RegraDeNegocioException {
         return cargoRepository.findByNome(nome).orElseThrow(() -> new RegraDeNegocioException("Cargo não encontrado"));
     }

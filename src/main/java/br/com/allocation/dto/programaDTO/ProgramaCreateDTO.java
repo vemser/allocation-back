@@ -16,23 +16,23 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ProgramaCreateDTO {
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Nome do programa",example = "VemSer 10ed")
+    @Schema(description = "Nome do programa", example = "VemSer 10ed")
     private String nome;
 
     @NotBlank(message = "situacao não pode ser vazio ou nulo.")
-    @Schema(description = "situacao do programa",example = "ABERTO")
+    @Schema(description = "situacao do programa", example = "ABERTO")
     private String situacao;
 
 
-    @Schema(description = "Descrição do programa",example = "Programa de formação profissional trilha Backend Vem Ser DBC 10º edição.")
+    @Schema(description = "Descrição do programa", example = "Programa de formação profissional trilha Backend Vem Ser DBC 10º edição.")
     private String descricao;
 
 
-    @Schema(description = "Data de abertura programa",example = "2023-02-23")
+    @Schema(description = "Data de abertura programa", example = "2023-02-23")
     private LocalDate dataCriacao;
 
     @NotNull
-    @Schema(description = "Data de termino do programa",example = "2023-06-23")
+    @Schema(description = "Data de termino do programa", example = "2023-06-23")
     private LocalDate dataTermino;
 
 

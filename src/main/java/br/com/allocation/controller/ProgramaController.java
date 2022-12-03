@@ -1,9 +1,9 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.ProgramaInterfaceController;
+import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ProgramaService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -34,12 +36,12 @@ public class ProgramaController implements ProgramaInterfaceController {
     }
 
     @Override
-    public ResponseEntity<PageDTO<ProgramaDTO>> listar(Integer pagina, Integer tamanho){
+    public ResponseEntity<PageDTO<ProgramaDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(programaService.listar(pagina, tamanho));
     }
 
     @Override
-    public ResponseEntity<PageDTO<ProgramaDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome){
+    public ResponseEntity<PageDTO<ProgramaDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome) {
         return ResponseEntity.ok(programaService.listarPorNome(pagina, tamanho, nome));
     }
 

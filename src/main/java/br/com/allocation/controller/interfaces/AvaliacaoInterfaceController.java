@@ -44,7 +44,7 @@ public interface AvaliacaoInterfaceController {
             }
     )
     @GetMapping("/{idAvaliacao}")
-    ResponseEntity<PageDTO<AvaliacaoDTO>> listarPorId(@PathVariable(name = "idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException ;
+    ResponseEntity<PageDTO<AvaliacaoDTO>> listarPorId(@PathVariable(name = "idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException;
 
     @Operation(summary = "Editar avaliação", description = "Editar uma avaliação e salva no banco de dados")
     @ApiResponses(
@@ -68,5 +68,5 @@ public interface AvaliacaoInterfaceController {
             }
     )
     @DeleteMapping("/{idAvaliacao}")
-     ResponseEntity<Void> deletar(@PathVariable(name = "idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException;
+    ResponseEntity<Void> deletar(@PathVariable(name = "idAvaliacao") Integer idAvaliacao) throws RegraDeNegocioException;
 }

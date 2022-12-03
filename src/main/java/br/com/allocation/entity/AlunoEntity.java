@@ -69,7 +69,7 @@ public class AlunoEntity {
     )
     private Set<TecnologiaEntity> tecnologias = new HashSet<>();
 
-//    private String alunoEmProcesso = "não";
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)

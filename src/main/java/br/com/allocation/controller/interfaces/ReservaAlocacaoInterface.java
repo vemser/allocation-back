@@ -1,7 +1,5 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
@@ -25,6 +23,7 @@ public interface ReservaAlocacaoInterface {
     )
     @PostMapping
     ResponseEntity<ReservaAlocacaoDTO> salvar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException;
+
     @Operation(summary = "Listar pagina de Reserva alocação", description = "Lista pagina Reserva alocação")
     @ApiResponses(
             value = {
@@ -58,7 +57,7 @@ public interface ReservaAlocacaoInterface {
     )
     @PutMapping("/{idReservaAlocacao}")
     ResponseEntity<ReservaAlocacaoDTO> editar(@Valid @RequestBody ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
-                                        @PathVariable(name = "idReservaAlocacao") Integer idReservaAlocacao) throws RegraDeNegocioException;
+                                              @PathVariable(name = "idReservaAlocacao") Integer idReservaAlocacao) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar Reserva alocação", description = "Deleta  Reserva alocação do banco de dados")
     @ApiResponses(

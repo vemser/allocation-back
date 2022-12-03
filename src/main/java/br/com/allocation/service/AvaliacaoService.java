@@ -1,15 +1,13 @@
 package br.com.allocation.service;
 
+import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.AvaliacaoEntity;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
-import br.com.allocation.repository.AlunoRepository;
 import br.com.allocation.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +25,6 @@ public class AvaliacaoService {
     private final AvaliacaoRepository avaliacaoRepository;
     private final VagaService vagaService;
     private final AlunoService alunoService;
-    private final AlunoRepository alunoRepository;
     private final ObjectMapper objectMapper;
 
     public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
@@ -36,16 +33,11 @@ public class AvaliacaoService {
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
         avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
         avaliacaoEntity.setDataCriacao(LocalDate.now());
-//        alterarAlunoParaProcesso(avaliacaoEntity);
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }
 
-//    private void alterarAlunoParaProcesso(AvaliacaoEntity avaliacaoEntity) throws RegraDeNegocioException {
-//        AlunoEntity alunoEntity = alunoService.findById(avaliacaoEntity.getIdAluno());
-//        alunoEntity.setAlunoEmProcesso("sim");
-//        alunoRepository.save(alunoEntity);
-//    }
+
 
     public AvaliacaoDTO editar(Integer id, AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(id);
@@ -53,13 +45,15 @@ public class AvaliacaoService {
         avaliacaoEntity.setIdAvaliacao(id);
         avaliacaoEntity.setDataCriacao(LocalDate.now());
         avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
-//        alterarAlunoParaProcesso(avaliacaoEntity);
         return converterEmDTO(avaliacaoEntity);
     }
 
     public void deletar(Integer codigoVaga) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(codigoVaga);
+        AlunoEntity alunoEntity = alunoService.findById(avaliacaoEntity.getIdAluno());
+        AlunoDTO alunoDTO = alunoService.converterEmDTO(alunoEntity);
         avaliacaoRepository.delete(avaliacaoEntity);
+
     }
 
     public PageDTO<AvaliacaoDTO> listar(Integer pagina, Integer tamanho) {

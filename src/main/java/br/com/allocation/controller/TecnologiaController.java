@@ -24,7 +24,7 @@ public class TecnologiaController implements TecnologiaInterfaceController {
     @GetMapping("/tecnologia-busca")
     public PageDTO<TecnologiaDTO> buscar(@RequestParam String nomeTecnologia,
                                          @RequestParam int page,
-                                         @RequestParam int size){
-        return  tecnologiaService.buscarPorTecnologia(nomeTecnologia,PageRequest.of(page,size));
+                                         @RequestParam int size) {
+        return tecnologiaService.buscarPorTecnologia(nomeTecnologia, PageRequest.of(page, size));
     }
 }

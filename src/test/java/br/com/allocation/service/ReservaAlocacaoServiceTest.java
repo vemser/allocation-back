@@ -1,11 +1,9 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
 import br.com.allocation.entity.AlunoEntity;
-import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ReservaAlocacaoEntity;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.StatusAluno;
@@ -13,14 +11,8 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import br.com.allocation.repository.ReservaAlocacaoRepository;
 import br.com.allocation.service.factory.AlunoFactory;
-import br.com.allocation.service.factory.ClienteFactory;
 import br.com.allocation.service.factory.ReservaAlocacaoFactory;
 import br.com.allocation.service.factory.VagaFactory;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -30,14 +22,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -65,7 +57,7 @@ public class ReservaAlocacaoServiceTest {
 
     @Test
     public void deveTestarSalvarComSucesso() throws RegraDeNegocioException {
-        //SETUP
+
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = ReservaAlocacaoFactory.getReservaAlocacaoCreateDTO();
         ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         AlunoEntity aluno = AlunoFactory.getAlunoEntity();
@@ -76,27 +68,25 @@ public class ReservaAlocacaoServiceTest {
 
         when(reservaAlocacaoRepository.save(any())).thenReturn(reservaAlocacaoEntity);
         when(alunoService.findById(anyInt())).thenReturn(aluno);
-        //ACT
+
         ReservaAlocacaoDTO reservaAlocacaoDTO = reservaAlocacaoService.salvar(reservaAlocacaoCreateDTO);
-        //ASSERT
+
 
         assertNotNull(reservaAlocacaoDTO);
     }
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarSalvarComErro() throws RegraDeNegocioException {
-        //SETUP
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = ReservaAlocacaoFactory.getReservaAlocacaoCreateDTO();
         ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         AlunoEntity aluno = AlunoFactory.getAlunoEntity();
         VagaEntity vaga = VagaFactory.getVagaEntity();
         reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.DISPONIVEL);
         when(alunoService.findById(anyInt())).thenReturn(aluno);
-        //ACT
+
         doThrow(DataIntegrityViolationException.class).when(reservaAlocacaoRepository).save(any());
         reservaAlocacaoService.salvar(reservaAlocacaoCreateDTO);
 
-        //ASSERT
         verify(reservaAlocacaoRepository, times(1)).save(any());
     }
 
@@ -167,8 +157,7 @@ public class ReservaAlocacaoServiceTest {
     }
 
     @Test
-    public void deveTestarListarComSucesso(){
-        //SETUP
+    public void deveTestarListarComSucesso() {
         Integer pagina = 4;
         Integer quantidade = 10;
 
@@ -177,10 +166,10 @@ public class ReservaAlocacaoServiceTest {
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = new PageImpl<>(List.of(reservaAlocacaoEntity));
 
         when(reservaAlocacaoRepository.findAll(any(Pageable.class))).thenReturn(reservaAlocacaoEntityPage);
-        //ACT
+
         PageDTO<ReservaAlocacaoDTO> reservaAlocacaoDTOPageDTO = reservaAlocacaoService.listar(pagina, quantidade);
 
-        //ASSERT
+
         assertNotNull(reservaAlocacaoDTOPageDTO);
     }
 

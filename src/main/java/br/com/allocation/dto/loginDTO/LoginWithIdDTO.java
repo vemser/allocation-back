@@ -1,7 +1,6 @@
 package br.com.allocation.dto.loginDTO;
 
 import br.com.allocation.entity.CargoEntity;
-import br.com.allocation.enums.Cargos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

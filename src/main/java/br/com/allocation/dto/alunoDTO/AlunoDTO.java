@@ -1,7 +1,5 @@
 package br.com.allocation.dto.alunoDTO;
 
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
 import br.com.allocation.enums.Area;
 import br.com.allocation.enums.StatusAluno;
 import lombok.AllArgsConstructor;
@@ -9,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
