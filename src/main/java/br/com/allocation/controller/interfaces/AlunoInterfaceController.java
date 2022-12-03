@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 public interface AlunoInterfaceController {
     @Operation(summary = "Criar Aluno", description = "Cria um aluno no banco de dados")
@@ -45,7 +44,7 @@ public interface AlunoInterfaceController {
             }
     )
     @GetMapping("/email/{email}")
-    public ResponseEntity<PageDTO<AlunoDTO>> listarPorEmail(Integer pagina, Integer tamanho, String email) ;
+    public ResponseEntity<PageDTO<AlunoDTO>> listarPorEmail(Integer pagina, Integer tamanho, @PathVariable("email") String email) ;
 
     @Operation(summary = "Lista aluno por email", description = "Lista um aluno por email!")
     @ApiResponses(
@@ -56,7 +55,7 @@ public interface AlunoInterfaceController {
             }
     )
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<PageDTO<AlunoDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome);
+    public ResponseEntity<PageDTO<AlunoDTO>> listarPorNome(Integer pagina, Integer tamanho, @PathVariable("nome") String nome);
 
     @Operation(summary = "Editar aluno", description = "Editar um aluno e salva no banco de dados")
     @ApiResponses(
