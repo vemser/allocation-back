@@ -173,4 +173,25 @@ public class ReservaAlocacaoServiceTest {
         assertNotNull(reservaAlocacaoDTOPageDTO);
     }
 
+    @Test
+    public void deveTestarFiltrarComSucesso(){
+        //SETUP
+        Integer pagina = 4;
+        Integer quantidade = 10;
+
+        String nomeAluno = "gustavo";
+        String nomeVaga = "java";
+
+        ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
+
+        Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = new PageImpl<>(List.of(reservaAlocacaoEntity));
+
+        when(reservaAlocacaoRepository.findAllByFiltro(any(Pageable.class),anyString(), anyString())).thenReturn(reservaAlocacaoEntityPage);
+        //ACT
+        PageDTO<ReservaAlocacaoDTO> reservaAlocacaoDTOPageDTO = reservaAlocacaoService.filtrar(pagina, quantidade, nomeAluno, nomeVaga);
+
+        //ASSERT
+        assertNotNull(reservaAlocacaoDTOPageDTO);
+    }
+
 }

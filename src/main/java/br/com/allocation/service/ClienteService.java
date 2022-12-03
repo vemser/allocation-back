@@ -58,6 +58,20 @@ public class ClienteService {
                 clienteDTOList);
     }
 
+    public PageDTO<ClienteDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        Page<ClienteEntity> paginaRepository = clienteRepository.findAllByNomeContainingIgnoreCase(pageRequest, nome);
+
+        List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .toList();
+
+        return new PageDTO<>(paginaRepository.getTotalElements(),
+                paginaRepository.getTotalPages(),
+                pagina,
+                tamanho,
+                clienteDTOList);
+    }
 
     public ClienteDTO editar(Integer idCliente, ClienteCreateDTO clienteCreate) throws RegraDeNegocioException {
         this.findById(idCliente);

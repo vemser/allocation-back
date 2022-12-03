@@ -7,6 +7,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Cargos;
@@ -14,11 +15,17 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.UsuarioRepository;
 import br.com.allocation.security.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +43,9 @@ public class UsuarioService {
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${jwt.secret}")
+    private String secret;
+
     public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
         verificarEmail(findByEmail(usuarioCreateDTO.getEmail()).isPresent());
 
@@ -47,7 +57,7 @@ public class UsuarioService {
         usuarioEntity.setSenha(encode);
 
         CargoEntity cargo = null;
-        if (cargos != null) {
+        if(cargos != null){
             cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
             usuarioEntity.getCargos().add(cargo);
         }
@@ -147,18 +157,23 @@ public class UsuarioService {
         return "Verifique seu email para trocar a senha.";
     }
 
-    public String atualizarSenha(String senha, String confirmarSenha, String token) throws RegraDeNegocioException {
-        validarSenha(senha);
-        if (!confirmarSenha.equals(senha)) {
+    public String atualizarSenha(UsuarioSenhaDTO dto, String token) throws RegraDeNegocioException {
+
+        try{
+            UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
+            SecurityContextHolder.getContext().setAuthentication(tokenObject);
+        }catch (ExpiredJwtException ex){
+            throw new RegraDeNegocioException("Tempo para troca de senha expirou.");
+        }
+
+        validarSenha(dto.getSenha());
+        if(!dto.getSenhaIgual().equals(dto.getSenha())){
             throw new RegraDeNegocioException("Senhas diferentes!");
         }
 
-        UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
-        UsuarioEntity usuarioEntity = (UsuarioEntity) tokenObject.getPrincipal();
+        UsuarioEntity usuario = findById(getIdLoggedUser());
 
-        UsuarioEntity usuario = findById(usuarioEntity.getIdUsuario());
-
-        String senhaCriptografada = passwordEncoder.encode(senha);
+        String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
         usuario.setSenha(senhaCriptografada);
         usuarioRepository.save(usuario);
 
@@ -171,7 +186,7 @@ public class UsuarioService {
     }
 
     private static void confirmarSenha(@NotNull UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        if (!usuarioCreateDTO.getSenha().equals(usuarioCreateDTO.getSenhaIgual())) {
+        if (!usuarioCreateDTO.getSenha().equals(usuarioCreateDTO.getSenhaIgual())){
             throw new RegraDeNegocioException("Senha diferente!");
         }
     }
@@ -230,7 +245,7 @@ public class UsuarioService {
 
     public PageDTO<UsuarioDTO> listarPorEmailPag(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
-        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmail(pageRequest, email);
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmail(pageRequest,email);
         List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
                 .map(usuario -> {
                     UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
@@ -247,7 +262,6 @@ public class UsuarioService {
                 usuarios
         );
     }
-
     public UsuarioEntity findUsuarioEntityByEmail(String email) throws RegraDeNegocioException {
         return findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
     }

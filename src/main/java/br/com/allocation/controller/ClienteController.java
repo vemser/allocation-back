@@ -45,6 +45,11 @@ public class ClienteController implements ClienteInterfaceController {
     }
 
     @Override
+    public ResponseEntity<PageDTO<ClienteDTO>> listarPorNome(Integer pagina, Integer tamanho ,String nome){
+        return ResponseEntity.ok(clienteService.listarPorNome(pagina, tamanho, nome));
+    }
+
+    @Override
     public ResponseEntity<ClienteDTO> editar(@Valid @RequestBody ClienteCreateDTO clienteCreate, Integer idCliente) throws RegraDeNegocioException {
         log.info("Editando o Cliente...");
         ClienteDTO cliente = clienteService.editar(idCliente, clienteCreate);

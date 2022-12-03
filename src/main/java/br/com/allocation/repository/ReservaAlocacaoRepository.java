@@ -15,6 +15,6 @@ public interface ReservaAlocacaoRepository extends JpaRepository<ReservaAlocacao
             "LEFT JOIN obj.aluno a " +
             "LEFT JOIN obj.vaga v " +
             "LEFT JOIN obj.avaliacao av " +
-            "WHERE ((:nomeAluno is null or a.nome = :nomeAluno) AND (:nomeVaga is null or a.nome = :nomeVaga))")
+            "WHERE (:nomeAluno is null or UPPER(a.nome) LIKE UPPER(:nomeAluno)) AND (:nomeVaga is null or UPPER(v.nome) LIKE UPPER(:nomeVaga))")
     Page<ReservaAlocacaoEntity> findAllByFiltro(Pageable pageable, String nomeAluno, String nomeVaga);
 }

@@ -109,6 +109,66 @@ public class FileServiceTest {
 
     }
 
+    @Test
+    public void deveTestarStoreFileJaExisteComSucesso() throws RegraDeNegocioException, IOException {
+        //Setup
+        FileEntity fileEntity = getFileEntity();
+        UsuarioEntity usuario = getUsuarioEntity();
+        String filename = "fotodeperfil";
+        byte[] arquivo = "aasda".getBytes();
+        MultipartFile file = new MultipartFile() {
+            @Override
+            public String getName() {
+                return filename;
+            }
+
+            @Override
+            public String getOriginalFilename() {
+                return filename;
+            }
+
+            @Override
+            public String getContentType() {
+                return "png";
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public long getSize() {
+                return 0;
+            }
+
+            @Override
+            public byte[] getBytes() throws IOException {
+                return arquivo;
+            }
+
+            @Override
+            public InputStream getInputStream() throws IOException {
+                return null;
+            }
+
+            @Override
+            public void transferTo(File dest) throws IOException, IllegalStateException {
+
+            }
+        };
+
+        when(usuarioService.findUsuarioEntityByEmail(anyString())).thenReturn(usuario);
+        when(fileRepository.findFileEntitiesByUsuario(any())).thenReturn(fileEntity);
+        when(fileRepository.save(any())).thenReturn(fileEntity);
+        //ACT
+        FileDTO fileDTO = fileService.store(file, usuario.getEmail());
+
+        //ASSERT
+        assertNotNull(fileDTO);
+
+    }
+
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarStoreComErro() throws RegraDeNegocioException, IOException {
         FileEntity fileEntity = getFileEntity();

@@ -2,9 +2,8 @@ package br.com.allocation.controller.interfaces;
 
 import br.com.allocation.dto.loginDTO.LoginDTO;
 import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
-import br.com.allocation.dto.usuarioDTO.FileDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.*;
+import br.com.allocation.entity.FileEntity;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,8 +40,8 @@ public interface AuthInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping("/recuperar-senha/{email}")
-    public ResponseEntity<String> recuperarSenha(@PathVariable("email") String email) throws RegraDeNegocioException;
+    @PostMapping("/recuperar-senha")
+    public ResponseEntity<String> recuperarSenha(@RequestParam("email") String email) throws RegraDeNegocioException;
 
     @Operation(summary = "Atualizar senha.", description = "Atualiza a senha do usuario.")
     @ApiResponses(
@@ -52,8 +51,8 @@ public interface AuthInterfaceController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PutMapping("/atualizar-senha")
-    public ResponseEntity<String> atualizarSenha(String senha, String confirmarSenha, @RequestParam String token) throws RegraDeNegocioException;
+    @PutMapping("/atualizar-senha/{token}")
+    public ResponseEntity<String> atualizarSenha(@RequestBody UsuarioSenhaDTO usuarioSenhaDTO, @PathVariable("token") String token) throws RegraDeNegocioException;
 
     @Operation(summary = "Upload na imagem", description = "upload na foto de perfil do usuario")
     @ApiResponses(

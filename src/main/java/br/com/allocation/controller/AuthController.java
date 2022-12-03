@@ -6,6 +6,7 @@ import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
 import br.com.allocation.dto.usuarioDTO.FileDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.security.TokenService;
@@ -16,10 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -62,8 +60,8 @@ public class AuthController implements AuthInterfaceController {
     }
 
     @Override
-    public ResponseEntity<String> atualizarSenha(@RequestBody String senha, @RequestBody String confirmarSenha, @RequestParam String token) throws RegraDeNegocioException {
-        return ResponseEntity.ok(usuarioService.atualizarSenha(senha, confirmarSenha, token));
+    public ResponseEntity<String> atualizarSenha(UsuarioSenhaDTO usuarioSenhaDTO, String token) throws RegraDeNegocioException {
+        return ResponseEntity.ok(usuarioService.atualizarSenha(usuarioSenhaDTO, token));
     }
 
     @Override
