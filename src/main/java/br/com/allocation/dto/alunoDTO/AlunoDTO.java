@@ -1,7 +1,6 @@
 package br.com.allocation.dto.alunoDTO;
 
 import br.com.allocation.enums.Area;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoAllocation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlunoDTO extends AlunoCreateDTO{
+public class AlunoDTO extends AlunoCreateDTO {
     private Integer idAluno;
     private String emProcesso;
 

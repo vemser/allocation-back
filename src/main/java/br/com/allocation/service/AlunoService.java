@@ -29,7 +29,6 @@ public class AlunoService {
     private final ProgramaService programaService;
 
 
-
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
 
@@ -137,7 +136,7 @@ public class AlunoService {
     }
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
-        String emProcesso = alunoEntity.getSituacaoAllocation().equals(SituacaoAllocation.DISPONIVEL)? "não":"sim";
+        String emProcesso = alunoEntity.getSituacaoAllocation().equals(SituacaoAllocation.DISPONIVEL) ? "não" : "sim";
 
         List<String> tecs = new ArrayList<>();
 

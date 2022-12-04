@@ -49,7 +49,7 @@ public class ReservaAlocacaoService {
             ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
             aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
             reservaAlocacaoEntity = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
-            verificarAlunoReservado(reservaAlocacaoEntity.getAluno(),reservaAlocacaoCreateDTO);
+            verificarAlunoReservado(reservaAlocacaoEntity.getAluno(), reservaAlocacaoCreateDTO);
         } catch (DataIntegrityViolationException ex) {
             throw new RegraDeNegocioException("Erro ao resevar, aluno já cadastrado!");
         }
@@ -76,9 +76,10 @@ public class ReservaAlocacaoService {
 
         return converterEmDTO(saveAlocacaoReserva);
     }
+
     public void verificarAlunoReservado(AlunoEntity alunoEntity,
                                         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        if (!alunoEntity.getSituacaoAllocation().equals(SituacaoAllocation.RESERVADO)){
+        if (!alunoEntity.getSituacaoAllocation().equals(SituacaoAllocation.RESERVADO)) {
             vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         }
     }

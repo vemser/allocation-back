@@ -173,7 +173,7 @@ public class VagaService {
     }
 
     private static void verificarClienteInativo(VagaEntity vaga) throws RegraDeNegocioException {
-        if (vaga.getCliente().getSituacao().equals(Situacao.INATIVO)){
+        if (vaga.getCliente().getSituacao().equals(Situacao.INATIVO)) {
             throw new RegraDeNegocioException("Cliente inativo!");
         }
     }

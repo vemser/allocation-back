@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface FileRepository extends JpaRepository<FileEntity, String> {
     Optional<FileEntity> findByUsuario(UsuarioEntity usuario);
 
-    FileEntity findFileEntitiesByUsuario (UsuarioEntity usuario);
+    FileEntity findFileEntitiesByUsuario(UsuarioEntity usuario);
+
     void deleteByUsuario(UsuarioEntity usuario);
 }
