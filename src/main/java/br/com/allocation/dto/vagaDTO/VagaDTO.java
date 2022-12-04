@@ -1,7 +1,7 @@
 package br.com.allocation.dto.vagaDTO;
 
 import br.com.allocation.dto.clienteDTO.ClienteDTO;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class VagaDTO {
     private Integer quantidade;
     private Integer quantidadeAlocados;
     private Integer idPrograma;
-    private Situacao situacao;
+    private SituacaoCliente situacaoCliente;
     private LocalDate dataAbertura;
     private LocalDate dataFechamento;
     private LocalDate dataCriacao;

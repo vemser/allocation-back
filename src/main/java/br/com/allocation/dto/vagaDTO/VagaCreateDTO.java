@@ -1,6 +1,6 @@
 package br.com.allocation.dto.vagaDTO;
 
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class VagaCreateDTO {
 
     @NotNull(message = "situacao não pode ser nulo.")
     @Schema(description = "situacao da vaga", example = "ATIVO")
-    private Situacao situacao;
+    private SituacaoCliente situacaoCliente;
 
     @Schema(description = "Data abertura vaga", example = "2022-12-20")
     private LocalDate dataAbertura;

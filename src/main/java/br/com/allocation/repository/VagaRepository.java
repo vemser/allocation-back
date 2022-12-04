@@ -1,7 +1,7 @@
 package br.com.allocation.repository;
 
 import br.com.allocation.entity.VagaEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface VagaRepository extends JpaRepository<VagaEntity, Integer> {
 
-    List<VagaEntity> findBySituacao(Situacao situacao);
+    List<VagaEntity> findBySituacaoCliente(SituacaoCliente situacaoCliente);
 
     Page<VagaEntity> findAllByNomeContainingIgnoreCase(Pageable pageable, String nome);
 

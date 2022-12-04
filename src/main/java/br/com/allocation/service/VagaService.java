@@ -7,7 +7,7 @@ import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.VagaEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +36,7 @@ public class VagaService {
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
 
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
-        vagaCreate.setSituacao(Situacao.ABERTO);
+        vagaCreate.setSituacaoCliente(SituacaoCliente.ABERTO);
         VagaEntity vagaEntity = converterEntity(vagaCreate);
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
@@ -99,7 +99,7 @@ public class VagaService {
 
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity1 = findById(idVaga);
-        if (vagaCreate.getSituacao().equals(Situacao.FECHADO)) {
+        if (vagaCreate.getSituacaoCliente().equals(SituacaoCliente.FECHADO)) {
             fecharVaga(vagaEntity1);
         }
         VagaEntity vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
@@ -126,7 +126,7 @@ public class VagaService {
                 vagaEntity.getQuantidade(),
                 vagaEntity.getQuantidadeAlocados(),
                 vagaEntity.getIdPrograma(),
-                vagaEntity.getSituacao(),
+                vagaEntity.getSituacaoCliente(),
                 vagaEntity.getDataAbertura(),
                 vagaEntity.getDataFechamento(),
                 vagaEntity.getDataCriacao(),
@@ -148,7 +148,7 @@ public class VagaService {
     }
 
     public List<VagaDTO> findAllWithSituacaoAberto() {
-        return vagaRepository.findBySituacao(Situacao.ABERTO)
+        return vagaRepository.findBySituacaoCliente(SituacaoCliente.ABERTO)
                 .stream()
                 .map(vagaEntity -> objectMapper.convertValue(vagaEntity, VagaDTO.class))
                 .collect(Collectors.toList());
@@ -160,21 +160,28 @@ public class VagaService {
 
     public void alterarQuantidadeDeVagas(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
+        veridicarClienteAtivo(vaga);
         if (vaga.getQuantidade() > 0) {
             vaga.setQuantidade(vaga.getQuantidade() - 1);
             vagaRepository.save(vaga);
-            fecharVaga(vaga);
         } else {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }
 
+    private static void veridicarClienteAtivo(VagaEntity vaga) throws RegraDeNegocioException {
+        if (vaga.getCliente().getSituacaoCliente().equals(SituacaoCliente.INATIVO)){
+            throw new RegraDeNegocioException("Cliente inativo!");
+        }
+    }
+
     public void fecharVaga(VagaEntity vaga) {
         if (vaga.getQuantidade() == 0) {
-            vaga.setSituacao(Situacao.FECHADO);
+            vaga.setSituacaoCliente(SituacaoCliente.FECHADO);
             vagaRepository.save(vaga);
         }
     }
+
 
     public void adicionarQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);

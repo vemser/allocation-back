@@ -4,7 +4,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.VagaEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
 import br.com.allocation.service.factory.ClienteFactory;
@@ -146,7 +146,7 @@ public class VagaServiceTest {
         Integer id = 2;
         VagaCreateDTO vagaCreateDTO = VagaFactory.getvagaCreateDTO();
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
-        vagaCreateDTO.setSituacao(Situacao.FECHADO);
+        vagaCreateDTO.setSituacaoCliente(SituacaoCliente.FECHADO);
         when(programaService.findById(any())).thenReturn(ProgramaFactory.getProgramaEntity());
         when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
 
@@ -174,7 +174,7 @@ public class VagaServiceTest {
     @Test
     public void deveTestarFindAllWithSituacaoAberto() {
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
-        when(vagaRepository.findBySituacao(any())).thenReturn(List.of(vagaEntity));
+        when(vagaRepository.findBySituacaoCliente(any())).thenReturn(List.of(vagaEntity));
         List<VagaDTO> vagaDTOList = vagaService.findAllWithSituacaoAberto();
         assertNotNull(vagaDTOList);
     }
@@ -232,13 +232,13 @@ public class VagaServiceTest {
     public void deveTestarFecharVagaComSucesso() {
 
         VagaEntity vaga = VagaFactory.getVagaEntity();
-        vaga.setSituacao(Situacao.FECHADO);
+        vaga.setSituacaoCliente(SituacaoCliente.FECHADO);
         vagaRepository.save(vaga);
         vagaService.fecharVaga(vaga);
 
         verify(vagaRepository, times(1)).save(vaga);
-        assertNotNull(vaga.getSituacao());
-        assertEquals(vaga.getSituacao(), Situacao.FECHADO);
+        assertNotNull(vaga.getSituacaoCliente());
+        assertEquals(vaga.getSituacaoCliente(), SituacaoCliente.FECHADO);
 
     }
 
@@ -246,12 +246,12 @@ public class VagaServiceTest {
     public void deveTestarFecharVagaComErro() {
         VagaEntity vaga = VagaFactory.getVagaEntity();
         vaga.setQuantidade(0);
-        vaga.setSituacao(Situacao.FECHADO);
+        vaga.setSituacaoCliente(SituacaoCliente.FECHADO);
         vagaRepository.save(vaga);
         vagaService.fecharVaga(vaga);
 
-        assertNotNull(vaga.getSituacao());
-        assertEquals(vaga.getSituacao(), Situacao.FECHADO);
+        assertNotNull(vaga.getSituacaoCliente());
+        assertEquals(vaga.getSituacaoCliente(), SituacaoCliente.FECHADO);
 
     }
 

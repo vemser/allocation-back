@@ -4,7 +4,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.entity.ProgramaEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ProgramaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +28,7 @@ public class ProgramaService {
 
     public ProgramaDTO salvar(ProgramaCreateDTO programaCreate) {
         ProgramaEntity programaEntity = objectMapper.convertValue(programaCreate, ProgramaEntity.class);
-        programaEntity.setSituacao(Situacao.valueOf(programaCreate.getSituacao()));
+        programaEntity.setSituacaoCliente(SituacaoCliente.valueOf(programaCreate.getSituacao()));
         programaEntity.setDataCriacao(LocalDate.now());
 
         return objectMapper.convertValue(programaRepository.save(programaEntity), ProgramaDTO.class);
@@ -70,7 +70,7 @@ public class ProgramaService {
 
     public ProgramaDTO editar(Integer idPrograma, ProgramaCreateDTO programaCreate) throws RegraDeNegocioException {
         ProgramaEntity programaEntity = findById(idPrograma);
-        programaEntity.setSituacao(Situacao.valueOf(programaCreate.getSituacao()));
+        programaEntity.setSituacaoCliente(SituacaoCliente.valueOf(programaCreate.getSituacao()));
         programaEntity.setNome(programaCreate.getNome());
         programaEntity.setDescricao(programaCreate.getDescricao());
         programaEntity.setDataCriacao(LocalDate.now());

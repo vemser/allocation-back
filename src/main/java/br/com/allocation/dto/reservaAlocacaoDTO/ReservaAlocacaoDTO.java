@@ -3,7 +3,7 @@ package br.com.allocation.dto.reservaAlocacaoDTO;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
-import br.com.allocation.enums.StatusAluno;
+import br.com.allocation.enums.Situacao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ public class ReservaAlocacaoDTO {
     private VagaDTO vaga;
     private AlunoDTO aluno;
     private AvaliacaoDTO avaliacaoEntity;
-    private StatusAluno statusAluno;
+    private Situacao situacaoAlocacao;
     private String descricao;
     private LocalDate dataReserva;
     private LocalDate dataAlocacao;

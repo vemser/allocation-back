@@ -10,7 +10,7 @@ import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.entity.ReservaAlocacaoEntity;
 import br.com.allocation.entity.VagaEntity;
-import br.com.allocation.enums.StatusAluno;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import br.com.allocation.repository.ReservaAlocacaoRepository;
@@ -34,7 +34,6 @@ public class ReservaAlocacaoService {
 
 
     public ReservaAlocacaoDTO salvar(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
-        vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
         ReservaAlocacaoEntity reservaAlocacaoEntity = converterEntity(reservaAlocacaoCreateDTO);
 
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
@@ -42,15 +41,15 @@ public class ReservaAlocacaoService {
 
         alunoService.alterarStatusAluno(reservaAlocacaoCreateDTO.getIdAluno(),
                 reservaAlocacaoCreateDTO);
-        aluno.setStatusAluno(StatusAluno.RESERVADO);
+        aluno.setSituacao(Situacao.RESERVADO);
         alunoRepository.save(aluno);
 
         try {
             adicionarQtdAlocadosEmVagas(reservaAlocacaoCreateDTO, reservaAlocacaoEntity, aluno);
             ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
             aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
-            vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
             reservaAlocacaoEntity = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
+            verificarAlunoReservado(reservaAlocacaoEntity.getAluno(),reservaAlocacaoCreateDTO);
         } catch (DataIntegrityViolationException ex) {
             throw new RegraDeNegocioException("Erro ao resevar, aluno já cadastrado!");
         }
@@ -69,7 +68,7 @@ public class ReservaAlocacaoService {
         aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
 
         adicionarQtdAlocadosEmVagas(reservaAlocacaoCreateDTO, reservaAlocacaoEntity, aluno);
-        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)) {
+        if (reservaAlocacaoCreateDTO.getSituacao().equals(Situacao.RESERVADO)) {
             if (reservaAlocacaoCreateDTO.getIdVaga().equals(reservaAlocacaoEntity.getVaga().getIdVaga())) {
                 alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
             }
@@ -77,12 +76,18 @@ public class ReservaAlocacaoService {
 
         return converterEmDTO(saveAlocacaoReserva);
     }
+    public void verificarAlunoReservado(AlunoEntity alunoEntity,
+                                        ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
+        if (!alunoEntity.getSituacao().equals(Situacao.RESERVADO)){
+            vagaService.alterarQuantidadeDeVagas(reservaAlocacaoCreateDTO.getIdVaga());
+        }
+    }
 
     public PageDTO<ReservaAlocacaoDTO> filtrar(Integer pagina, Integer tamanho, String nomeAluno, String nomeVaga) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
 
-        nomeAluno = nomeAluno != null? "%"+nomeAluno+"%" : null;
-        nomeVaga = nomeVaga != null? "%"+nomeVaga+"%" : null;
+        nomeAluno = nomeAluno != null ? "%" + nomeAluno + "%" : null;
+        nomeVaga = nomeVaga != null ? "%" + nomeVaga + "%" : null;
 
 
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
@@ -104,8 +109,8 @@ public class ReservaAlocacaoService {
         ReservaAlocacaoEntity reservaAlocacao = findById(id);
         AlunoEntity aluno = reservaAlocacao.getAluno();
 
-        reservaAlocacao.setStatusAluno(StatusAluno.FINALIZADO);
-        aluno.setStatusAluno(StatusAluno.DISPONIVEL);
+        reservaAlocacao.setSituacao(Situacao.INATIVO);
+        aluno.setSituacao(Situacao.DISPONIVEL);
         alunoRepository.save(aluno);
     }
 
@@ -147,7 +152,7 @@ public class ReservaAlocacaoService {
                 reservaAlocacaoCreateDTO.getDataAlocacao(),
                 reservaAlocacaoCreateDTO.getDataCancelamento(),
                 null,
-                reservaAlocacaoCreateDTO.getStatusAluno(),
+                reservaAlocacaoCreateDTO.getSituacao(),
                 alunoEntity,
                 vagaEntity,
                 avaliacaoEntity);
@@ -162,7 +167,7 @@ public class ReservaAlocacaoService {
                 vagaDTO,
                 alunoDTO,
                 avaliacaoDTO,
-                reservaAlocacaoEntity.getStatusAluno(),
+                reservaAlocacaoEntity.getSituacao(),
                 reservaAlocacaoEntity.getDescricao(),
                 reservaAlocacaoEntity.getDataReserva(),
                 reservaAlocacaoEntity.getDataAlocacao(),
@@ -173,7 +178,7 @@ public class ReservaAlocacaoService {
     public void adicionarQtdAlocadosEmVagas(ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO,
                                             ReservaAlocacaoEntity reservaAlocacaoEntity,
                                             AlunoEntity aluno) throws RegraDeNegocioException {
-        if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.ALOCADO)) {
+        if (reservaAlocacaoCreateDTO.getSituacao().equals(Situacao.ALOCADO)) {
             alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
             vagaService.adicionarQuantidadeDeAlocados(reservaAlocacaoEntity.getVaga().getIdVaga());
         }
