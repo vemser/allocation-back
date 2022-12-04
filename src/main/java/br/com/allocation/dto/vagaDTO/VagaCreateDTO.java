@@ -50,9 +50,8 @@ public class VagaCreateDTO {
     @Schema(description = "Observaçoes sobre a vaga", example = "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String observacoes;
 
-    @NotBlank(message = "Email não pode ser vazio ou nulo.")
-    @Schema(description = "email do cliente", example = "sicred@dbccompany.com.br")
-    @Email
-    private String emailCliente;
+    @NotBlank(message = "Id cliente não pode ser vazio ou nulo.")
+    @Schema(description = "Id do cliente", example = "1")
+    private Integer idCliente;
 
 }

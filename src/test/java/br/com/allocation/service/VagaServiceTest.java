@@ -64,13 +64,12 @@ public class VagaServiceTest {
         VagaCreateDTO vagaCreateDTO = VagaFactory.getvagaCreateDTO();
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
         when(programaService.findById(any())).thenReturn(ProgramaFactory.getProgramaEntity());
-        when(clienteService.findByEmail(any())).thenReturn(ClienteFactory.getClienteEntity());
         when(vagaRepository.save(any())).thenReturn(vagaEntity);
         VagaDTO vagaDTO = vagaService.salvar(vagaCreateDTO);
 
         assertNotNull(vagaDTO);
         assertEquals("vaga", vagaCreateDTO.getNome());
-        Assertions.assertEquals("cocacolabr@mail.com.br", vagaCreateDTO.getEmailCliente());
+        Assertions.assertEquals(1, vagaCreateDTO.getIdCliente());
         Assertions.assertEquals(0, vagaDTO.getQuantidadeAlocados());
 
     }
@@ -136,7 +135,7 @@ public class VagaServiceTest {
 
         assertNotNull(vagaDTO);
         assertEquals("vaga", vagaCreateDTO.getNome());
-        Assertions.assertEquals("cocacolabr@mail.com.br", vagaCreateDTO.getEmailCliente());
+        Assertions.assertEquals(1, vagaCreateDTO.getIdCliente());
         Assertions.assertEquals(id, vagaDTO.getIdVaga());
 
     }
@@ -157,7 +156,7 @@ public class VagaServiceTest {
 
         assertNotNull(vagaDTO);
         assertEquals("vaga", vagaCreateDTO.getNome());
-        Assertions.assertEquals("cocacolabr@mail.com.br", vagaCreateDTO.getEmailCliente());
+        Assertions.assertEquals(1, vagaCreateDTO.getIdCliente());
         Assertions.assertEquals(id, vagaDTO.getIdVaga());
 
     }
@@ -256,16 +255,37 @@ public class VagaServiceTest {
     }
 
     @Test(expected = RegraDeNegocioException.class)
+    public void deveTestarAlterarQuantidadeDeVagasComErroVagas() throws RegraDeNegocioException {
+        VagaEntity vagaEntity = VagaFactory.getVagaEntity();
+        Integer idVaga = 2;
+        vagaEntity.setQuantidade(0);
+
+        when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
+
+        vagaService.findById(anyInt());
+        vagaEntity.setQuantidadeAlocados(vagaEntity.getQuantidade() - 1);
+
+        vagaRepository.save(any());
+        vagaService.alterarQuantidadeDeVagas(idVaga);
+
+        assertNotNull(vagaEntity);
+        Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
+        Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(), 2);
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
     public void deveTestarAlterarQuantidadeDeVagasComErroAluno() throws RegraDeNegocioException {
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
         Integer idVaga = 2;
         vagaEntity.setQuantidade(0);
+        vagaEntity.getCliente().setSituacaoCliente(SituacaoCliente.INATIVO);
         when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
+
         vagaService.findById(anyInt());
         vagaEntity.setQuantidadeAlocados(vagaEntity.getQuantidade() - 1);
+
         vagaRepository.save(any());
         vagaService.alterarQuantidadeDeVagas(idVaga);
-
 
         assertNotNull(vagaEntity);
         Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
