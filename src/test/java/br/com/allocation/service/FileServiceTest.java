@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -24,7 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -51,9 +51,9 @@ public class FileServiceTest {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         ReflectionTestUtils.setField(fileService, "objectMapper", objectMapper);
     }
+
     @Test
     public void deveTestarStoreComSucesso() throws RegraDeNegocioException, IOException {
-        //Setup
         FileEntity fileEntity = getFileEntity();
         UsuarioEntity usuario = getUsuarioEntity();
         String filename = "fotodeperfil";
@@ -102,10 +102,9 @@ public class FileServiceTest {
 
         when(usuarioService.findUsuarioEntityByEmail(anyString())).thenReturn(usuario);
         when(fileRepository.save(any())).thenReturn(fileEntity);
-        //ACT
+
         FileDTO fileDTO = fileService.store(file, usuario.getEmail());
 
-        //ASSERT
         assertNotNull(fileDTO);
 
     }
@@ -172,7 +171,6 @@ public class FileServiceTest {
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarStoreComErro() throws RegraDeNegocioException, IOException {
-        //Setup
         FileEntity fileEntity = getFileEntity();
         UsuarioEntity usuario = getUsuarioEntity();
         fileEntity.setData(null);
@@ -221,30 +219,28 @@ public class FileServiceTest {
         file = null;
 
         when(usuarioService.findUsuarioEntityByEmail(anyString())).thenReturn(usuario);
-        //ACT
+
         FileDTO fileDTO = fileService.store(file, usuario.getEmail());
 
-        //ASSERT
         assertNull(fileDTO);
 
     }
 
     @Test
     public void deveTestarGetImageComSucesso() throws RegraDeNegocioException {
-        //SETUP
         UsuarioEntity usuario = getUsuarioEntity();
         FileEntity fileEntity = getFileEntity();
         String email = "kaio@gmail.com";
         when(usuarioService.findUsuarioEntityByEmail(anyString())).thenReturn(usuario);
         when(fileRepository.findByUsuario(any())).thenReturn(Optional.of(fileEntity));
-        //ACT
+
         String imagem = fileService.getImage(email);
 
-        //ASSERT
+
         assertNotNull(imagem);
     }
 
-    private static FileEntity getFileEntity(){
+    private static FileEntity getFileEntity() {
         FileEntity fileEntity = new FileEntity();
         byte[] arquivo = "aasda".getBytes();
         fileEntity.setId(1);
@@ -253,7 +249,8 @@ public class FileServiceTest {
         fileEntity.setData(arquivo);
         return fileEntity;
     }
-    private static UsuarioEntity getUsuarioEntity(){
+
+    private static UsuarioEntity getUsuarioEntity() {
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setIdUsuario(1);
         usuario.setNomeCompleto("Kaio Antonio");

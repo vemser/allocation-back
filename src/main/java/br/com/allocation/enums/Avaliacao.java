@@ -6,8 +6,10 @@ public enum Avaliacao {
     AVALIACAO3("AVALIACAO3");
 
     private String value;
+
     Avaliacao(String str) {
     }
+
     public String getValue() {
         return value;
     }

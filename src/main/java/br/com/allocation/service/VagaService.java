@@ -164,7 +164,7 @@ public class VagaService {
             vaga.setQuantidade(vaga.getQuantidade() - 1);
             vagaRepository.save(vaga);
             fecharVaga(vaga);
-        }else {
+        } else {
             throw new RegraDeNegocioException("Quantidades de Vagas foram prenchidas!");
         }
     }

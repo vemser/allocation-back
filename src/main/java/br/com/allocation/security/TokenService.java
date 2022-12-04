@@ -69,7 +69,7 @@ public class TokenService {
     }
 
     public UsernamePasswordAuthenticationToken isValid(String token) {
-        if(token == null) {
+        if (token == null) {
             return null;
         }
 

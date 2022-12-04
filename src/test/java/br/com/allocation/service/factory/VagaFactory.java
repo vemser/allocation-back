@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 
 public class VagaFactory {
-    public static VagaEntity getVagaEntity(){
+    public static VagaEntity getVagaEntity() {
         VagaEntity vagaEntity = new VagaEntity(2,
                 95,
                 "Desenvolvedor(a) Java - Back-End",
@@ -26,7 +26,8 @@ public class VagaFactory {
                 Collections.emptySet());
         return vagaEntity;
     }
-    public static VagaCreateDTO getvagaCreateDTO(){
+
+    public static VagaCreateDTO getvagaCreateDTO() {
         VagaCreateDTO vagaCreateDTO = new VagaCreateDTO("vaga",
                 10,
                 0,
@@ -40,7 +41,7 @@ public class VagaFactory {
         return vagaCreateDTO;
     }
 
-    public static VagaDTO getVagaDTO(){
+    public static VagaDTO getVagaDTO() {
         VagaDTO vagaDTO = new VagaDTO();
         vagaDTO.setIdVaga(1);
         vagaDTO.setSituacao(Situacao.ABERTO);

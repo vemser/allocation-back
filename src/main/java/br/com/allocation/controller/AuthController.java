@@ -32,7 +32,7 @@ public class AuthController implements AuthInterfaceController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final UsuarioService usuarioService;
-    private  final FileService fileService;
+    private final FileService fileService;
 
 
     @Override

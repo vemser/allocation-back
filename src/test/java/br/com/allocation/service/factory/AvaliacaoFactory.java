@@ -9,20 +9,20 @@ import java.time.LocalDate;
 import java.util.Collections;
 
 public class AvaliacaoFactory {
-    public static AvaliacaoEntity getAvalicaoEntity(){
+    public static AvaliacaoEntity getAvalicaoEntity() {
         AvaliacaoEntity avaliacaoEntity = new AvaliacaoEntity(1, 19,
-                10,"top",9.5, TipoAvaliacao.INDIVIDUAL,
+                10, "top", 9.5, TipoAvaliacao.INDIVIDUAL,
                 LocalDate.now().plusDays(1),
                 LocalDate.now().plusDays(4),
                 LocalDate.now().plusDays(4),
                 LocalDate.now().plusDays(2),
-                SituacaoAluno.AGENDADO_CLIENTE,AlunoFactory.getAlunoEntity(),
+                SituacaoAluno.AGENDADO_CLIENTE, AlunoFactory.getAlunoEntity(),
                 VagaFactory.getVagaEntity(),
                 Collections.emptySet());
         return avaliacaoEntity;
     }
 
-    public static AvaliacaoCreateDTO getAvaliacaoCreateDTO(){
+    public static AvaliacaoCreateDTO getAvaliacaoCreateDTO() {
         AvaliacaoCreateDTO avaliacaoCreateDTO = new AvaliacaoCreateDTO();
         avaliacaoCreateDTO.setIdVaga(1);
         avaliacaoCreateDTO.setEmailAluno("kaio@bol.com");

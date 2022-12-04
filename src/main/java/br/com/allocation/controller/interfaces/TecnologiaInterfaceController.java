@@ -19,6 +19,6 @@ public interface TecnologiaInterfaceController {
     )
     @GetMapping
     PageDTO<TecnologiaDTO> buscar(@RequestParam String nomeTecnologia,
-                                         @RequestParam int page,
-                                         @RequestParam int size);
+                                  @RequestParam int page,
+                                  @RequestParam int size);
 }

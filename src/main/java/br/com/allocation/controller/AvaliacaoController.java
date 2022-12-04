@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -30,6 +32,7 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
         log.info("Avaliação adicionada com sucesso!");
         return new ResponseEntity<>(avaliacaoDTO, HttpStatus.CREATED);
     }
+
     @Override
     public ResponseEntity<PageDTO<AvaliacaoDTO>> listar(Integer pagina, Integer tamanho) {
         return ResponseEntity.ok(avaliacaoService.listar(pagina, tamanho));
@@ -47,6 +50,7 @@ public class AvaliacaoController implements AvaliacaoInterfaceController {
         log.info("Avalição editado com sucesso!");
         return new ResponseEntity<>(avaliacaoDTO, HttpStatus.CREATED);
     }
+
     @Override
     public ResponseEntity<Void> deletar(Integer idAvaliacao) throws RegraDeNegocioException {
         avaliacaoService.deletar(idAvaliacao);

@@ -5,7 +5,7 @@ import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.enums.Situacao;
 
 public class ClienteFactory {
-    public static ClienteEntity getClienteEntity(){
+    public static ClienteEntity getClienteEntity() {
         ClienteEntity clienteEntity = new ClienteEntity();
         clienteEntity.setIdCliente(1);
         clienteEntity.setNome("Coca Cola");
@@ -15,7 +15,7 @@ public class ClienteFactory {
         return clienteEntity;
     }
 
-    public static ClienteCreateDTO getClienteCreateDTO(){
+    public static ClienteCreateDTO getClienteCreateDTO() {
         ClienteCreateDTO clienteCreateDTO = new ClienteCreateDTO();
         clienteCreateDTO.setNome("Coca Cola");
         clienteCreateDTO.setTelefone("711112459798");

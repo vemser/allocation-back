@@ -1,10 +1,7 @@
 package br.com.allocation.entity;
 
-import br.com.allocation.enums.Avaliacao;
-import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.TipoAvaliacao;
-import br.com.allocation.exceptions.RegraDeNegocioException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

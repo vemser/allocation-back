@@ -33,7 +33,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClienteServiceTest {
-
     @InjectMocks
     private ClienteService clienteService;
 
@@ -51,23 +50,19 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void deveTestarSalvarComSucesso(){
-        //SETUP
+    public void deveTestarSalvarComSucesso() {
         ClienteEntity cliente = ClienteFactory.getClienteEntity();
         ClienteCreateDTO clienteCreateDTO = ClienteFactory.getClienteCreateDTO();
         when(clienteRepository.save(any())).thenReturn(cliente);
-        //ACT
         ClienteDTO clienteDTO = clienteService.salvar(clienteCreateDTO);
 
-        //ASSERT
         assertNotNull(clienteDTO);
         assertEquals("Coca Cola", clienteDTO.getNome());
 
     }
 
     @Test
-    public void deveTestarListarComSucesso(){
-        //SETUP
+    public void deveTestarListarComSucesso() {
         Integer pagina = 4;
         Integer quantidade = 10;
 
@@ -76,16 +71,13 @@ public class ClienteServiceTest {
         Page<ClienteEntity> clienteEntityPage = new PageImpl<>(List.of(clienteEntity));
 
         when(clienteRepository.findAll(any(Pageable.class))).thenReturn(clienteEntityPage);
-        //ACT
         PageDTO<ClienteDTO> clienteDTOPageDTO = clienteService.listar(pagina, quantidade);
 
-        //ASSERT
         assertNotNull(clienteDTOPageDTO);
     }
 
     @Test
     public void deveTestarEditarComSucesso() throws RegraDeNegocioException {
-        //SETUP
         ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
         ClienteCreateDTO clienteCreateDTO = ClienteFactory.getClienteCreateDTO();
         Integer id = 1;
@@ -94,37 +86,31 @@ public class ClienteServiceTest {
         ClienteEntity cliente = ClienteFactory.getClienteEntity();
         when(clienteRepository.save(any())).thenReturn(cliente);
 
-        //ACT
-        ClienteDTO clienteDTO = clienteService.editar(id,clienteCreateDTO);
+        ClienteDTO clienteDTO = clienteService.editar(id, clienteCreateDTO);
 
-        //ASSERT
         assertNotNull(clienteDTO);
         assertNotEquals(Situacao.FECHADO, clienteDTO.getSituacao());
     }
 
     @Test
     public void deveTestarDeleteComSucesso() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 1;
         ClienteEntity cliente = ClienteFactory.getClienteEntity();
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(cliente));
 
-        //ACT
         clienteService.deletar(id);
 
-        //ASSERT
         verify(clienteRepository, times(1)).delete(any());
     }
 
     @Test
     public void deveTestarFindByIdComSucesso() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 1;
         ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(clienteEntity));
-        //ACT
+
         ClienteEntity cliente = clienteService.findById(id);
-        //ASSERT
+
         assertNotNull(cliente);
         assertNotNull(cliente.getIdCliente());
         assertEquals(1, cliente.getIdCliente());
@@ -133,21 +119,16 @@ public class ClienteServiceTest {
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarFindByIdComErro() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         Integer busca = 10;
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-
-        // Ação (ACT)
         ClienteEntity desafio = clienteService.findById(busca);
 
-        //Assert
         assertNull(desafio);
     }
 
     @Test
-    public void deveTestarListarPorEmailComSucesso(){
-        //SETUP
+    public void deveTestarListarPorEmailComSucesso() {
         Integer pagina = 4;
         Integer quantidade = 10;
         String email = "cocacolabr@mail.com.br";
@@ -157,10 +138,9 @@ public class ClienteServiceTest {
         Page<ClienteEntity> clienteEntityPage = new PageImpl<>(List.of(clienteEntity));
 
         when(clienteRepository.findAllByEmailIgnoreCase(any(Pageable.class), anyString())).thenReturn(clienteEntityPage);
-        //ACT
+
         PageDTO<ClienteDTO> clienteDTOPageDTO = clienteService.listarPorEmail(pagina, quantidade, email);
 
-        //ASSERT
         assertNotNull(clienteDTOPageDTO);
     }
 
@@ -185,17 +165,13 @@ public class ClienteServiceTest {
 
     @Test
     public void deveTestarFindByEmailComSucesso() throws RegraDeNegocioException {
-        //SETUP
         String email = "cocacolabr@mail.com.br";
         ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
         when(clienteRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(clienteEntity));
-        //ACT
         ClienteEntity cliente = clienteService.findByEmail(email);
 
-        //ASSERT
         assertNotNull(cliente);
     }
-
 
 
 }

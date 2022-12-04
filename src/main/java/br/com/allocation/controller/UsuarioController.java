@@ -1,9 +1,7 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.UsuarioInterfaceController;
-import br.com.allocation.dto.cargoDTO.CargoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.usuarioDTO.MensagemDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.enums.Cargos;
@@ -16,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 
 @RestController
@@ -38,7 +34,7 @@ public class UsuarioController implements UsuarioInterfaceController {
     }
 
     @Override
-    public ResponseEntity<PageDTO<UsuarioDTO>> listar(Integer pagina, Integer tamanho){
+    public ResponseEntity<PageDTO<UsuarioDTO>> listar(Integer pagina, Integer tamanho) {
         return new ResponseEntity<>(usuarioService.listar(pagina, tamanho), HttpStatus.OK);
     }
 
@@ -48,7 +44,7 @@ public class UsuarioController implements UsuarioInterfaceController {
     }
 
     @GetMapping("/listarPorNome")
-    public ResponseEntity<PageDTO<UsuarioDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome){
+    public ResponseEntity<PageDTO<UsuarioDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome) {
         return new ResponseEntity<>(usuarioService.listarPorNome(pagina, tamanho, nome), HttpStatus.OK);
     }
 

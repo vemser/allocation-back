@@ -1,7 +1,9 @@
 package br.com.allocation.dto.clienteDTO;
 
 import br.com.allocation.enums.Situacao;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 @AllArgsConstructor
 @Data
 public class ClienteDTO {

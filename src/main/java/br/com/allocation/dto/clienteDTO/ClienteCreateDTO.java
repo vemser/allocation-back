@@ -11,19 +11,19 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ClienteCreateDTO {
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Nome do Cliente",example = "Sicred")
+    @Schema(description = "Nome do Cliente", example = "Sicred")
     private String nome;
 
     @NotBlank(message = "Email não pode ser vazio ou nulo.")
-    @Schema(description = "email",example = "sicred@dbccompany.com.br")
+    @Schema(description = "email", example = "sicred@dbccompany.com.br")
     @Email
     private String email;
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo.")
-    @Schema(description = "Telefone do cliente",example = "911234-9876")
+    @Schema(description = "Telefone do cliente", example = "911234-9876")
     private String telefone;
 
     @NotNull
-    @Schema(description = "Situação do cliente",example = "ATIVO")
+    @Schema(description = "Situação do cliente", example = "ATIVO")
     private Situacao situacao;
 }

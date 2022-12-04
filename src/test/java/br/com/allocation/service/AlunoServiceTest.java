@@ -76,16 +76,13 @@ public class AlunoServiceTest {
         when(tecnologiaService.create(any())).thenReturn(tecnologiaDTO);
         when(tecnologiaService.findBySet(any())).thenReturn(tecnologiaEntitySet);
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
-        //ACT
         AlunoDTO alunoDTO = alunoService.salvar(alunoCreateDTO);
 
-        //ASSERT
         assertNotNull(alunoDTO);
     }
 
     @Test
     public void deveTestarEditarComSucesso() throws RegraDeNegocioException {
-        //SETUP
         AlunoEntity alunoEntity = getAlunoEntity();
         AlunoCreateDTO alunoCreateDTO = getAlunoCreateDTO();
         ProgramaEntity programaEntity = getProgramaEntity();
@@ -99,17 +96,15 @@ public class AlunoServiceTest {
         when(tecnologiaService.findBySet(any())).thenReturn(tecnologiaEntitySet);
         when(alunoRepository.save(any())).thenReturn(alunoEntityAtualizado);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
-        //ACT
+
         AlunoDTO alunoDTO = alunoService.editar(id, alunoCreateDTO);
 
-        //ASSERT
         assertNotNull(alunoDTO);
         assertNotEquals("Lazzari", alunoDTO.getNome());
     }
 
     @Test
-    public void deveTestarListarComSucesso(){
-        //SETUP
+    public void deveTestarListarComSucesso() {
         Integer pagina = 4;
         Integer quantidade = 10;
 
@@ -118,16 +113,14 @@ public class AlunoServiceTest {
         Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
 
         when(alunoRepository.findAll(any(Pageable.class))).thenReturn(alunoEntities);
-        //ACT
+
         PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listar(pagina, quantidade);
 
-        //ASSERT
         assertNotNull(alunoDTOPageDTO);
     }
 
     @Test
-    public void deveTestarListarPorNomeComSucesso(){
-        //SETUP
+    public void deveTestarListarPorNomeComSucesso() {
         String nome = "kaio";
         Integer pagina = 4;
         Integer quantidade = 10;
@@ -137,17 +130,15 @@ public class AlunoServiceTest {
         Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
 
         when(alunoRepository.findAllByNomeContainingIgnoreCase(any(Pageable.class), anyString())).thenReturn(alunoEntities);
-        //ACT
+
         PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listarPorNome(pagina, quantidade, nome);
 
-        //ASSERT
         assertNotNull(alunoDTOPageDTO);
     }
 
 
     @Test
-    public void deveTestarListarPorEmailComSucesso() throws RegraDeNegocioException {
-        //SETUP
+    public void deveTestarListarPorEmailComSucesso() {
         String email = "kaio@email.com";
         Integer pagina = 4;
         Integer quantidade = 10;
@@ -155,22 +146,20 @@ public class AlunoServiceTest {
         Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
 
         when(alunoRepository.findAllByEmailIgnoreCase(any(Pageable.class), anyString())).thenReturn(alunoEntities);
-        //ACT
+
         PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listarPorEmail(pagina, quantidade, email);
 
-        //ASSERT
         assertNotNull(alunoDTOPageDTO);
     }
 
     @Test
     public void deveTestarFindByIdComSucesso() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 1;
         AlunoEntity alunoEntity = getAlunoEntity();
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
-        //ACT
+
         AlunoEntity aluno = alunoService.findById(id);
-        //ASSERT
+
         assertNotNull(aluno);
         assertNotNull(aluno.getIdAluno());
         assertEquals(1, aluno.getPrograma().getIdPrograma());
@@ -178,60 +167,49 @@ public class AlunoServiceTest {
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarFindByIdComErro() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         Integer busca = 10;
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-
-        // Ação (ACT)
         AlunoEntity alunoEntity = alunoService.findById(busca);
 
-        //Assert
         assertNull(alunoEntity);
     }
 
     @Test
     public void deveTestarDeletarComSucesso() throws RegraDeNegocioException {
-        //SETUP
         Integer id = 1;
         AlunoEntity alunoEntity = getAlunoEntity();
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
-        //ACT
+
         alunoService.deletar(id);
 
-        //ASSERT
         verify(alunoRepository, times(1)).deleteById(anyInt());
     }
 
     @Test
-    public void deveTestarDisponiveisComSucesso(){
-        //SETUP
-        StatusAluno statusAluno = StatusAluno.DISPONIVEL;
+    public void deveTestarDisponiveisComSucesso() {
         Integer pagina = 4;
         Integer quantidade = 10;
         AlunoEntity alunoEntity = getAlunoEntity();
         Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
 
         when(alunoRepository.findAllByStatusAluno(any(Pageable.class), any())).thenReturn(alunoEntities);
-        //ACT
+
         PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listarDisponiveis(pagina, quantidade);
 
-        //ASSERT
         assertNotNull(alunoDTOPageDTO);
     }
 
     @Test
     public void deveTestarAlterarStatusAluno() throws RegraDeNegocioException {
-        //SETUP
         AlunoEntity alunoEntity = getAlunoEntity();
         Integer id = 1;
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
-        //ACT
+
         AlunoEntity alunoEntity1 = alunoService.alterarStatusAluno(id, reservaAlocacaoCreateDTO);
 
-        //ASSERT
         assertNotNull(alunoEntity1);
     }
 
@@ -282,7 +260,7 @@ public class AlunoServiceTest {
         alunoEntity.setStatusAluno(StatusAluno.ALOCADO);
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.ALOCADO);
-        alunoService.verificarDisponibilidadeAluno(alunoEntity,reservaAlocacaoCreateDTO);
+        alunoService.verificarDisponibilidadeAluno(alunoEntity, reservaAlocacaoCreateDTO);
     }
 
     @Test(expected = RegraDeNegocioException.class)
@@ -291,10 +269,10 @@ public class AlunoServiceTest {
         alunoEntity.setStatusAluno(StatusAluno.RESERVADO);
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.RESERVADO);
-        alunoService.verificarDisponibilidadeAluno(alunoEntity,reservaAlocacaoCreateDTO);
+        alunoService.verificarDisponibilidadeAluno(alunoEntity, reservaAlocacaoCreateDTO);
     }
 
-    private static AlunoEntity getAlunoEntity(){
+    private static AlunoEntity getAlunoEntity() {
         AlunoEntity alunoEntity = new AlunoEntity();
         Set<TecnologiaEntity> tecnologiaEntities = new HashSet<>();
         tecnologiaEntities.add(getTecnologiaEntity());
@@ -312,7 +290,7 @@ public class AlunoServiceTest {
         return alunoEntity;
     }
 
-    private static AlunoCreateDTO getAlunoCreateDTO(){
+    private static AlunoCreateDTO getAlunoCreateDTO() {
         AlunoCreateDTO alunoCreateDTO = new AlunoCreateDTO();
         List<String> tecnologias = new ArrayList<>();
         tecnologias.add("java");
@@ -329,38 +307,38 @@ public class AlunoServiceTest {
         return alunoCreateDTO;
     }
 
-    private static ProgramaEntity getProgramaEntity(){
+    private static ProgramaEntity getProgramaEntity() {
         ProgramaEntity programaEntity = new ProgramaEntity();
         programaEntity.setIdPrograma(1);
         programaEntity.setNome("Vem ser 11");
         programaEntity.setDescricao("Vem ser vemser");
         programaEntity.setDataCriacao(LocalDate.now());
-        programaEntity.setDataTermino(LocalDate.of(2023,05,01));
+        programaEntity.setDataTermino(LocalDate.of(2023, 05, 01));
         programaEntity.setSituacao(Situacao.ATIVO);
         return programaEntity;
     }
 
-    private static TecnologiaEntity getTecnologiaEntity(){
+    private static TecnologiaEntity getTecnologiaEntity() {
         TecnologiaEntity tecnologiaEntity = new TecnologiaEntity();
         tecnologiaEntity.setIdTecnologia(1);
         tecnologiaEntity.setNome("java");
         return tecnologiaEntity;
     }
 
-    private static TecnologiaDTO getTecnologiaDTO(){
+    private static TecnologiaDTO getTecnologiaDTO() {
         TecnologiaDTO tecnologiaDTO = new TecnologiaDTO();
         tecnologiaDTO.setNome("java");
         tecnologiaDTO.setIdTecnologia(1);
         return tecnologiaDTO;
     }
 
-    private static ReservaAlocacaoCreateDTO getReservaAlocacaoCreateDTO(){
+    private static ReservaAlocacaoCreateDTO getReservaAlocacaoCreateDTO() {
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = new ReservaAlocacaoCreateDTO();
         reservaAlocacaoCreateDTO.setIdAluno(1);
         reservaAlocacaoCreateDTO.setDescricao("Reserva da alocacao");
         reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.DISPONIVEL);
         reservaAlocacaoCreateDTO.setDataAlocacao(LocalDate.now());
-        reservaAlocacaoCreateDTO.setDataReserva(LocalDate.of(2023,05,02));
+        reservaAlocacaoCreateDTO.setDataReserva(LocalDate.of(2023, 05, 02));
         reservaAlocacaoCreateDTO.setIdVaga(1);
         reservaAlocacaoCreateDTO.setIdAvaliacao(1);
         reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.ALOCADO);

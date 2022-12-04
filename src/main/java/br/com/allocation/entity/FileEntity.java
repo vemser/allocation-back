@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -31,8 +30,8 @@ public class FileEntity {
     private byte[] data;
 
     @JsonIgnore
-    @OneToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="ID_USUARIO",referencedColumnName = "ID_USUARIO")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     private UsuarioEntity usuario;
 
 }

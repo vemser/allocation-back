@@ -80,8 +80,7 @@ public class UsuarioServiceTest {
 
 
     @Test
-    public void deveTestarAdicionarUsuarioComSucesso () throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
+    public void deveTestarAdicionarUsuarioComSucesso() throws RegraDeNegocioException {
         UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
         Cargos cargos = Cargos.ADMINISTRADOR;
 
@@ -92,85 +91,72 @@ public class UsuarioServiceTest {
         when(passwordEncoder.encode(senha)).thenReturn("Ahu82ha");
         when(usuarioRepository.save(any())).thenReturn(usuarioEntity);
 
-        // Ação (ACT)
         UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
 
-        // Verificação (ASSERT)
         assertNotNull(usuarioDTO);
         assertEquals("gustavo lucena silva", usuarioDTO.getNomeCompleto());
         assertEquals(10, usuarioDTO.getIdUsuario());
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarAdicionarUsuarioComEmailInvalido () throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
+    public void deveTestarAdicionarUsuarioComEmailInvalido() throws RegraDeNegocioException {
         UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
         usuarioCreateDTO.setSenhaIgual("123qwetryy");
         Cargos cargos = Cargos.ADMINISTRADOR;
 
         when(usuarioRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(getUsuarioEntity()));
-        // Ação (ACT)
+
         UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarAdicionarUsuarioComSenhasDiferentes () throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
+    public void deveTestarAdicionarUsuarioComSenhasDiferentes() throws RegraDeNegocioException {
+
         UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
         usuarioCreateDTO.setSenhaIgual("123qwetryy");
         Cargos cargos = Cargos.ADMINISTRADOR;
 
-        // Ação (ACT)
         UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarAdicionarUsuarioComSenhaPequena () throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
+    public void deveTestarAdicionarUsuarioComSenhaPequena() throws RegraDeNegocioException {
         UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
         usuarioCreateDTO.setSenha("123");
         usuarioCreateDTO.setSenhaIgual("123");
         Cargos cargos = Cargos.ADMINISTRADOR;
 
-        // Ação (ACT)
         UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarAdicionarUsuarioComSenhaFraca () throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
+    public void deveTestarAdicionarUsuarioComSenhaFraca() throws RegraDeNegocioException {
         UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
         usuarioCreateDTO.setSenha("1234567");
         usuarioCreateDTO.setSenhaIgual("1237897");
         Cargos cargos = Cargos.ADMINISTRADOR;
 
-        // Ação (ACT)
         UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarAdicionarUsuarioComSenhaFracaMenor () throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
+    public void deveTestarAdicionarUsuarioComSenhaFracaMenor() throws RegraDeNegocioException {
         UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
         usuarioCreateDTO.setSenha("aaaaaaa1");
         usuarioCreateDTO.setSenhaIgual("aaaaaaa1");
         Cargos cargos = Cargos.ADMINISTRADOR;
 
-        // Ação (ACT)
         UsuarioDTO usuarioDTO = usuarioService.create(usuarioCreateDTO, cargos);
     }
 
     @Test
     public void deveTestarEditarUsuarioComSucesso() throws RegraDeNegocioException {
-
-        // SETUP
         Integer id = 10;
         UsuarioCreateDTO usuarioCreateDTO = getUsuarioCreateDTO();
         Cargos cargos = Cargos.ADMINISTRADOR;
-        UsernamePasswordAuthenticationToken dto = new UsernamePasswordAuthenticationToken(1,null, Collections.emptyList());
+        UsernamePasswordAuthenticationToken dto = new UsernamePasswordAuthenticationToken(1, null, Collections.emptyList());
         SecurityContextHolder.getContext().setAuthentication(dto);
 
-        // findById(id);
         UsuarioEntity usuarioEntity = getUsuarioEntity();
         UsuarioEntity usuario = getUsuarioEntity();
         usuario.setSenha("48jdye12");
@@ -181,10 +167,8 @@ public class UsuarioServiceTest {
         when(usuarioRepository.save(any())).thenReturn(usuario);
         when(cargoService.findByNome(anyString())).thenReturn(getCargoEntity());
 
-        // ACT
-        UsuarioDTO usuarioDTO = usuarioService.editar(id ,usuarioCreateDTO, cargos);
+        UsuarioDTO usuarioDTO = usuarioService.editar(id, usuarioCreateDTO, cargos);
 
-        // ASSERT
         assertNotNull(usuarioDTO);
         assertEquals(10, usuarioDTO.getIdUsuario());
         assertNotEquals(usuarioDTO.getNomeCompleto(), usuarioEntity.getNomeCompleto());
@@ -192,7 +176,6 @@ public class UsuarioServiceTest {
 
     @Test
     public void deveListarUsuariosPaginadoComSucesso() {
-        // Criar variaveis (SETUP)
         Integer pagina = 4;
         Integer quantidade = 6;
 
@@ -200,16 +183,13 @@ public class UsuarioServiceTest {
         Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
         when(usuarioRepository.findAll(any(Pageable.class))).thenReturn(usuarioEntityPage);
 
-        // Ação (ACT)
         PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listar(pagina, quantidade);
 
-        // Verificação (ASSERT)
         assertNotNull(usuarioEntityPage1);
     }
 
     @Test
     public void deveTestarListarPorEmailPagComSucesso() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         Integer pagina = 4;
         Integer quantidade = 6;
         String email = "gustavo@dbccompany.com.br";
@@ -218,16 +198,13 @@ public class UsuarioServiceTest {
         Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
         when(usuarioRepository.findAllByEmail(any(Pageable.class), anyString())).thenReturn(usuarioEntityPage);
 
-        // Ação (ACT)
-        PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listarPorEmailPag(pagina, quantidade,email);
+        PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listarPorEmailPag(pagina, quantidade, email);
 
-        // Verificação (ASSERT)
         assertNotNull(usuarioEntityPage1);
     }
 
     @Test
     public void deveListarUsuariosPorNomeComSucesso() {
-        // Criar variaveis (SETUP)
         Integer pagina = 4;
         Integer quantidade = 6;
         String nome = "gustavo";
@@ -236,16 +213,13 @@ public class UsuarioServiceTest {
         Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
         when(usuarioRepository.findAllByNomeCompletoContainingIgnoreCase(any(Pageable.class), anyString())).thenReturn(usuarioEntityPage);
 
-        // Ação (ACT)
         PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listarPorNome(pagina, quantidade, nome);
 
-        // Verificação (ASSERT)
         assertNotNull(usuarioEntityPage1);
     }
 
     @Test
     public void deveListarUsuariosPorCargoComSucesso() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         Integer pagina = 4;
         Integer quantidade = 6;
         Cargos cargo = Cargos.GESTOR;
@@ -254,23 +228,18 @@ public class UsuarioServiceTest {
         Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
         when(usuarioRepository.findAllByCargosContainingIgnoreCase(any(Pageable.class), any())).thenReturn(usuarioEntityPage);
 
-        // Ação (ACT)
         PageDTO<UsuarioDTO> usuarioEntities = usuarioService.listarPorCargo(pagina, quantidade, cargo);
 
-        // Verificação (ASSERT)
         assertNotNull(usuarioEntities);
     }
 
     @Test
     public void deveFindUsuarioDTObyEmailComSucesso() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         String email = "gustavo@dbccompany.com.br";
         when(usuarioRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(getUsuarioEntity()));
 
-        // Ação (ACT)
         UsuarioDTO usuarioDTO = usuarioService.findUsuarioDTObyEmail(email);
 
-        // Verificação (ASSERT)
         assertNotNull(usuarioDTO);
         assertEquals(10, usuarioDTO.getIdUsuario());
         assertEquals("gustavo@dbccompany.com.br", usuarioDTO.getEmail());
@@ -278,22 +247,18 @@ public class UsuarioServiceTest {
 
     @Test
     public void deveTestarDeletarUsuarioComSucesso() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         Integer id = 10;
 
         UsuarioEntity usuarioEntity = getUsuarioEntity();
         when(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(usuarioEntity));
-        // Ação (ACT)
         usuarioService.deletar(id);
 
-        // Verificação (ASSERT)
         verify(usuarioRepository, times(1)).delete(any());
 
     }
 
     @Test
     public void deveTestarAtualizarCargo() throws RegraDeNegocioException {
-        // Criar variaveis (SETUP)
         Integer id = 10;
         String email = "gustavo@dbccompany.com.br";
         UsuarioEntity usuarioEntity = getUsuarioEntity();
@@ -308,23 +273,20 @@ public class UsuarioServiceTest {
         when(usuarioRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(usuarioEntity));
         when(usuarioRepository.save(any())).thenReturn(getUsuarioEntity());
 
-        // Ação (ACT)
         UsuarioDTO cargosDTO = usuarioService.atualizarCargo(usuarioCargosDTO);
 
-        // Verificação (ASSERT)
         assertNotNull(cargosDTO);
         assertNotEquals("ROLE_ADMINISTRADOR", usuarioDTO.getCargo().getNome());
     }
 
     @Test
     public void deveTestarGetLoggedUser() throws RegraDeNegocioException {
-        // SETUP
-        UsernamePasswordAuthenticationToken dto = new UsernamePasswordAuthenticationToken(1,null, Collections.emptyList());
+        UsernamePasswordAuthenticationToken dto = new UsernamePasswordAuthenticationToken(1, null, Collections.emptyList());
         SecurityContextHolder.getContext().setAuthentication(dto);
         UsuarioEntity usuarioEntity = getUsuarioEntity();
 
         when(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(usuarioEntity));
-        // ACT
+
         LoginWithIdDTO loginWithIdDTO = usuarioService.getLoggedUser();
 
         assertNotNull(loginWithIdDTO);
@@ -401,7 +363,7 @@ public class UsuarioServiceTest {
         usuarioEntity.setSenha("uiq@123456");
         usuarioEntity.setIdUsuario(10);
 
-        CargoEntity cargoEntity = new CargoEntity(1,"ROLE_ADMINISTRADOR", new HashSet<>());
+        CargoEntity cargoEntity = new CargoEntity(1, "ROLE_ADMINISTRADOR", new HashSet<>());
         usuarioEntity.getCargos().add(cargoEntity);
 
         return usuarioEntity;

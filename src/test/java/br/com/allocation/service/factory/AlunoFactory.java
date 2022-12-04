@@ -8,8 +8,8 @@ import br.com.allocation.enums.StatusAluno;
 import java.util.Collections;
 
 public class AlunoFactory {
-    public static AlunoEntity getAlunoEntity(){
-        AlunoEntity alunoEntity = new AlunoEntity(1,
+    public static AlunoEntity getAlunoEntity() {
+        AlunoEntity alunoEntity = new AlunoEntity(19,
                 "Gustavo Lucena",
                 "jhennyfer.sobrinho@dbccompany.com.br",
                 Area.FRONTEND,
@@ -25,11 +25,15 @@ public class AlunoFactory {
         return alunoEntity;
     }
 
-    public static AlunoDTO getAlunoDTO(){
-        AlunoDTO alunoDTO = new AlunoDTO();
-        alunoDTO.setIdAluno(1);
-        alunoDTO.setStatusAluno(StatusAluno.DISPONIVEL);
-        alunoDTO.setEmail("kaio@bol.com");
+    public static AlunoDTO getAlunoDTO() {
+        AlunoDTO alunoDTO = new AlunoDTO(1,
+                "joao",
+                "kaio@bol.com",
+                Area.FRONTEND,
+                Collections.emptyList(),
+                1,
+                "nao",
+                StatusAluno.DISPONIVEL);
         return alunoDTO;
     }
 }

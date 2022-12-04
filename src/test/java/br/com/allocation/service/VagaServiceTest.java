@@ -26,8 +26,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,6 +140,7 @@ public class VagaServiceTest {
         Assertions.assertEquals(id, vagaDTO.getIdVaga());
 
     }
+
     @Test
     public void deveTestarEditarComErro() throws RegraDeNegocioException {
         Integer id = 2;
@@ -242,6 +241,7 @@ public class VagaServiceTest {
         assertEquals(vaga.getSituacao(), Situacao.FECHADO);
 
     }
+
     @Test
     public void deveTestarFecharVagaComErro() {
         VagaEntity vaga = VagaFactory.getVagaEntity();
@@ -254,6 +254,7 @@ public class VagaServiceTest {
         assertEquals(vaga.getSituacao(), Situacao.FECHADO);
 
     }
+
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarAlterarQuantidadeDeVagasComErroAluno() throws RegraDeNegocioException {
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();

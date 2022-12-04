@@ -10,6 +10,7 @@ import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
+import br.com.allocation.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ public class AlunoService {
     private final ObjectMapper objectMapper;
     private final TecnologiaService tecnologiaService;
     private final ProgramaService programaService;
+    private final AvaliacaoRepository avaliacaoRepository;
 
 
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
@@ -128,6 +130,7 @@ public class AlunoService {
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Aluno não encontrado"));
     }
+
 
     public void deletar(Integer id) throws RegraDeNegocioException {
         this.findById(id);

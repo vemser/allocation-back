@@ -11,18 +11,14 @@ import br.com.allocation.enums.Situacao;
 import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -30,7 +26,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.time.LocalDate;
 import java.util.*;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.*;
 
 
@@ -56,6 +52,7 @@ public class EmailServiceTest {
     private MimeMessage mimeMessage;
     @Mock
     private JavaMailSender emailSender;
+
     @Before
     public void init() {
         ReflectionTestUtils.setField(emailService, "from", from);
@@ -63,7 +60,6 @@ public class EmailServiceTest {
 
     @Test
     public void deveTestarGetTemplateComSucesso() throws IOException, MessagingException, RegraDeNegocioException {
-        //SETUP
         Template template = new Template("", Reader.nullReader());
         VagaDTO vagaDTO = getVagaDTO();
         AlunoDTO alunoDTO = getAlunoDTO();
@@ -90,19 +86,15 @@ public class EmailServiceTest {
         when(fmConfiguration.getTemplate(any())).thenReturn(template);
 
 
-        //ACT
         emailService.sendEmail(vagaDTOS, usuarioDTO, alunoDTOS);
 
-        //ASSERT
         verify(emailSender).send((MimeMessage) any());
 
     }
 
     @Test
     public void deveTestarGetTemplateComSucessoNenhumaVaga() throws IOException, MessagingException, RegraDeNegocioException {
-        //SETUP
         Template template = new Template("", Reader.nullReader());
-        VagaDTO vagaDTO = getVagaDTO();
         AlunoDTO alunoDTO = getAlunoDTO();
         UsuarioDTO usuarioDTO = getUsuarioDTO();
         Map<String, Object> dados = new HashMap<>();
@@ -123,18 +115,14 @@ public class EmailServiceTest {
         when(emailSender.createMimeMessage()).thenReturn(mimeMessage);
         when(fmConfiguration.getTemplate(any())).thenReturn(template);
 
-
-        //ACT
         emailService.sendEmail(vagaDTOS, usuarioDTO, alunoDTOS);
 
-        //ASSERT
         verify(emailSender).send((MimeMessage) any());
 
     }
 
     @Test
     public void deveTestarGetTemplateComSucessoNenhumAluno() throws IOException, MessagingException, RegraDeNegocioException {
-        //SETUP
         Template template = new Template("", Reader.nullReader());
         VagaDTO vagaDTO = getVagaDTO();
         AlunoDTO alunoDTO = getAlunoDTO();
@@ -159,17 +147,14 @@ public class EmailServiceTest {
         when(fmConfiguration.getTemplate(any())).thenReturn(template);
 
 
-        //ACT
         emailService.sendEmail(vagaDTOS, usuarioDTO, alunoDTOS);
 
-        //ASSERT
         verify(emailSender).send((MimeMessage) any());
 
     }
 
     @Test
     public void deveTestarGetTemplateComErro() throws IOException, MessagingException, RegraDeNegocioException {
-        //SETUP
         Template template = new Template("", Reader.nullReader());
         VagaDTO vagaDTO = getVagaDTO();
         AlunoDTO alunoDTO = getAlunoDTO();
@@ -195,7 +180,6 @@ public class EmailServiceTest {
         when(emailSender.createMimeMessage()).thenReturn(mimeMessage);
 
 
-        //ACT
         doThrow(new IOException()).when(fmConfiguration).getTemplate(anyString());
         emailService.sendEmail(vagaDTOS, usuarioDTO, alunoDTOS);
 
@@ -228,27 +212,27 @@ public class EmailServiceTest {
     }
 
 
-    private static UsuarioDTO getUsuarioDTO(){
+    private static UsuarioDTO getUsuarioDTO() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setIdUsuario(1);
         usuarioDTO.setEmail("Kaio@gmail.com");
         usuarioDTO.setNomeCompleto("Kaio Antonio");
-        return  usuarioDTO;
+        return usuarioDTO;
     }
 
-    private static VagaDTO getVagaDTO(){
+    private static VagaDTO getVagaDTO() {
         VagaDTO vagaDTO = new VagaDTO();
         vagaDTO.setIdVaga(1);
         vagaDTO.setSituacao(Situacao.valueOf(String.valueOf(Situacao.ATIVO)));
         vagaDTO.setDataAbertura(LocalDate.now());
         vagaDTO.setDataCriacao(LocalDate.now());
-        vagaDTO.setDataFechamento(LocalDate.of(2023,01,01));
+        vagaDTO.setDataFechamento(LocalDate.of(2023, 01, 01));
         vagaDTO.setQuantidade(1);
         vagaDTO.setQuantidadeAlocados(0);
         return vagaDTO;
     }
 
-    private static AlunoDTO getAlunoDTO(){
+    private static AlunoDTO getAlunoDTO() {
         Set<TecnologiaDTO> tecnologia = new HashSet<>();
         TecnologiaDTO tecnologiaDTO = new TecnologiaDTO();
         tecnologiaDTO.setNome("Java");
@@ -268,7 +252,7 @@ public class EmailServiceTest {
         usuarioEntity.setSenha("uiq@123456");
         usuarioEntity.setIdUsuario(10);
 
-        CargoEntity cargoEntity = new CargoEntity(1,"ROLE_ADMINISTRADOR", new HashSet<>());
+        CargoEntity cargoEntity = new CargoEntity(1, "ROLE_ADMINISTRADOR", new HashSet<>());
         usuarioEntity.getCargos().add(cargoEntity);
 
         return usuarioEntity;
