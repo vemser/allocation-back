@@ -59,6 +59,7 @@ public class AlunoService {
         ProgramaEntity programa = programaService.findById(alunoCreateDTO.getIdPrograma());
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreateDTO.getTecnologias()));
         alunoEntity.setPrograma(programa);
+        alunoEntity.setSituacaoAllocation(alunoCreateDTO.getSituacao());
         alunoEntity.setIdAluno(idAluno);
 
         return converterEmDTO(alunoRepository.save(alunoEntity));

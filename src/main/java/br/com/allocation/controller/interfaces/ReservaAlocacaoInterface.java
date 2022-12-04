@@ -44,7 +44,7 @@ public interface ReservaAlocacaoInterface {
             }
     )
     @GetMapping("/filtro")
-    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, @RequestParam(required = false) String nomeAluno, @RequestParam(required = false) String nomeVaga);
+    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, @RequestParam(name = "nomeAluno", required = false) String nomeAluno, @RequestParam(name = "nomeVaga", required = false) String nomeVaga);
 
 
     @Operation(summary = "Editar Reserva alocação", description = "Editar uma Reserva alocação e salva no banco de dados")
