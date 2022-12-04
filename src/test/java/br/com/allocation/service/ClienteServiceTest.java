@@ -137,7 +137,7 @@ public class ClienteServiceTest {
 
         Page<ClienteEntity> clienteEntityPage = new PageImpl<>(List.of(clienteEntity));
 
-        when(clienteRepository.findAllByEmailIgnoreCase(any(Pageable.class), anyString())).thenReturn(clienteEntityPage);
+        when(clienteRepository.findAllByEmailContainingIgnoreCase(any(Pageable.class), anyString())).thenReturn(clienteEntityPage);
 
         PageDTO<ClienteDTO> clienteDTOPageDTO = clienteService.listarPorEmail(pagina, quantidade, email);
 

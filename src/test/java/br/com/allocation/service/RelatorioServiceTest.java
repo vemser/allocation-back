@@ -5,7 +5,6 @@ import br.com.allocation.dto.cargoDTO.CargoDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
-import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.factory.AlunoFactory;
 import br.com.allocation.service.factory.VagaFactory;

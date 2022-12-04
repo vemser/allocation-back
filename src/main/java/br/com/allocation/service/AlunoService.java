@@ -144,14 +144,19 @@ public class AlunoService {
         alunoEntity.getTecnologias()
                 .forEach(entity -> tecs.add(entity.getNome()));
 
-        return new AlunoDTO(alunoEntity.getIdAluno(),
+        return new AlunoDTO(
                 alunoEntity.getNome(),
                 alunoEntity.getEmail(),
-                alunoEntity.getArea(),
-                tecs,
                 alunoEntity.getPrograma().getIdPrograma(),
-                emProcesso,
-                alunoEntity.getSituacaoAllocation());
+                alunoEntity.getArea(),
+                alunoEntity.getCidade(),
+                alunoEntity.getEstado(),
+                alunoEntity.getTelefone(),
+                alunoEntity.getDescricao(),
+                alunoEntity.getSituacao(),
+                tecs,
+                alunoEntity.getIdAluno(),
+                emProcesso);
     }
 
     public AlunoEntity findByEmail(String email) throws RegraDeNegocioException {

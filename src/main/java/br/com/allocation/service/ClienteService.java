@@ -45,7 +45,7 @@ public class ClienteService {
 
     public PageDTO<ClienteDTO> listarPorEmail(Integer pagina, Integer tamanho, String email) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
-        Page<ClienteEntity> paginaRepository = clienteRepository.findAllByEmailIgnoreCase(pageRequest, email);
+        Page<ClienteEntity> paginaRepository = clienteRepository.findAllByEmailContainingIgnoreCase(pageRequest, email);
 
         List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)

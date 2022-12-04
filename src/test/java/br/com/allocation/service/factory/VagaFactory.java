@@ -37,7 +37,7 @@ public class VagaFactory {
                 LocalDate.now().plusDays(20),
                 LocalDate.now(),
                 "xx",
-                ClienteFactory.getClienteEntity().getEmail());
+                ClienteFactory.getClienteEntity().getIdCliente());
         return vagaCreateDTO;
     }
 

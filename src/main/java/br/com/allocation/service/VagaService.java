@@ -33,7 +33,7 @@ public class VagaService {
 
     public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
-        ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
+        ClienteEntity cliente = clienteService.findById(vagaCreate.getIdCliente());
 
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
         vagaCreate.setQuantidadeAlocados(0);
@@ -110,7 +110,7 @@ public class VagaService {
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
 
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
-        ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
+        ClienteEntity cliente = clienteService.findById(vagaCreate.getIdCliente());
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
         vagaEntity.setIdVaga(idVaga);
