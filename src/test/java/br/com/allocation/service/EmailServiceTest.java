@@ -240,7 +240,7 @@ public class EmailServiceTest {
         AlunoDTO alunoDTO = new AlunoDTO();
         alunoDTO.setIdAluno(1);
         alunoDTO.setEmail("kaio@mail.com");
-        alunoDTO.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
+        alunoDTO.setSituacao(SituacaoAllocation.DISPONIVEL);
         alunoDTO.setArea(Area.BACKEND);
         return alunoDTO;
     }

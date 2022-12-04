@@ -294,7 +294,7 @@ public class AlunoServiceTest {
         AlunoCreateDTO alunoCreateDTO = new AlunoCreateDTO();
         List<String> tecnologias = new ArrayList<>();
         tecnologias.add("java");
-        alunoCreateDTO.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
+        alunoCreateDTO.setSituacao(SituacaoAllocation.DISPONIVEL);
         alunoCreateDTO.setNome("Kaio");
         alunoCreateDTO.setEmail("kaio@email.com");
         alunoCreateDTO.setArea(Area.BACKEND);
