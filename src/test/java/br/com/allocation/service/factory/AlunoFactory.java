@@ -3,7 +3,7 @@ package br.com.allocation.service.factory;
 import br.com.allocation.dto.alunoDTO.AlunoDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.enums.Area;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 
 import java.util.Collections;
 
@@ -17,7 +17,7 @@ public class AlunoFactory {
                 "Paraná",
                 "99595-1313",
                 "xxx",
-                Situacao.DISPONIVEL,
+                SituacaoAllocation.DISPONIVEL,
                 Collections.emptySet(),
                 ProgramaFactory.getProgramaEntity(),
                 Collections.emptySet(),
@@ -33,7 +33,7 @@ public class AlunoFactory {
                 Collections.emptyList(),
                 1,
                 "nao",
-                Situacao.DISPONIVEL);
+                SituacaoAllocation.DISPONIVEL);
         return alunoDTO;
     }
 }

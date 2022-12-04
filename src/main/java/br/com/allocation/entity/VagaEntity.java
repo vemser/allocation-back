@@ -1,6 +1,6 @@
 package br.com.allocation.entity;
 
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +48,7 @@ public class VagaEntity {
 
     @Column(name = "situacao")
     @Enumerated(EnumType.STRING)
-    private SituacaoCliente situacaoCliente;
+    private Situacao situacao;
 
     @Column(name = "observacoes")
     private String observacoes;

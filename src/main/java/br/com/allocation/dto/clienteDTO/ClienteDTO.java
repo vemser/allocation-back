@@ -1,6 +1,6 @@
 package br.com.allocation.dto.clienteDTO;
 
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +11,6 @@ public class ClienteDTO {
     private String nome;
     private String email;
     private String telefone;
-    private SituacaoCliente situacaoCliente;
+    private Situacao situacao;
 
 }

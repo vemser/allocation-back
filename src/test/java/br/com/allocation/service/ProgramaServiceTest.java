@@ -4,7 +4,7 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
 import br.com.allocation.dto.programaDTO.ProgramaDTO;
 import br.com.allocation.entity.ProgramaEntity;
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ProgramaRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -86,7 +86,7 @@ public class ProgramaServiceTest {
         Integer id = 1;
         ProgramaCreateDTO programaCreateDTO = getProgramaCreateDTO();
         ProgramaEntity programaEntity = getProgramaEntity();
-        programaEntity.setSituacaoCliente(SituacaoCliente.FECHADO);
+        programaEntity.setSituacao(Situacao.FECHADO);
         when(programaRepository.findById(anyInt())).thenReturn(Optional.of(programaEntity));
         ProgramaEntity programaEntity1 = getProgramaEntity();
         when(programaRepository.save(any())).thenReturn(programaEntity1);
@@ -94,7 +94,7 @@ public class ProgramaServiceTest {
         ProgramaDTO programaDTO = programaService.editar(id, programaCreateDTO);
 
         assertNotNull(programaDTO);
-        assertNotEquals(SituacaoCliente.FECHADO, programaDTO.getSituacao());
+        assertNotEquals(Situacao.FECHADO, programaDTO.getSituacao());
 
     }
 
@@ -198,7 +198,7 @@ public class ProgramaServiceTest {
         programaEntity.setDescricao("Vem ser vemser");
         programaEntity.setDataCriacao(LocalDate.now());
         programaEntity.setDataTermino(LocalDate.of(2023, 05, 01));
-        programaEntity.setSituacaoCliente(SituacaoCliente.ATIVO);
+        programaEntity.setSituacao(Situacao.ATIVO);
         return programaEntity;
     }
 
@@ -209,7 +209,7 @@ public class ProgramaServiceTest {
         programaCreateDTO.setDataCriacao(LocalDate.now());
         programaCreateDTO.setDataTermino(LocalDate.of(2023, 05, 01));
         programaCreateDTO.setNome("Vem ser 11");
-        programaCreateDTO.setSituacao(String.valueOf(SituacaoCliente.ATIVO));
+        programaCreateDTO.setSituacao(String.valueOf(Situacao.ATIVO));
         programaCreateDTO.setDescricao("Vem ser vemser");
         return programaCreateDTO;
     }

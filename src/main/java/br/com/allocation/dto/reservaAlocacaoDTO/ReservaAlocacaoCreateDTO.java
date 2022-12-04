@@ -1,6 +1,6 @@
 package br.com.allocation.dto.reservaAlocacaoDTO;
 
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,5 +45,5 @@ public class ReservaAlocacaoCreateDTO {
 
     @Enumerated(EnumType.STRING)
     @Schema(description = "Status Alocação Aluno", example = "RESERVADO")
-    private Situacao situacao;
+    private SituacaoAllocation situacaoAllocation;
 }

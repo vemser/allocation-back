@@ -2,7 +2,7 @@ package br.com.allocation.service.factory;
 
 import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
 import br.com.allocation.entity.ClienteEntity;
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 
 public class ClienteFactory {
     public static ClienteEntity getClienteEntity() {
@@ -11,7 +11,7 @@ public class ClienteFactory {
         clienteEntity.setNome("Coca Cola");
         clienteEntity.setTelefone("711112459798");
         clienteEntity.setEmail("cocacolabr@mail.com.br");
-        clienteEntity.setSituacaoCliente(SituacaoCliente.ATIVO);
+        clienteEntity.setSituacao(Situacao.ATIVO);
         return clienteEntity;
     }
 
@@ -20,7 +20,7 @@ public class ClienteFactory {
         clienteCreateDTO.setNome("Coca Cola");
         clienteCreateDTO.setTelefone("711112459798");
         clienteCreateDTO.setEmail("cocacolabr@mail.com.br");
-        clienteCreateDTO.setSituacaoCliente(SituacaoCliente.valueOf(String.valueOf(SituacaoCliente.ATIVO)));
+        clienteCreateDTO.setSituacao(Situacao.valueOf(String.valueOf(Situacao.ATIVO)));
         return clienteCreateDTO;
     }
 }

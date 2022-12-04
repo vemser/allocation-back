@@ -3,7 +3,7 @@ package br.com.allocation.service.factory;
 import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.VagaEntity;
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -18,7 +18,7 @@ public class VagaFactory {
                 LocalDate.now(),
                 LocalDate.now().plusDays(2),
                 LocalDate.now().plusDays(20),
-                SituacaoCliente.ABERTO,
+                Situacao.ABERTO,
                 "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.",
                 ClienteFactory.getClienteEntity(),
                 Collections.emptySet(),
@@ -32,7 +32,7 @@ public class VagaFactory {
                 10,
                 0,
                 10,
-                SituacaoCliente.ATIVO,
+                Situacao.ATIVO,
                 LocalDate.now().plusDays(1),
                 LocalDate.now().plusDays(20),
                 LocalDate.now(),
@@ -44,7 +44,7 @@ public class VagaFactory {
     public static VagaDTO getVagaDTO() {
         VagaDTO vagaDTO = new VagaDTO();
         vagaDTO.setIdVaga(1);
-        vagaDTO.setSituacaoCliente(SituacaoCliente.ABERTO);
+        vagaDTO.setSituacaoCliente(Situacao.ABERTO);
         vagaDTO.setDataAbertura(LocalDate.now());
         vagaDTO.setDataCriacao(LocalDate.now());
         vagaDTO.setDataFechamento(LocalDate.now());

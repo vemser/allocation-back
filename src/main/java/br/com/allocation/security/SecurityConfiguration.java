@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authz) ->
                         authz.antMatchers("/auth", "/auth/atualizar-senha/**", "/auth/register", "/auth/recuperar-senha/**", "/auth/upload/").permitAll()
                                 .antMatchers("reserva-alocacao/**").permitAll()
+                                .antMatchers("cliente/**").permitAll()
 //                                .antMatchers( "/auth/logged").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
 //                                .antMatchers("/tecnologia/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")
 //                                .antMatchers("/aluno/**").hasAnyRole("ADMINISTRADOR", "GESTOR", "GESTAO_DE_PESSOAS", "INSTRUTOR")

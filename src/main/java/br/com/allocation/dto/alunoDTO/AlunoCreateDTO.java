@@ -1,7 +1,7 @@
 package br.com.allocation.dto.alunoDTO;
 
 import br.com.allocation.enums.Area;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,7 +50,7 @@ public class AlunoCreateDTO {
     private String descricao;
 
     @NotNull(message = "Nome não pode ser vazio ou nulo.")
-    private Situacao situacao;
+    private SituacaoAllocation situacaoAllocation;
 
     @Schema(description = "tecnologias")
     private List<String> tecnologias = new ArrayList<>();

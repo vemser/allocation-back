@@ -1,6 +1,6 @@
 package br.com.allocation.dto.clienteDTO;
 
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -25,5 +25,5 @@ public class ClienteCreateDTO {
 
     @NotNull
     @Schema(description = "Situação do cliente", example = "ATIVO")
-    private SituacaoCliente situacaoCliente;
+    private Situacao situacao;
 }
