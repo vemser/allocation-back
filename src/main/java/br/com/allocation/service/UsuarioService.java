@@ -241,7 +241,7 @@ public class UsuarioService {
 
     public PageDTO<UsuarioDTO> listarPorEmailPag(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
-        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmail(pageRequest, email);
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmailContainingIgnoreCase(pageRequest, email);
         List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
                 .map(usuario -> {
                     UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
