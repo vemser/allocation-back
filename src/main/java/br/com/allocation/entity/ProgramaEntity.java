@@ -1,6 +1,6 @@
 package br.com.allocation.entity;
 
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class ProgramaEntity {
 
     @Column(name = "situacao")
     @Enumerated(EnumType.STRING)
-    private Situacao situacao;
+    private SituacaoCliente situacaoCliente;
 
     @JsonIgnore
     @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)

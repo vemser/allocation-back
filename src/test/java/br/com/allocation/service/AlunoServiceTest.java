@@ -9,8 +9,8 @@ import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.enums.Area;
+import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.enums.Situacao;
-import br.com.allocation.enums.StatusAluno;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -193,7 +193,7 @@ public class AlunoServiceTest {
         AlunoEntity alunoEntity = getAlunoEntity();
         Page<AlunoEntity> alunoEntities = new PageImpl<>(List.of(alunoEntity));
 
-        when(alunoRepository.findAllByStatusAluno(any(Pageable.class), any())).thenReturn(alunoEntities);
+        when(alunoRepository.findAllBySituacao(any(Pageable.class), any())).thenReturn(alunoEntities);
 
         PageDTO<AlunoDTO> alunoDTOPageDTO = alunoService.listarDisponiveis(pagina, quantidade);
 
@@ -229,7 +229,7 @@ public class AlunoServiceTest {
         Integer id = 1;
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         AlunoEntity alunoEntity = getAlunoEntity();
-        alunoEntity.setStatusAluno(StatusAluno.FINALIZADO);
+        alunoEntity.setSituacao(Situacao.FINALIZADO);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
 
@@ -244,7 +244,7 @@ public class AlunoServiceTest {
         Integer id = 1;
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
         AlunoEntity alunoEntity = getAlunoEntity();
-        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.FINALIZADO);
+        reservaAlocacaoCreateDTO.setSituacao(Situacao.FINALIZADO);
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.of(alunoEntity));
         when(alunoRepository.save(any())).thenReturn(alunoEntity);
 
@@ -257,18 +257,18 @@ public class AlunoServiceTest {
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarVerificarDisponibilidadeComErroSemAluno() throws RegraDeNegocioException {
         AlunoEntity alunoEntity = getAlunoEntity();
-        alunoEntity.setStatusAluno(StatusAluno.ALOCADO);
+        alunoEntity.setSituacao(Situacao.ALOCADO);
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
-        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.ALOCADO);
+        reservaAlocacaoCreateDTO.setSituacao(Situacao.ALOCADO);
         alunoService.verificarDisponibilidadeAluno(alunoEntity, reservaAlocacaoCreateDTO);
     }
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarVerificarDisponibilidadeComErroAluno() throws RegraDeNegocioException {
         AlunoEntity alunoEntity = getAlunoEntity();
-        alunoEntity.setStatusAluno(StatusAluno.RESERVADO);
+        alunoEntity.setSituacao(Situacao.RESERVADO);
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = getReservaAlocacaoCreateDTO();
-        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.RESERVADO);
+        reservaAlocacaoCreateDTO.setSituacao(Situacao.RESERVADO);
         alunoService.verificarDisponibilidadeAluno(alunoEntity, reservaAlocacaoCreateDTO);
     }
 
@@ -277,7 +277,7 @@ public class AlunoServiceTest {
         Set<TecnologiaEntity> tecnologiaEntities = new HashSet<>();
         tecnologiaEntities.add(getTecnologiaEntity());
         alunoEntity.setIdAluno(1);
-        alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
+        alunoEntity.setSituacao(Situacao.DISPONIVEL);
         alunoEntity.setNome("Kaio");
         alunoEntity.setEmail("kaio@email.com");
         alunoEntity.setArea(Area.BACKEND);
@@ -294,7 +294,7 @@ public class AlunoServiceTest {
         AlunoCreateDTO alunoCreateDTO = new AlunoCreateDTO();
         List<String> tecnologias = new ArrayList<>();
         tecnologias.add("java");
-        alunoCreateDTO.setStatusAluno(StatusAluno.DISPONIVEL);
+        alunoCreateDTO.setSituacao(Situacao.DISPONIVEL);
         alunoCreateDTO.setNome("Kaio");
         alunoCreateDTO.setEmail("kaio@email.com");
         alunoCreateDTO.setArea(Area.BACKEND);
@@ -314,7 +314,7 @@ public class AlunoServiceTest {
         programaEntity.setDescricao("Vem ser vemser");
         programaEntity.setDataCriacao(LocalDate.now());
         programaEntity.setDataTermino(LocalDate.of(2023, 05, 01));
-        programaEntity.setSituacao(Situacao.ATIVO);
+        programaEntity.setSituacaoCliente(SituacaoCliente.ATIVO);
         return programaEntity;
     }
 
@@ -336,12 +336,12 @@ public class AlunoServiceTest {
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = new ReservaAlocacaoCreateDTO();
         reservaAlocacaoCreateDTO.setIdAluno(1);
         reservaAlocacaoCreateDTO.setDescricao("Reserva da alocacao");
-        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.DISPONIVEL);
+        reservaAlocacaoCreateDTO.setSituacao(Situacao.DISPONIVEL);
         reservaAlocacaoCreateDTO.setDataAlocacao(LocalDate.now());
         reservaAlocacaoCreateDTO.setDataReserva(LocalDate.of(2023, 05, 02));
         reservaAlocacaoCreateDTO.setIdVaga(1);
         reservaAlocacaoCreateDTO.setIdAvaliacao(1);
-        reservaAlocacaoCreateDTO.setStatusAluno(StatusAluno.ALOCADO);
+        reservaAlocacaoCreateDTO.setSituacao(Situacao.ALOCADO);
         return reservaAlocacaoCreateDTO;
     }
 

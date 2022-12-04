@@ -1,7 +1,7 @@
 package br.com.allocation.repository;
 
 import br.com.allocation.entity.AlunoEntity;
-import br.com.allocation.enums.StatusAluno;
+import br.com.allocation.enums.Situacao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface AlunoRepository extends JpaRepository<AlunoEntity, Integer> {
-    Page<AlunoEntity> findAllByStatusAluno(Pageable pageable, StatusAluno statusAluno);
+    Page<AlunoEntity> findAllBySituacao(Pageable pageable, Situacao situacao);
 
     Optional<AlunoEntity> findByEmailIgnoreCase(String email);
 
