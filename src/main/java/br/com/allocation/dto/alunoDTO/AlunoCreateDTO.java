@@ -50,7 +50,7 @@ public class AlunoCreateDTO {
     private String descricao;
 
     @NotNull(message = "Nome não pode ser vazio ou nulo.")
-    private SituacaoAllocation situacaoAllocation;
+    private SituacaoAllocation situacao;
 
     @Schema(description = "tecnologias")
     private List<String> tecnologias = new ArrayList<>();

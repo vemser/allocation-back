@@ -21,7 +21,7 @@ public class ReservaAlocacaoDTO {
     private VagaDTO vaga;
     private AlunoDTO aluno;
     private AvaliacaoDTO avaliacaoEntity;
-    private SituacaoAllocation situacaoAllocationAlocacao;
+    private SituacaoAllocation situacaoAllocation;
     private String descricao;
     private LocalDate dataReserva;
     private LocalDate dataAlocacao;
