@@ -34,7 +34,7 @@ public class AlunoFactory {
         alunoDTO.setTecnologias(Collections.emptyList());
         alunoDTO.setIdPrograma(1);
         alunoDTO.setEmProcesso("nao");
-        alunoDTO.setSituacao(Situacao.DISPONIVEL);
+        alunoDTO.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
 
         return alunoDTO;
     }

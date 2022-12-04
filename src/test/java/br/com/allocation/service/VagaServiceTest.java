@@ -278,7 +278,7 @@ public class VagaServiceTest {
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
         Integer idVaga = 2;
         vagaEntity.setQuantidade(0);
-        vagaEntity.getCliente().setSituacaoCliente(SituacaoCliente.INATIVO);
+        vagaEntity.getCliente().setSituacao(Situacao.INATIVO);
         when(vagaRepository.findById(anyInt())).thenReturn(Optional.of(vagaEntity));
 
         vagaService.findById(anyInt());

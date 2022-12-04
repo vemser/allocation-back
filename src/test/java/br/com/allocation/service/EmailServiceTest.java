@@ -223,7 +223,7 @@ public class EmailServiceTest {
     private static VagaDTO getVagaDTO() {
         VagaDTO vagaDTO = new VagaDTO();
         vagaDTO.setIdVaga(1);
-        vagaDTO.setSituacaoCliente(Situacao.valueOf(String.valueOf(Situacao.ATIVO)));
+        vagaDTO.setSituacao(Situacao.valueOf(String.valueOf(Situacao.ATIVO)));
         vagaDTO.setDataAbertura(LocalDate.now());
         vagaDTO.setDataCriacao(LocalDate.now());
         vagaDTO.setDataFechamento(LocalDate.of(2023, 01, 01));

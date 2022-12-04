@@ -153,7 +153,7 @@ public class AlunoService {
                 alunoEntity.getEstado(),
                 alunoEntity.getTelefone(),
                 alunoEntity.getDescricao(),
-                alunoEntity.getSituacao(),
+                alunoEntity.getSituacaoAllocation(),
                 tecs,
                 alunoEntity.getIdAluno(),
                 emProcesso);

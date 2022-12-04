@@ -44,7 +44,7 @@ public class VagaFactory {
     public static VagaDTO getVagaDTO() {
         VagaDTO vagaDTO = new VagaDTO();
         vagaDTO.setIdVaga(1);
-        vagaDTO.setSituacaoCliente(Situacao.ABERTO);
+        vagaDTO.setSituacao(Situacao.ABERTO);
         vagaDTO.setDataAbertura(LocalDate.now());
         vagaDTO.setDataCriacao(LocalDate.now());
         vagaDTO.setDataFechamento(LocalDate.now());
