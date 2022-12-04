@@ -24,7 +24,7 @@ public class ClienteService {
 
     public ClienteDTO salvar(ClienteCreateDTO clienteCreate) {
         ClienteEntity clienteEntity = converterEntity(clienteCreate);
-        clienteEntity.setSituacaoCliente(clienteCreate.getSituacaoCliente());
+        clienteEntity.setSituacao(clienteCreate.getSituacao());
         return converterEmDTO(clienteRepository.save(clienteEntity));
     }
 
@@ -77,7 +77,7 @@ public class ClienteService {
         this.findById(idCliente);
         ClienteEntity clienteEntity = converterEntity(clienteCreate);
         clienteEntity.setIdCliente(idCliente);
-        clienteEntity.setSituacaoCliente(clienteCreate.getSituacaoCliente());
+        clienteEntity.setSituacao(clienteCreate.getSituacao());
         clienteEntity = clienteRepository.save(clienteEntity);
         return converterEmDTO(clienteEntity);
     }
@@ -105,6 +105,6 @@ public class ClienteService {
                 clienteEntity.getNome(),
                 clienteEntity.getEmail(),
                 clienteEntity.getTelefone(),
-                clienteEntity.getSituacaoCliente());
+                clienteEntity.getSituacao());
     }
 }

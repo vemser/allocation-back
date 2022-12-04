@@ -7,8 +7,8 @@ import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Area;
-import br.com.allocation.enums.SituacaoCliente;
 import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import freemarker.template.Template;
 import org.junit.Before;
@@ -223,7 +223,7 @@ public class EmailServiceTest {
     private static VagaDTO getVagaDTO() {
         VagaDTO vagaDTO = new VagaDTO();
         vagaDTO.setIdVaga(1);
-        vagaDTO.setSituacaoCliente(SituacaoCliente.valueOf(String.valueOf(SituacaoCliente.ATIVO)));
+        vagaDTO.setSituacao(Situacao.valueOf(String.valueOf(Situacao.ATIVO)));
         vagaDTO.setDataAbertura(LocalDate.now());
         vagaDTO.setDataCriacao(LocalDate.now());
         vagaDTO.setDataFechamento(LocalDate.of(2023, 01, 01));
@@ -240,7 +240,7 @@ public class EmailServiceTest {
         AlunoDTO alunoDTO = new AlunoDTO();
         alunoDTO.setIdAluno(1);
         alunoDTO.setEmail("kaio@mail.com");
-        alunoDTO.setSituacao(Situacao.DISPONIVEL);
+        alunoDTO.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
         alunoDTO.setArea(Area.BACKEND);
         return alunoDTO;
     }

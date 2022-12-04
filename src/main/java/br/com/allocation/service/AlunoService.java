@@ -7,7 +7,7 @@ import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +29,6 @@ public class AlunoService {
     private final ProgramaService programaService;
 
 
-
     public AlunoDTO salvar(AlunoCreateDTO alunoCreate) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = converterEntity(alunoCreate);
 
@@ -44,7 +43,7 @@ public class AlunoService {
         }
 
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
-        alunoEntity.setSituacao(Situacao.DISPONIVEL);
+        alunoEntity.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
         alunoEntity = alunoRepository.save(alunoEntity);
         return converterEmDTO(alunoEntity);
     }
@@ -112,7 +111,7 @@ public class AlunoService {
 
     public PageDTO<AlunoDTO> listarDisponiveis(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
-        Page<AlunoEntity> paginaRepository = alunoRepository.findAllBySituacao(pageRequest, Situacao.DISPONIVEL);
+        Page<AlunoEntity> paginaRepository = alunoRepository.findAllBySituacaoAllocation(pageRequest, SituacaoAllocation.DISPONIVEL);
 
         List<AlunoDTO> alunoDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
@@ -137,7 +136,7 @@ public class AlunoService {
     }
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
-        String emProcesso = alunoEntity.getSituacao().equals(Situacao.DISPONIVEL)? "não":"sim";
+        String emProcesso = alunoEntity.getSituacaoAllocation().equals(SituacaoAllocation.DISPONIVEL) ? "não" : "sim";
 
         List<String> tecs = new ArrayList<>();
 
@@ -153,7 +152,7 @@ public class AlunoService {
                 alunoEntity.getEstado(),
                 alunoEntity.getTelefone(),
                 alunoEntity.getDescricao(),
-                alunoEntity.getSituacao(),
+                alunoEntity.getSituacaoAllocation(),
                 tecs,
                 alunoEntity.getIdAluno(),
                 emProcesso);
@@ -166,17 +165,17 @@ public class AlunoService {
     public AlunoEntity alterarStatusAluno(Integer idAluno,
                                           ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = findById(idAluno);
-        alunoEntity.setSituacao(reservaAlocacaoCreateDTO.getSituacao());
+        alunoEntity.setSituacaoAllocation(reservaAlocacaoCreateDTO.getSituacaoAllocation());
         return alunoRepository.save(alunoEntity);
     }
 
     public void alterarStatusAlunoCancelado(Integer idAluno,
                                             ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
         AlunoEntity alunoEntity = findById(idAluno);
-        if (reservaAlocacaoCreateDTO.getSituacao().equals(Situacao.ALOCADO)
-                || reservaAlocacaoCreateDTO.getSituacao().equals(Situacao.RESERVADO)
-                || reservaAlocacaoCreateDTO.getSituacao().equals(Situacao.FINALIZADO)) {
-            alunoEntity.setSituacao(Situacao.DISPONIVEL);
+        if (reservaAlocacaoCreateDTO.getSituacaoAllocation().equals(SituacaoAllocation.ALOCADO)
+                || reservaAlocacaoCreateDTO.getSituacaoAllocation().equals(SituacaoAllocation.RESERVADO)
+                || reservaAlocacaoCreateDTO.getSituacaoAllocation().equals(SituacaoAllocation.FINALIZADO)) {
+            alunoEntity.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
         }
         alunoRepository.save(alunoEntity);
     }
@@ -184,12 +183,12 @@ public class AlunoService {
     public void verificarDisponibilidadeAluno(AlunoEntity alunoEntity,
                                               ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO) throws RegraDeNegocioException {
 
-        if (alunoEntity.getSituacao().equals(Situacao.ALOCADO)) {
-            if (!reservaAlocacaoCreateDTO.getSituacao().equals(Situacao.DISPONIVEL)) {
+        if (alunoEntity.getSituacaoAllocation().equals(SituacaoAllocation.ALOCADO)) {
+            if (!reservaAlocacaoCreateDTO.getSituacaoAllocation().equals(SituacaoAllocation.DISPONIVEL)) {
                 throw new RegraDeNegocioException("Aluno não está disponivel!");
             }
-        } else if (alunoEntity.getSituacao().equals(Situacao.RESERVADO)) {
-            if (reservaAlocacaoCreateDTO.getSituacao().equals(Situacao.RESERVADO)) {
+        } else if (alunoEntity.getSituacaoAllocation().equals(SituacaoAllocation.RESERVADO)) {
+            if (reservaAlocacaoCreateDTO.getSituacaoAllocation().equals(SituacaoAllocation.RESERVADO)) {
                 throw new RegraDeNegocioException("Aluno não está disponivel!");
             }
         }

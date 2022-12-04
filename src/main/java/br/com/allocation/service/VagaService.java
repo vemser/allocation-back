@@ -7,7 +7,7 @@ import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.VagaEntity;
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,13 +37,14 @@ public class VagaService {
 
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
         vagaCreate.setQuantidadeAlocados(0);
-        vagaCreate.setSituacaoCliente(SituacaoCliente.ABERTO);
+        vagaCreate.setSituacao(Situacao.ABERTO);
         VagaEntity vagaEntity = converterEntity(vagaCreate);
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
         vagaEntity.setDataCriacao(LocalDate.now());
 
         vagaEntity = vagaRepository.save(vagaEntity);
+        verificarClienteInativo(vagaEntity);
         return converterEmDTO(vagaEntity);
     }
 
@@ -101,7 +102,7 @@ public class VagaService {
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity1 = findById(idVaga);
         vagaCreate.setQuantidadeAlocados(0);
-        if (vagaCreate.getSituacaoCliente().equals(SituacaoCliente.FECHADO)) {
+        if (vagaCreate.getSituacao().equals(Situacao.FECHADO)) {
             fecharVaga(vagaEntity1);
         }
         VagaEntity vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
@@ -128,7 +129,7 @@ public class VagaService {
                 vagaEntity.getQuantidade(),
                 vagaEntity.getQuantidadeAlocados(),
                 vagaEntity.getIdPrograma(),
-                vagaEntity.getSituacaoCliente(),
+                vagaEntity.getSituacao(),
                 vagaEntity.getDataAbertura(),
                 vagaEntity.getDataFechamento(),
                 vagaEntity.getDataCriacao(),
@@ -150,7 +151,7 @@ public class VagaService {
     }
 
     public List<VagaDTO> findAllWithSituacaoAberto() {
-        return vagaRepository.findBySituacaoCliente(SituacaoCliente.ABERTO)
+        return vagaRepository.findBySituacao(Situacao.ABERTO)
                 .stream()
                 .map(vagaEntity -> objectMapper.convertValue(vagaEntity, VagaDTO.class))
                 .collect(Collectors.toList());
@@ -162,7 +163,7 @@ public class VagaService {
 
     public void alterarQuantidadeDeVagas(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
-        veridicarClienteAtivo(vaga);
+        verificarClienteInativo(vaga);
         if (vaga.getQuantidade() > 0) {
             vaga.setQuantidade(vaga.getQuantidade() - 1);
             vagaRepository.save(vaga);
@@ -171,15 +172,15 @@ public class VagaService {
         }
     }
 
-    private static void veridicarClienteAtivo(VagaEntity vaga) throws RegraDeNegocioException {
-        if (vaga.getCliente().getSituacaoCliente().equals(SituacaoCliente.INATIVO)){
+    private static void verificarClienteInativo(VagaEntity vaga) throws RegraDeNegocioException {
+        if (vaga.getCliente().getSituacao().equals(Situacao.INATIVO)) {
             throw new RegraDeNegocioException("Cliente inativo!");
         }
     }
 
     public void fecharVaga(VagaEntity vaga) {
         if (vaga.getQuantidade() == 0) {
-            vaga.setSituacaoCliente(SituacaoCliente.FECHADO);
+            vaga.setSituacao(Situacao.FECHADO);
             vagaRepository.save(vaga);
         }
     }

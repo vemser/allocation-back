@@ -53,7 +53,7 @@ public class UsuarioService {
         usuarioEntity.setSenha(encode);
 
         CargoEntity cargo = null;
-        if(cargos != null){
+        if (cargos != null) {
             cargo = cargoService.findByNome(String.valueOf(cargos.getDescricao()));
             usuarioEntity.getCargos().add(cargo);
         }
@@ -155,15 +155,15 @@ public class UsuarioService {
 
     public String atualizarSenha(UsuarioSenhaDTO dto, String token) throws RegraDeNegocioException {
 
-        try{
+        try {
             UsernamePasswordAuthenticationToken tokenObject = tokenService.isValid(token);
             SecurityContextHolder.getContext().setAuthentication(tokenObject);
-        }catch (ExpiredJwtException ex){
+        } catch (ExpiredJwtException ex) {
             throw new RegraDeNegocioException("Tempo para troca de senha expirou.");
         }
 
         validarSenha(dto.getSenha());
-        if(!dto.getSenhaIgual().equals(dto.getSenha())){
+        if (!dto.getSenhaIgual().equals(dto.getSenha())) {
             throw new RegraDeNegocioException("Senhas diferentes!");
         }
 
@@ -182,7 +182,7 @@ public class UsuarioService {
     }
 
     private static void confirmarSenha(@NotNull UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        if (!usuarioCreateDTO.getSenha().equals(usuarioCreateDTO.getSenhaIgual())){
+        if (!usuarioCreateDTO.getSenha().equals(usuarioCreateDTO.getSenhaIgual())) {
             throw new RegraDeNegocioException("Senha diferente!");
         }
     }
@@ -241,7 +241,7 @@ public class UsuarioService {
 
     public PageDTO<UsuarioDTO> listarPorEmailPag(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
-        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmail(pageRequest,email);
+        Page<UsuarioEntity> paginaDoRepositorio = usuarioRepository.findAllByEmail(pageRequest, email);
         List<UsuarioDTO> usuarios = paginaDoRepositorio.getContent().stream()
                 .map(usuario -> {
                     UsuarioDTO dto = objectMapper.convertValue(usuario, UsuarioDTO.class);
@@ -258,6 +258,7 @@ public class UsuarioService {
                 usuarios
         );
     }
+
     public UsuarioEntity findUsuarioEntityByEmail(String email) throws RegraDeNegocioException {
         return findByEmail(email).orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado"));
     }

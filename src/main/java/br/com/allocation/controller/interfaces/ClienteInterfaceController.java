@@ -44,7 +44,7 @@ public interface ClienteInterfaceController {
             }
     )
     @GetMapping("/email/{email}")
-    public ResponseEntity<PageDTO<ClienteDTO>> listarPorEmail(Integer pagina, Integer tamanho ,@PathVariable("email") String email);
+    public ResponseEntity<PageDTO<ClienteDTO>> listarPorEmail(Integer pagina, Integer tamanho, @PathVariable("email") String email);
 
     @Operation(summary = "Listar pagina de clientes", description = "Lista uma pagina de clientes")
     @ApiResponses(
@@ -55,7 +55,7 @@ public interface ClienteInterfaceController {
             }
     )
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<PageDTO<ClienteDTO>> listarPorNome(Integer pagina, Integer tamanho ,@PathVariable("nome") String email);
+    public ResponseEntity<PageDTO<ClienteDTO>> listarPorNome(Integer pagina, Integer tamanho, @PathVariable("nome") String email);
 
     @Operation(summary = "Editar cliente", description = "Editar um cliente no banco de dados")
     @ApiResponses(

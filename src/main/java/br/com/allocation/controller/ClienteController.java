@@ -45,7 +45,7 @@ public class ClienteController implements ClienteInterfaceController {
     }
 
     @Override
-    public ResponseEntity<PageDTO<ClienteDTO>> listarPorNome(Integer pagina, Integer tamanho ,String nome){
+    public ResponseEntity<PageDTO<ClienteDTO>> listarPorNome(Integer pagina, Integer tamanho, String nome) {
         return ResponseEntity.ok(clienteService.listarPorNome(pagina, tamanho, nome));
     }
 

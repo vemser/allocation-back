@@ -1,7 +1,7 @@
 package br.com.allocation.entity;
 
 import br.com.allocation.enums.Area;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,7 +49,7 @@ public class AlunoEntity {
 
     @Column(name = "status_aluno")
     @Enumerated(EnumType.STRING)
-    private Situacao situacao;
+    private SituacaoAllocation situacaoAllocation;
 
     @JsonIgnore
     @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -68,7 +68,6 @@ public class AlunoEntity {
             inverseJoinColumns = @JoinColumn(name = "id_tecnologia")
     )
     private Set<TecnologiaEntity> tecnologias = new HashSet<>();
-
 
 
     @JsonIgnore

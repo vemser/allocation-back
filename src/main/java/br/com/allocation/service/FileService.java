@@ -28,7 +28,7 @@ public class FileService {
             UsuarioEntity usuario = usuarioService.findUsuarioEntityByEmail(email);
             FileEntity fileEntityExiste = fileRepository.findFileEntitiesByUsuario(usuario);
             FileEntity fileDB = new FileEntity();
-            if(fileEntityExiste != null){
+            if (fileEntityExiste != null) {
                 fileDB = fileEntityExiste;
             }
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -40,8 +40,7 @@ public class FileService {
             FileEntity fileEntity = fileRepository.save(fileDB);
             FileDTO fileDTO = objectMapper.convertValue(fileEntity, FileDTO.class);
             return fileDTO;
-            }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RegraDeNegocioException("Ocorreu um erro ao enviar a imagem!");
         }
     }

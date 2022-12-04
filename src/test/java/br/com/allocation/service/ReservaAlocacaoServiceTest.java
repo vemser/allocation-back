@@ -6,7 +6,7 @@ import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ReservaAlocacaoEntity;
 import br.com.allocation.entity.VagaEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import br.com.allocation.repository.ReservaAlocacaoRepository;
@@ -64,7 +64,7 @@ public class ReservaAlocacaoServiceTest {
         Set<ReservaAlocacaoEntity> reservaAlocacaoEntitySet = new HashSet<>();
         reservaAlocacaoEntitySet.add(reservaAlocacaoEntity);
         aluno.setReservaAlocacaos(reservaAlocacaoEntitySet);
-        reservaAlocacaoCreateDTO.setSituacao(Situacao.DISPONIVEL);
+        reservaAlocacaoCreateDTO.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
 
         when(reservaAlocacaoRepository.save(any())).thenReturn(reservaAlocacaoEntity);
         when(alunoService.findById(anyInt())).thenReturn(aluno);
@@ -81,7 +81,7 @@ public class ReservaAlocacaoServiceTest {
         ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         AlunoEntity aluno = AlunoFactory.getAlunoEntity();
         VagaEntity vaga = VagaFactory.getVagaEntity();
-        reservaAlocacaoCreateDTO.setSituacao(Situacao.DISPONIVEL);
+        reservaAlocacaoCreateDTO.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
         when(alunoService.findById(anyInt())).thenReturn(aluno);
 
         doThrow(DataIntegrityViolationException.class).when(reservaAlocacaoRepository).save(any());
@@ -96,8 +96,8 @@ public class ReservaAlocacaoServiceTest {
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = ReservaAlocacaoFactory.getReservaAlocacaoCreateDTO();
         ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         AlunoEntity aluno = AlunoFactory.getAlunoEntity();
-        aluno.setSituacao(Situacao.ALOCADO);
-        reservaAlocacaoCreateDTO.setSituacao(Situacao.ALOCADO);
+        aluno.setSituacaoAllocation(SituacaoAllocation.ALOCADO);
+        reservaAlocacaoCreateDTO.setSituacaoAllocation(SituacaoAllocation.ALOCADO);
         reservaAlocacaoEntity.setAluno(aluno);
         VagaEntity vaga = VagaFactory.getVagaEntity();
         reservaAlocacaoEntity.setVaga(vaga);
@@ -122,10 +122,10 @@ public class ReservaAlocacaoServiceTest {
         ReservaAlocacaoCreateDTO reservaAlocacaoCreateDTO = ReservaAlocacaoFactory.getReservaAlocacaoCreateDTO();
         ReservaAlocacaoEntity reservaAlocacaoEntity = ReservaAlocacaoFactory.getReservaAlocacaoEntity();
         AlunoEntity aluno = AlunoFactory.getAlunoEntity();
-        aluno.setSituacao(Situacao.ALOCADO);
+        aluno.setSituacaoAllocation(SituacaoAllocation.ALOCADO);
         VagaEntity vagaEntity = VagaFactory.getVagaEntity();
         reservaAlocacaoEntity.setVaga(vagaEntity);
-        reservaAlocacaoCreateDTO.setSituacao(Situacao.RESERVADO);
+        reservaAlocacaoCreateDTO.setSituacaoAllocation(SituacaoAllocation.RESERVADO);
         reservaAlocacaoCreateDTO.setIdVaga(2);
         reservaAlocacaoEntity.setAluno(aluno);
         Set<ReservaAlocacaoEntity> reservaAlocacaoEntitySet = new HashSet<>();

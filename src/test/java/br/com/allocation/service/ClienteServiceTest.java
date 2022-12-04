@@ -4,7 +4,7 @@ import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
 import br.com.allocation.dto.clienteDTO.ClienteDTO;
 import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.entity.ClienteEntity;
-import br.com.allocation.enums.SituacaoCliente;
+import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ClienteRepository;
 import br.com.allocation.service.factory.ClienteFactory;
@@ -81,7 +81,7 @@ public class ClienteServiceTest {
         ClienteEntity clienteEntity = ClienteFactory.getClienteEntity();
         ClienteCreateDTO clienteCreateDTO = ClienteFactory.getClienteCreateDTO();
         Integer id = 1;
-        clienteEntity.setSituacaoCliente(SituacaoCliente.FECHADO);
+        clienteEntity.setSituacao(Situacao.FECHADO);
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(clienteEntity));
         ClienteEntity cliente = ClienteFactory.getClienteEntity();
         when(clienteRepository.save(any())).thenReturn(cliente);
@@ -89,7 +89,7 @@ public class ClienteServiceTest {
         ClienteDTO clienteDTO = clienteService.editar(id, clienteCreateDTO);
 
         assertNotNull(clienteDTO);
-        assertNotEquals(SituacaoCliente.FECHADO, clienteDTO.getSituacaoCliente());
+        assertNotEquals(Situacao.FECHADO, clienteDTO.getSituacao());
     }
 
     @Test

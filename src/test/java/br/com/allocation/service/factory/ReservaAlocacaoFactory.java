@@ -2,7 +2,7 @@ package br.com.allocation.service.factory;
 
 import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
 import br.com.allocation.entity.ReservaAlocacaoEntity;
-import br.com.allocation.enums.Situacao;
+import br.com.allocation.enums.SituacaoAllocation;
 
 import java.time.LocalDate;
 
@@ -14,7 +14,7 @@ public class ReservaAlocacaoFactory {
                 LocalDate.now().plusMonths(1),
                 LocalDate.now().plusMonths(1),
                 null,
-                Situacao.RESERVADO,
+                SituacaoAllocation.RESERVADO,
                 AlunoFactory.getAlunoEntity(),
                 VagaFactory.getVagaEntity(),
                 AvaliacaoFactory.getAvalicaoEntity());
