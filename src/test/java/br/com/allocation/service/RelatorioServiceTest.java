@@ -6,7 +6,6 @@ import br.com.allocation.dto.pageDTO.PageDTO;
 import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
 import br.com.allocation.dto.vagaDTO.VagaDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
-import br.com.allocation.repository.service.*;
 import br.com.allocation.service.factory.AlunoFactory;
 import br.com.allocation.service.factory.VagaFactory;
 import org.junit.Test;

@@ -26,14 +26,16 @@ public class AlunoFactory {
     }
 
     public static AlunoDTO getAlunoDTO() {
-        AlunoDTO alunoDTO = new AlunoDTO(1,
-                "joao",
-                "kaio@bol.com",
-                Area.FRONTEND,
-                Collections.emptyList(),
-                1,
-                "nao",
-                Situacao.DISPONIVEL);
+        AlunoDTO alunoDTO = new AlunoDTO();
+        alunoDTO.setIdAluno(1);
+        alunoDTO.setNome("joao");
+        alunoDTO.setEmail("kaio@bol.com");
+        alunoDTO.setArea(Area.FRONTEND);
+        alunoDTO.setTecnologias(Collections.emptyList());
+        alunoDTO.setIdPrograma(1);
+        alunoDTO.setEmProcesso("nao");
+        alunoDTO.setSituacao(Situacao.DISPONIVEL);
+
         return alunoDTO;
     }
 }
