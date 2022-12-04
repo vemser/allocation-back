@@ -193,7 +193,7 @@ public class UsuarioServiceTest {
 
         UsuarioEntity usuarioEntity = getUsuarioEntity();
         Page<UsuarioEntity> usuarioEntityPage = new PageImpl<>(List.of(usuarioEntity));
-        when(usuarioRepository.findAllByEmail(any(Pageable.class), anyString())).thenReturn(usuarioEntityPage);
+        when(usuarioRepository.findAllByEmailContainingIgnoreCase(any(Pageable.class), anyString())).thenReturn(usuarioEntityPage);
 
         PageDTO<UsuarioDTO> usuarioEntityPage1 = usuarioService.listarPorEmailPag(pagina, quantidade, email);
 
