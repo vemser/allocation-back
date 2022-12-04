@@ -43,6 +43,7 @@ public class AlunoService {
                 tecnologiaService.create(tecnologiaCreateDTO);
             }
         }
+
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setStatusAluno(StatusAluno.DISPONIVEL);
         alunoEntity = alunoRepository.save(alunoEntity);
@@ -137,7 +138,7 @@ public class AlunoService {
     }
 
     public AlunoDTO converterEmDTO(AlunoEntity alunoEntity) {
-        String emProcesso = "Não";
+        String emProcesso = alunoEntity.getStatusAluno().equals(StatusAluno.DISPONIVEL)? "não":"sim";
 
         List<String> tecs = new ArrayList<>();
 

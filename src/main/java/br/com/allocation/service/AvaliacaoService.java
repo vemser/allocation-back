@@ -37,8 +37,6 @@ public class AvaliacaoService {
         return converterEmDTO(avaliacaoEntity);
     }
 
-
-
     public AvaliacaoDTO editar(Integer id, AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(id);
         avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
