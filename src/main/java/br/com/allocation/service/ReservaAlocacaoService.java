@@ -44,6 +44,7 @@ public class ReservaAlocacaoService {
                 reservaAlocacaoCreateDTO);
         aluno.setStatusAluno(StatusAluno.RESERVADO);
         alunoRepository.save(aluno);
+
         try {
             adicionarQtdAlocadosEmVagas(reservaAlocacaoCreateDTO, reservaAlocacaoEntity, aluno);
             ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
@@ -66,8 +67,6 @@ public class ReservaAlocacaoService {
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
-
-        aluno.getReservaAlocacaos().add(reservaAlocacaoEntity);
 
         adicionarQtdAlocadosEmVagas(reservaAlocacaoCreateDTO, reservaAlocacaoEntity, aluno);
         if (reservaAlocacaoCreateDTO.getStatusAluno().equals(StatusAluno.RESERVADO)) {
@@ -104,6 +103,7 @@ public class ReservaAlocacaoService {
     public void deletar(Integer id) throws RegraDeNegocioException {
         ReservaAlocacaoEntity reservaAlocacao = findById(id);
         AlunoEntity aluno = reservaAlocacao.getAluno();
+
         reservaAlocacao.setStatusAluno(StatusAluno.FINALIZADO);
         aluno.setStatusAluno(StatusAluno.DISPONIVEL);
         alunoRepository.save(aluno);
