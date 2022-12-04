@@ -23,5 +23,6 @@ public class VagaDTO {
     private LocalDate dataFechamento;
     private LocalDate dataCriacao;
     private ClienteDTO clienteDTO;
+    private String observacoes;
 
 }

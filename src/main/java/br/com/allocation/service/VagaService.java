@@ -133,7 +133,8 @@ public class VagaService {
                 vagaEntity.getDataAbertura(),
                 vagaEntity.getDataFechamento(),
                 vagaEntity.getDataCriacao(),
-                clienteDTO);
+                clienteDTO,
+                vagaEntity.getObservacoes());
         return vagaDTO;
     }
 
