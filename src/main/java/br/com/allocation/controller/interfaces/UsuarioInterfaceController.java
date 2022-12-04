@@ -69,7 +69,7 @@ public interface UsuarioInterfaceController {
             }
     )
     @GetMapping("/listarPorEmail")
-    ResponseEntity<PageDTO<UsuarioDTO>> listarPorEmail(Integer pagina, Integer tamanho, String email) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<UsuarioDTO>> listarPorEmail(Integer pagina, Integer tamanho, @RequestParam("email") String email) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar usuario por nome paginado", description = "Listar por usuario por nome paginado")
     @ApiResponses(
