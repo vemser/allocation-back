@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -50,7 +49,7 @@ public class VagaCreateDTO {
     @Schema(description = "Observaçoes sobre a vaga", example = "Seguir conceitos de programação como: Alta coesão, Baixo acoplamento, e componentização.")
     private String observacoes;
 
-    @NotBlank(message = "Id cliente não pode ser vazio ou nulo.")
+    @NotNull(message = "Id cliente não pode ser vazio ou nulo.")
     @Schema(description = "Id do cliente", example = "1")
     private Integer idCliente;
 

@@ -2,8 +2,10 @@ package br.com.allocation.controller.interfaces;
 
 import br.com.allocation.dto.loginDTO.LoginDTO;
 import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
-import br.com.allocation.dto.usuarioDTO.*;
-import br.com.allocation.entity.FileEntity;
+import br.com.allocation.dto.usuarioDTO.FileDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;

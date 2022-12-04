@@ -11,5 +11,4 @@ public class AllocationApplication {
     public static void main(String[] args) {
         SpringApplication.run(AllocationApplication.class, args);
     }
-
 }

@@ -40,7 +40,7 @@ public class ReservaAlocacaoController implements ReservaAlocacaoInterface {
     }
 
     @Override
-    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, @RequestBody String nomeAluno, @RequestBody String nomeVaga) {
+    public ResponseEntity<PageDTO<ReservaAlocacaoDTO>> filtrar(Integer pagina, Integer tamanho, String nomeAluno, String nomeVaga) {
         return ResponseEntity.ok(reservaAlocacaoService.filtrar(pagina, tamanho, nomeAluno, nomeVaga));
     }
 

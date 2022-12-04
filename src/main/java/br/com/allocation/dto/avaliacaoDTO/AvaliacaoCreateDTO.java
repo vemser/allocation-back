@@ -29,7 +29,6 @@ public class AvaliacaoCreateDTO {
     @Schema(description = "Nota do aluno",example = "10")
     private Integer nota;
 
-
     @Schema(description = "descrição d avaliação do aluno",example = "Muito bom")
     private String descricao;
 
