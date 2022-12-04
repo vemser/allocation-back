@@ -36,6 +36,7 @@ public class VagaService {
         ClienteEntity cliente = clienteService.findByEmail(vagaCreate.getEmailCliente());
 
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
+        vagaCreate.setQuantidadeAlocados(0);
         vagaCreate.setSituacaoCliente(SituacaoCliente.ABERTO);
         VagaEntity vagaEntity = converterEntity(vagaCreate);
         vagaEntity.setCliente(cliente);
@@ -99,6 +100,7 @@ public class VagaService {
 
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity1 = findById(idVaga);
+        vagaCreate.setQuantidadeAlocados(0);
         if (vagaCreate.getSituacaoCliente().equals(SituacaoCliente.FECHADO)) {
             fecharVaga(vagaEntity1);
         }

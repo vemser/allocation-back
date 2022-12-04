@@ -28,9 +28,9 @@ public class ClienteController implements ClienteInterfaceController {
 
     @Override
     public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteCreateDTO clienteCreate) {
-        log.info("Adicionando o Usuário...");
+        log.info("Adicionando o Cliente...");
         ClienteDTO cliente = clienteService.salvar(clienteCreate);
-        log.info("Usuário adicionado com sucesso!");
+        log.info("Cliente adicionado com sucesso!");
         return new ResponseEntity<>(cliente, HttpStatus.CREATED);
     }
 
