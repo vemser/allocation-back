@@ -1,11 +1,12 @@
 package br.com.allocation.enums;
 
 public enum Situacao {
+    ALOCADO,
+    DISPONIVEL,
+    RESERVADO,
     ATIVO,
     INATIVO,
-    AVALIADO,
-    AGENDADO,
-    ENTREVISTADO,
-    APROVADO,
-    REPROVADO
+    ABERTO,
+    FECHADO
+
 }
