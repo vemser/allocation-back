@@ -34,7 +34,6 @@ public class VagaService {
     public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         ClienteEntity cliente = clienteService.findById(vagaCreate.getIdCliente());
-
         bloquearAlteracaoEmQuantAlocados(vagaCreate);
         vagaCreate.setQuantidadeAlocados(0);
         vagaCreate.setSituacao(Situacao.ABERTO);
@@ -173,6 +172,7 @@ public class VagaService {
         }
     }
 
+
     private static void verificarClienteInativo(VagaEntity vaga) throws RegraDeNegocioException {
         if (vaga.getCliente().getSituacao().equals(Situacao.INATIVO)) {
             throw new RegraDeNegocioException("Cliente inativo!");
@@ -192,5 +192,11 @@ public class VagaService {
         vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() + 1);
         vagaRepository.save(vaga);
     }
+    public void removerQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
+        VagaEntity vaga = findById(idVaga);
+        vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() - 1);
+        vagaRepository.save(vaga);
+    }
+
 
 }

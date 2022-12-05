@@ -38,7 +38,7 @@ public class ReservaAlocacaoService {
 
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
         alunoService.verificarDisponibilidadeAluno(reservaAlocacaoEntity.getAluno(), reservaAlocacaoCreateDTO);
-
+        avaliacaoService.verificarAvalicao(reservaAlocacaoEntity.getAvaliacao());
         alunoService.alterarStatusAluno(reservaAlocacaoCreateDTO.getIdAluno(),
                 reservaAlocacaoCreateDTO);
         aluno.setSituacaoAllocation(SituacaoAllocation.RESERVADO);
@@ -64,6 +64,7 @@ public class ReservaAlocacaoService {
         reservaAlocacaoEntity.setIdReservaAlocacao(idReserva);
 
         AlunoEntity aluno = reservaAlocacaoEntity.getAluno();
+        avaliacaoService.verificarAvalicao(reservaAlocacaoEntity.getAvaliacao());
         ReservaAlocacaoEntity saveAlocacaoReserva = reservaAlocacaoRepository.save(reservaAlocacaoEntity);
         aluno.getReservaAlocacaos().add(saveAlocacaoReserva);
 
@@ -112,7 +113,9 @@ public class ReservaAlocacaoService {
 
         reservaAlocacao.setSituacaoAllocation(SituacaoAllocation.INATIVO);
         aluno.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
+        vagaService.removerQuantidadeDeAlocados(reservaAlocacao.getVaga().getIdVaga());
         alunoRepository.save(aluno);
+
     }
 
     public PageDTO<ReservaAlocacaoDTO> listar(Integer pagina, Integer tamanho) {
@@ -180,8 +183,14 @@ public class ReservaAlocacaoService {
                                             ReservaAlocacaoEntity reservaAlocacaoEntity,
                                             AlunoEntity aluno) throws RegraDeNegocioException {
         if (reservaAlocacaoCreateDTO.getSituacaoAllocation().equals(SituacaoAllocation.ALOCADO)) {
-            alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
-            vagaService.adicionarQuantidadeDeAlocados(reservaAlocacaoEntity.getVaga().getIdVaga());
+            if (!aluno.getSituacaoAllocation().equals(SituacaoAllocation.ALOCADO)){
+                alunoService.alterarStatusAluno(aluno.getIdAluno(), reservaAlocacaoCreateDTO);
+                vagaService.adicionarQuantidadeDeAlocados(reservaAlocacaoEntity.getVaga().getIdVaga());
+            }
+        }else {
+            if (aluno.getSituacaoAllocation().equals(SituacaoAllocation.ALOCADO)){
+                vagaService.removerQuantidadeDeAlocados(reservaAlocacaoCreateDTO.getIdVaga());
+            }
         }
     }
 

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AvaliacaoCreateDTO {
 
-    @NotNull(message = "codigoVaga não pode ser nulo.")
+
     @Schema(description = "Codigo da vaga", example = "1")
     private Integer idVaga;
 
