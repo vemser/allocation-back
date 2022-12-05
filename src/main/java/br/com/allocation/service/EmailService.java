@@ -99,7 +99,7 @@ public class EmailService {
         Map<String, Object> dados = new HashMap<>();
         Template template = null;
 
-        String link = "versel/atualizar-senha?token=" + token;
+        String link = "http://vemser-dbc.dbccompany.com.br:39000/vemser/allocation-front/recuperar-senha?token=" + token;
 
         dados.put("nome", usuarioEntity.getNomeCompleto());
         dados.put("email", from);

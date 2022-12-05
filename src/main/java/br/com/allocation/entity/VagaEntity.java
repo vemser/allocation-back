@@ -68,6 +68,6 @@ public class VagaEntity {
     private ProgramaEntity programa;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "vaga", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "vaga", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ReservaAlocacaoEntity> resevasAlocacoes;
 }
