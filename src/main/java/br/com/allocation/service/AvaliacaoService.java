@@ -30,11 +30,19 @@ public class AvaliacaoService {
     public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
         verificarCodigoDaVaga(avaliacaoEntity);
-        avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getIdVaga()));
-        avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
-        avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
-        avaliacaoEntity.setDataCriacao(LocalDate.now());
-        avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
+        if(avaliacaoCreateDTO.getIdVaga() == null) {
+            avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
+            avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
+            avaliacaoEntity.setDataCriacao(LocalDate.now());
+            avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
+        }
+        else{
+            avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getIdVaga()));
+            avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
+            avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
+            avaliacaoEntity.setDataCriacao(LocalDate.now());
+            avaliacaoEntity = avaliacaoRepository.save(avaliacaoEntity);
+        }
         return converterEmDTO(avaliacaoEntity);
     }
 
@@ -112,7 +120,12 @@ public class AvaliacaoService {
     public AvaliacaoDTO converterEmDTO(AvaliacaoEntity avaliacaoEntity) {
         AvaliacaoDTO dto = objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class);
         dto.setEmailAluno(avaliacaoEntity.getAluno().getEmail());
-        dto.setIdVaga(avaliacaoEntity.getVaga().getIdVaga());
+        if(avaliacaoEntity.getVaga() == null){
+            dto.setIdVaga(null);
+        }
+        else {
+            dto.setIdVaga(avaliacaoEntity.getVaga().getIdVaga());
+        }
         return dto;
     }
 
