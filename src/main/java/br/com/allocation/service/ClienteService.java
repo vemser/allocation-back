@@ -28,10 +28,12 @@ public class ClienteService {
         return converterEmDTO(clienteRepository.save(clienteEntity));
     }
 
+
     public PageDTO<ClienteDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAll(pageRequest);
 
+        // FIXME PODERIAM TER ORGANIZANDO A LOGICA EM MÉTODOS PARA FICAR MAIS ORGANIZADO)
         List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
                 .toList();
@@ -47,6 +49,7 @@ public class ClienteService {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAllByEmailContainingIgnoreCase(pageRequest, email);
 
+        // FIXME PODERIAM TER ORGANIZANDO A LOGICA EM MÉTODOS PARA FICAR MAIS ORGANIZADO)
         List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
                 .toList();
@@ -62,6 +65,7 @@ public class ClienteService {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAllByNomeContainingIgnoreCase(pageRequest, nome);
 
+        // FIXME PODERIAM TER ORGANIZANDO A LOGICA EM MÉTODOS PARA FICAR MAIS ORGANIZADO)
         List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
                 .map(this::converterEmDTO)
                 .toList();

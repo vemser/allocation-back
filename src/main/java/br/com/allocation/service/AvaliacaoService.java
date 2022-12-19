@@ -51,6 +51,7 @@ public class AvaliacaoService {
     public void deletar(Integer codigoVaga) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(codigoVaga);
         AlunoEntity alunoEntity = alunoService.findById(avaliacaoEntity.getIdAluno());
+        // FIXME variável não usada
         AlunoDTO alunoDTO = alunoService.converterEmDTO(alunoEntity);
         avaliacaoRepository.delete(avaliacaoEntity);
 

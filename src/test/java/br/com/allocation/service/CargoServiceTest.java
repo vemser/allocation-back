@@ -54,7 +54,7 @@ public class CargoServiceTest {
         String nome = "GENERAL";
 
         CargoEntity cargo = cargoService.findByNome(nome);
-
+        // FIXME sem necessidade do assert
         assertNull(cargo);
     }
 

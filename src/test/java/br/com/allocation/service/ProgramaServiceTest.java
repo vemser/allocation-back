@@ -172,7 +172,7 @@ public class ProgramaServiceTest {
         when(programaRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         ProgramaEntity programa = programaService.findById(busca);
-
+        // FIXME não precisa do assert
         assertNull(programa);
     }
 

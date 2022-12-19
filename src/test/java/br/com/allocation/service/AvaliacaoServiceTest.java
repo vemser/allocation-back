@@ -144,7 +144,7 @@ public class AvaliacaoServiceTest {
         when(avaliacaoRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(busca);
-
+        // FIXME sem necessidade do assert
         assertNull(avaliacaoEntity);
     }
 

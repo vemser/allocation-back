@@ -94,6 +94,7 @@ public class ReservaAlocacaoService {
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
                 .findAllByFiltro(pageRequest, nomeAluno, nomeVaga);
 
+        // FIXME reutilização de método
         List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage
                 .getContent().stream()
                 .map(this::converterEmDTO)
@@ -120,6 +121,7 @@ public class ReservaAlocacaoService {
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
                 .findAll(pageRequest);
 
+        // FIXME reutilização de método
         List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage
                 .getContent().stream()
                 .map(this::converterEmDTO)

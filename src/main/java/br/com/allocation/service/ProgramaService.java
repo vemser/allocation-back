@@ -37,7 +37,7 @@ public class ProgramaService {
     public PageDTO<ProgramaDTO> listar(Integer pagina, Integer tamanho) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ProgramaEntity> paginaRepository = programaRepository.findAll(pageRequest);
-
+        // FIXME ClientePagina ? nome de varíavel fora do padrão
         List<ProgramaDTO> ClientePagina = paginaRepository.getContent().stream()
                 .map(x -> objectMapper.convertValue(x, ProgramaDTO.class))
                 .toList();
@@ -48,7 +48,7 @@ public class ProgramaService {
     public PageDTO<ProgramaDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ProgramaEntity> paginaRepository = programaRepository.findAllByNomeContainingIgnoreCase(nome, pageRequest);
-
+        // FIXME ClientePagina ? nome de varíavel fora do padrão
         List<ProgramaDTO> ClientePagina = paginaRepository.getContent().stream()
                 .map(x -> objectMapper.convertValue(x, ProgramaDTO.class))
                 .toList();

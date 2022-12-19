@@ -38,6 +38,7 @@ public class ClienteEntity {
     @Enumerated(EnumType.STRING)
     private Situacao situacao;
 
+    // FIXME não deveria ter = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<VagaEntity> vagas = new HashSet<>();

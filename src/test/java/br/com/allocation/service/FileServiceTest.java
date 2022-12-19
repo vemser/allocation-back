@@ -221,7 +221,7 @@ public class FileServiceTest {
         when(usuarioService.findUsuarioEntityByEmail(anyString())).thenReturn(usuario);
 
         FileDTO fileDTO = fileService.store(file, usuario.getEmail());
-
+        // FIXME sem necessidade do assert
         assertNull(fileDTO);
 
     }

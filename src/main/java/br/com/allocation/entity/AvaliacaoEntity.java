@@ -68,6 +68,7 @@ public class AvaliacaoEntity {
     @JoinColumn(name = "codigo_vaga", referencedColumnName = "codigo_vaga")
     private VagaEntity vaga;
 
+    // FIXME não deveria ter = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "avaliacao", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ReservaAlocacaoEntity> reservasAlocacoes = new HashSet<>();

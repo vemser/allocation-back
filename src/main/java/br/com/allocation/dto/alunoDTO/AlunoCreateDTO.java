@@ -1,5 +1,5 @@
 package br.com.allocation.dto.alunoDTO;
-
+// FIXME padrão de pacotes errado, não deve ser "alunoDTO" e sim "alunodto"
 import br.com.allocation.enums.Area;
 import br.com.allocation.enums.SituacaoAllocation;
 import io.swagger.v3.oas.annotations.media.Schema;

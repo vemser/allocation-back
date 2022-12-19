@@ -60,6 +60,7 @@ public class AlunoEntity {
     @JoinColumn(name = "id_programa", referencedColumnName = "id_programa")
     private ProgramaEntity programa;
 
+    // FIXME não deveria ter = new HashSet<>();
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -69,7 +70,7 @@ public class AlunoEntity {
     )
     private Set<TecnologiaEntity> tecnologias = new HashSet<>();
 
-
+    // FIXME não deveria ter = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
     private Set<ReservaAlocacaoEntity> reservaAlocacaos = new HashSet<>();

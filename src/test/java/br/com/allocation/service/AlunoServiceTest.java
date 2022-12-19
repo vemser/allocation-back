@@ -172,6 +172,7 @@ public class AlunoServiceTest {
 
         AlunoEntity alunoEntity = alunoService.findById(busca);
 
+        // FIXME Não há necessidade do assert
         assertNull(alunoEntity);
     }
 

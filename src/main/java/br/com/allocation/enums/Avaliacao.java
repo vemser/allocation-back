@@ -1,5 +1,6 @@
 package br.com.allocation.enums;
 
+//FIXME enum não utilizado
 public enum Avaliacao {
     AVALIACAO1("AVALIACAO1"),
     AVALIACAO2("AVALIACAO2"),

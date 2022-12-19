@@ -98,7 +98,7 @@ public class EmailService {
     public String geContentFromRecuperarSenha(UsuarioEntity usuarioEntity, String token) throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
         Template template = null;
-
+        // FIXME URL FIXA AQUI? deveria vir em properties, variável de ambiente...
         String link = "http://vemser-dbc.dbccompany.com.br:39000/vemser/allocation-front/recuperar-senha?token=" + token;
 
         dados.put("nome", usuarioEntity.getNomeCompleto());

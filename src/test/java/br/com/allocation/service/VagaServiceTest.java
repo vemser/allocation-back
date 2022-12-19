@@ -269,6 +269,8 @@ public class VagaServiceTest {
         vagaService.alterarQuantidadeDeVagas(idVaga);
 
         assertNotNull(vagaEntity);
+
+        // FIXME ASSERT INVERTIDO DEVE SER (ESPERADO, INFORMADO)
         Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
         Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(), 2);
     }
@@ -287,7 +289,10 @@ public class VagaServiceTest {
         vagaRepository.save(any());
         vagaService.alterarQuantidadeDeVagas(idVaga);
 
+        // FIXME não precisa de assert
         assertNotNull(vagaEntity);
+
+        // FIXME ASSERT INVERTIDO DEVE SER (ESPERADO, INFORMADO)
         Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
         Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(), 2);
     }
