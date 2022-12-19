@@ -1,6 +1,6 @@
-package br.com.allocation.dto.usuarioDTO;
+package br.com.allocation.dto.usuariodto;
 
-import br.com.allocation.dto.cargoDTO.CargoDTO;
+import br.com.allocation.dto.cargodto.CargoDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

@@ -1,13 +1,12 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.vagadto.VagaCreateDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.VagaRepository;
-import br.com.allocation.service.factory.ClienteFactory;
 import br.com.allocation.service.factory.ProgramaFactory;
 import br.com.allocation.service.factory.VagaFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;

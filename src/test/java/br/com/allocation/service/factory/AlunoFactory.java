@@ -1,6 +1,6 @@
 package br.com.allocation.service.factory;
 
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.enums.Area;
 import br.com.allocation.enums.SituacaoAllocation;

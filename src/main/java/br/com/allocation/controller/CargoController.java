@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.CargoInterfaceController;
-import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuariodto.UsuarioCargosDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.UsuarioService;
 import lombok.RequiredArgsConstructor;

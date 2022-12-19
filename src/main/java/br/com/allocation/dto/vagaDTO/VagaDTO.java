@@ -1,6 +1,6 @@
-package br.com.allocation.dto.vagaDTO;
+package br.com.allocation.dto.vagadto;
 
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
+import br.com.allocation.dto.clientedto.ClienteDTO;
 import br.com.allocation.enums.Situacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;

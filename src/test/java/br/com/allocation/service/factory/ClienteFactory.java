@@ -1,6 +1,6 @@
 package br.com.allocation.service.factory;
 
-import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
+import br.com.allocation.dto.clientedto.ClienteCreateDTO;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.enums.Situacao;
 

@@ -1,7 +1,7 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.tecnologiadto.TecnologiaDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

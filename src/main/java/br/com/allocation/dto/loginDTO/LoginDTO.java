@@ -1,4 +1,4 @@
-package br.com.allocation.dto.loginDTO;
+package br.com.allocation.dto.logindto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
