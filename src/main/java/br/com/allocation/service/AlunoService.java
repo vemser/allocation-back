@@ -34,14 +34,7 @@ public class AlunoService {
 
         ProgramaEntity programa = programaService.findById(alunoCreate.getIdPrograma());
         alunoEntity.setPrograma(programa);
-        for (var tecnologia : alunoCreate.getTecnologias()) {
-            if (tecnologiaService.findByName(tecnologia) == null) {
-                TecnologiaCreateDTO tecnologiaCreateDTO = new TecnologiaCreateDTO();
-                tecnologiaCreateDTO.setNome(tecnologia);
-                tecnologiaService.create(tecnologiaCreateDTO);
-            }
-        }
-
+        criarNovaTec(alunoCreate);
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
         alunoEntity = alunoRepository.save(alunoEntity);
@@ -57,12 +50,23 @@ public class AlunoService {
 
         AlunoEntity alunoEntity = converterEntity(alunoCreateDTO);
         ProgramaEntity programa = programaService.findById(alunoCreateDTO.getIdPrograma());
+        criarNovaTec(alunoCreateDTO);
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreateDTO.getTecnologias()));
         alunoEntity.setPrograma(programa);
         alunoEntity.setSituacaoAllocation(alunoCreateDTO.getSituacao());
         alunoEntity.setIdAluno(idAluno);
 
         return converterEmDTO(alunoRepository.save(alunoEntity));
+    }
+
+    private void criarNovaTec(AlunoCreateDTO alunoCreateDTO) {
+        for (var tecnologia : alunoCreateDTO.getTecnologias()) {
+            if (tecnologiaService.findByName(tecnologia) == null) {
+                TecnologiaCreateDTO tecnologiaCreateDTO = new TecnologiaCreateDTO();
+                tecnologiaCreateDTO.setNome(tecnologia);
+                tecnologiaService.create(tecnologiaCreateDTO);
+            }
+        }
     }
 
     public PageDTO<AlunoDTO> listar(Integer pagina, Integer tamanho) {
