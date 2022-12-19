@@ -104,9 +104,6 @@ public class FileServiceTest {
         when(fileRepository.save(any())).thenReturn(fileEntity);
 
         FileDTO fileDTO = fileService.store(file, usuario.getEmail());
-
-        assertNotNull(fileDTO);
-
     }
 
     @Test

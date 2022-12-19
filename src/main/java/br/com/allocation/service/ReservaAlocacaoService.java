@@ -15,6 +15,7 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.AlunoRepository;
 import br.com.allocation.repository.ReservaAlocacaoRepository;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -94,16 +95,22 @@ public class ReservaAlocacaoService {
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
                 .findAllByFiltro(pageRequest, nomeAluno, nomeVaga);
 
-        List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage
-                .getContent().stream()
-                .map(this::converterEmDTO)
-                .collect(Collectors.toList());
+        List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = getReservaAlocacaoDTOS(reservaAlocacaoEntityPage);
 
         return new PageDTO<>(reservaAlocacaoEntityPage.getTotalElements(),
                 reservaAlocacaoEntityPage.getTotalPages(),
                 pagina,
                 tamanho,
                 reservaAlocacaoDTOList);
+    }
+
+    @NotNull
+    private List<ReservaAlocacaoDTO> getReservaAlocacaoDTOS(Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage) {
+        List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage
+                .getContent().stream()
+                .map(this::converterEmDTO)
+                .collect(Collectors.toList());
+        return reservaAlocacaoDTOList;
     }
 
     public void deletar(Integer id) throws RegraDeNegocioException {
@@ -120,10 +127,7 @@ public class ReservaAlocacaoService {
         Page<ReservaAlocacaoEntity> reservaAlocacaoEntityPage = reservaAlocacaoRepository
                 .findAll(pageRequest);
 
-        List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = reservaAlocacaoEntityPage
-                .getContent().stream()
-                .map(this::converterEmDTO)
-                .collect(Collectors.toList());
+        List<ReservaAlocacaoDTO> reservaAlocacaoDTOList = getReservaAlocacaoDTOS(reservaAlocacaoEntityPage);
 
         return new PageDTO<>(reservaAlocacaoEntityPage.getTotalElements(),
                 reservaAlocacaoEntityPage.getTotalPages(),

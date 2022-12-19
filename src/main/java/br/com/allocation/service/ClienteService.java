@@ -8,6 +8,7 @@ import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.repository.ClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,7 @@ public class ClienteService {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAll(pageRequest);
 
-        List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
-                .map(this::converterEmDTO)
-                .toList();
+        List<ClienteDTO> clienteDTOList = getClienteDTOS(paginaRepository);
 
         return new PageDTO<>(paginaRepository.getTotalElements(),
                 paginaRepository.getTotalPages(),
@@ -43,13 +42,19 @@ public class ClienteService {
                 clienteDTOList);
     }
 
+    @NotNull
+    private List<ClienteDTO> getClienteDTOS(Page<ClienteEntity> paginaRepository) {
+        List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
+                .map(this::converterEmDTO)
+                .toList();
+        return clienteDTOList;
+    }
+
     public PageDTO<ClienteDTO> listarPorEmail(Integer pagina, Integer tamanho, String email) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAllByEmailContainingIgnoreCase(pageRequest, email);
 
-        List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
-                .map(this::converterEmDTO)
-                .toList();
+        List<ClienteDTO> clienteDTOList = getClienteDTOS(paginaRepository);
 
         return new PageDTO<>(paginaRepository.getTotalElements(),
                 paginaRepository.getTotalPages(),
@@ -62,9 +67,7 @@ public class ClienteService {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ClienteEntity> paginaRepository = clienteRepository.findAllByNomeContainingIgnoreCase(pageRequest, nome);
 
-        List<ClienteDTO> clienteDTOList = paginaRepository.getContent().stream()
-                .map(this::converterEmDTO)
-                .toList();
+        List<ClienteDTO> clienteDTOList = getClienteDTOS(paginaRepository);
 
         return new PageDTO<>(paginaRepository.getTotalElements(),
                 paginaRepository.getTotalPages(),

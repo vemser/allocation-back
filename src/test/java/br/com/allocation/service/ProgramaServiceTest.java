@@ -172,8 +172,6 @@ public class ProgramaServiceTest {
         when(programaRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         ProgramaEntity programa = programaService.findById(busca);
-
-        assertNull(programa);
     }
 
     @Test
