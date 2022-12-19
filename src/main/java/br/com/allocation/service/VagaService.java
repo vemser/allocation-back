@@ -34,23 +34,14 @@ public class VagaService {
     public VagaDTO salvar(VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         ClienteEntity cliente = clienteService.findById(vagaCreate.getIdCliente());
-        bloquearAlteracaoEmQuantAlocados(vagaCreate);
-        vagaCreate.setQuantidadeAlocados(0);
         vagaCreate.setSituacao(Situacao.ABERTO);
         VagaEntity vagaEntity = converterEntity(vagaCreate);
         vagaEntity.setCliente(cliente);
         vagaEntity.setPrograma(programa);
         vagaEntity.setDataCriacao(LocalDate.now());
-
         vagaEntity = vagaRepository.save(vagaEntity);
         verificarClienteInativo(vagaEntity);
         return converterEmDTO(vagaEntity);
-    }
-
-    private static void bloquearAlteracaoEmQuantAlocados(VagaCreateDTO vagaCreate) {
-        if (vagaCreate.getQuantidadeAlocados() != null) {
-            vagaCreate.setQuantidadeAlocados(0);
-        }
     }
 
     public PageDTO<VagaDTO> listar(Integer pagina, Integer tamanho) {
@@ -100,13 +91,10 @@ public class VagaService {
 
     public VagaDTO editar(Integer idVaga, VagaCreateDTO vagaCreate) throws RegraDeNegocioException {
         VagaEntity vagaEntity1 = findById(idVaga);
-        vagaCreate.setQuantidadeAlocados(0);
         if (vagaCreate.getSituacao().equals(Situacao.FECHADO)) {
             fecharVaga(vagaEntity1);
         }
         VagaEntity vagaEntity = objectMapper.convertValue(vagaCreate, VagaEntity.class);
-
-        bloquearAlteracaoEmQuantAlocados(vagaCreate);
 
         ProgramaEntity programa = programaService.findById(vagaCreate.getIdPrograma());
         ClienteEntity cliente = clienteService.findById(vagaCreate.getIdCliente());
@@ -179,6 +167,12 @@ public class VagaService {
         }
     }
 
+    public void verificarVagaFechada(VagaEntity vaga) throws RegraDeNegocioException {
+        if (vaga.getSituacao().equals(Situacao.FECHADO)) {
+            throw new RegraDeNegocioException("Vaga Fechada!");
+        }
+    }
+
     public void fecharVaga(VagaEntity vaga) {
         if (vaga.getQuantidade() == 0) {
             vaga.setSituacao(Situacao.FECHADO);
@@ -186,12 +180,12 @@ public class VagaService {
         }
     }
 
-
     public void adicionarQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
         vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() + 1);
         vagaRepository.save(vaga);
     }
+
     public void removerQuantidadeDeAlocados(Integer idVaga) throws RegraDeNegocioException {
         VagaEntity vaga = findById(idVaga);
         vaga.setQuantidadeAlocados(vaga.getQuantidadeAlocados() - 1);

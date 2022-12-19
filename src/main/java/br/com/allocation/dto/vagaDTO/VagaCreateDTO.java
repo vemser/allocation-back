@@ -25,9 +25,6 @@ public class VagaCreateDTO {
     @Schema(description = "Quantidade de pessoas para a vaga", example = "2")
     private Integer quantidade;
 
-    @Schema(description = "Quantidade de pessoas alocadas na vaga", example = "1")
-    private Integer quantidadeAlocados;
-
     @NotNull(message = "Id programa não pode ser nulo.")
     @Schema(description = "Id do programa", example = "1")
     private Integer idPrograma;
@@ -38,7 +35,6 @@ public class VagaCreateDTO {
 
     @Schema(description = "Data abertura vaga", example = "2022-12-20")
     private LocalDate dataAbertura;
-
 
     @Schema(description = "Data fechamento vaga", example = "2022-12-26")
     private LocalDate dataFechamento;
