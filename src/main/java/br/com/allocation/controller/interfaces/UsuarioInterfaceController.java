@@ -3,6 +3,7 @@ package br.com.allocation.controller.interfaces;
 import br.com.allocation.dto.pagedto.PageDTO;
 import br.com.allocation.dto.usuariodto.UsuarioCreateDTO;
 import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.usuariodto.UsuarioEditDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +47,7 @@ public interface UsuarioInterfaceController {
             }
     )
     @PutMapping("/{idUsuario}")
-    ResponseEntity<UsuarioDTO> editar(@RequestParam("cargo") Cargos cargo, @PathVariable("idUsuario") Integer idUsuario, @Valid UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException;
+    ResponseEntity<UsuarioDTO> editar(@RequestParam("cargo") Cargos cargo, @PathVariable("idUsuario") Integer idUsuario, @Valid UsuarioEditDTO usuarioEditDTO) throws RegraDeNegocioException;
 
 
     @Operation(summary = "Deleta o usuário por id", description = "Deleta usuário por id")

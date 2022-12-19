@@ -2,8 +2,10 @@ package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.UsuarioInterfaceController;
 import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.usuariodto.UsuarioAtualizarSenhaDTO;
 import br.com.allocation.dto.usuariodto.UsuarioCreateDTO;
 import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.usuariodto.UsuarioEditDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.FileService;
@@ -54,8 +56,8 @@ public class UsuarioController implements UsuarioInterfaceController {
     }
 
     @Override
-    public ResponseEntity<UsuarioDTO> editar(Cargos cargo, Integer idUsuario, @Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
-        return new ResponseEntity<>(usuarioService.editar(idUsuario, usuarioCreateDTO, cargo), HttpStatus.CREATED);
+    public ResponseEntity<UsuarioDTO> editar(Cargos cargo, Integer idUsuario, @Valid @RequestBody UsuarioEditDTO usuarioEditDTO) throws RegraDeNegocioException {
+        return new ResponseEntity<>(usuarioService.editar(idUsuario, usuarioEditDTO, cargo), HttpStatus.CREATED);
     }
 
     @Override
@@ -63,6 +65,11 @@ public class UsuarioController implements UsuarioInterfaceController {
         usuarioService.deletar(idUsuario);
         log.info("Usuário deletado com sucesso");
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/editarSenha")
+    public ResponseEntity<UsuarioDTO> editarUsuario(Integer id, @Valid @RequestBody UsuarioAtualizarSenhaDTO usuarioAtualizarSenhaDTO) throws RegraDeNegocioException {
+        return new ResponseEntity<>(usuarioService.editarSenha(id, usuarioAtualizarSenhaDTO), HttpStatus.OK);
     }
 
 }

@@ -4,10 +4,7 @@ package br.com.allocation.service;
 import br.com.allocation.dto.cargodto.CargoDTO;
 import br.com.allocation.dto.logindto.LoginWithIdDTO;
 import br.com.allocation.dto.pagedto.PageDTO;
-import br.com.allocation.dto.usuariodto.UsuarioCargosDTO;
-import br.com.allocation.dto.usuariodto.UsuarioCreateDTO;
-import br.com.allocation.dto.usuariodto.UsuarioDTO;
-import br.com.allocation.dto.usuariodto.UsuarioSenhaDTO;
+import br.com.allocation.dto.usuariodto.*;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Cargos;
@@ -63,22 +60,41 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
-    public UsuarioDTO editar(Integer id, UsuarioCreateDTO usuarioCreateDTO, Cargos cargos) throws RegraDeNegocioException {
+    public UsuarioDTO editar(Integer id, UsuarioEditDTO usuarioEditDTO, Cargos cargos) throws RegraDeNegocioException {
         UsuarioEntity usuario = findById(id);
 
-        confirmarSenha(usuarioCreateDTO);
-        validarSenha(usuarioCreateDTO.getSenha());
-
-        usuario.setEmail(usuarioCreateDTO.getEmail());
-        usuario.setSenha(passwordEncoder.encode(usuarioCreateDTO.getSenha()));
-        usuario.setNomeCompleto(usuarioCreateDTO.getNomeCompleto());
+        usuario.setEmail(usuarioEditDTO.getEmail());
+        usuario.setNomeCompleto(usuarioEditDTO.getNomeCompleto());
 
         CargoEntity cargo = cargoService.findByNome(cargos.getDescricao());
         usuario.getCargos().clear();
         usuario.getCargos().add(cargo);
+        CargoDTO cargoDTO = objectMapper.convertValue(cargo, CargoDTO.class);
 
         usuario = usuarioRepository.save(usuario);
-        return converterEmDTO(usuario);
+        UsuarioDTO usuarioDTO = converterEmDTO(usuario);
+        usuarioDTO.setCargo(cargoDTO);
+        return usuarioDTO;
+    }
+
+    public UsuarioDTO editarSenha(Integer id, UsuarioAtualizarSenhaDTO usuario) throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity = findById(id);
+
+        if(!usuario.getSenha().equals(usuario.getSenhaIgual())){{
+            throw  new RegraDeNegocioException("Senha diferente!");
+        }}
+        validarSenha(usuario.getSenha());
+
+        if(passwordEncoder.matches(usuario.getSenhaAntiga(), usuarioEntity.getSenha())){
+            usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+            usuarioEntity = usuarioRepository.save(usuarioEntity);
+        }
+        else{
+            throw new RegraDeNegocioException("Senha antiga não condiz!");
+        }
+
+        return converterEmDTO(usuarioEntity);
+
     }
 
 
