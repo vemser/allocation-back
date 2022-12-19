@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import freemarker.template.Template;
@@ -29,6 +29,9 @@ public class EmailService {
 
     @Value("${spring.mail.username}")
     private String from;
+
+    @Value("{site}")
+    private String site;
 
     private final JavaMailSender emailSender;
 
@@ -99,7 +102,7 @@ public class EmailService {
         Map<String, Object> dados = new HashMap<>();
         Template template = null;
 
-        String link = "http://vemser-dbc.dbccompany.com.br:39000/vemser/allocation-front/recuperar-senha?token=" + token;
+        String link = site + token;
 
         dados.put("nome", usuarioEntity.getNomeCompleto());
         dados.put("email", from);

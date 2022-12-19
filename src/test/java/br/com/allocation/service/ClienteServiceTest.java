@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.clienteDTO.ClienteCreateDTO;
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.clientedto.ClienteCreateDTO;
+import br.com.allocation.dto.clientedto.ClienteDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;

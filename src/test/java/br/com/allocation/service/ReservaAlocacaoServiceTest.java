@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.reservaAlocacaodto.ReservaAlocacaoCreateDTO;
+import br.com.allocation.dto.reservaAlocacaodto.ReservaAlocacaoDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ReservaAlocacaoEntity;
 import br.com.allocation.entity.VagaEntity;

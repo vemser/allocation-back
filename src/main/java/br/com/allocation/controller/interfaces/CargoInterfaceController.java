@@ -1,7 +1,7 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.usuariodto.UsuarioCargosDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

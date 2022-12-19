@@ -1,9 +1,9 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoCreateDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.enums.SituacaoAluno;
@@ -51,7 +51,7 @@ public class AvaliacaoService {
     public void deletar(Integer codigoVaga) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(codigoVaga);
         AlunoEntity alunoEntity = alunoService.findById(avaliacaoEntity.getIdAluno());
-        AlunoDTO alunoDTO = alunoService.converterEmDTO(alunoEntity);
+        alunoService.converterEmDTO(alunoEntity);
         avaliacaoRepository.delete(avaliacaoEntity);
 
     }

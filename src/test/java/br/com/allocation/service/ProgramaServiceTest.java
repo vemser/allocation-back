@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
-import br.com.allocation.dto.programaDTO.ProgramaDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.programadto.ProgramaCreateDTO;
+import br.com.allocation.dto.programadto.ProgramaDTO;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -172,8 +172,6 @@ public class ProgramaServiceTest {
         when(programaRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         ProgramaEntity programa = programaService.findById(busca);
-
-        assertNull(programa);
     }
 
     @Test

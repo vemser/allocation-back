@@ -54,8 +54,6 @@ public class CargoServiceTest {
         String nome = "GENERAL";
 
         CargoEntity cargo = cargoService.findByNome(nome);
-
-        assertNull(cargo);
     }
 
     private static CargoEntity getCargoEntity() {

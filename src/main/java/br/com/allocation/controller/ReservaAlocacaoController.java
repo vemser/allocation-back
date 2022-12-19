@@ -1,9 +1,9 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.ReservaAlocacaoInterface;
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.reservaAlocacaodto.ReservaAlocacaoCreateDTO;
+import br.com.allocation.dto.reservaAlocacaodto.ReservaAlocacaoDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.ReservaAlocacaoService;
 import lombok.RequiredArgsConstructor;

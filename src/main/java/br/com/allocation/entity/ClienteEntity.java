@@ -40,5 +40,5 @@ public class ClienteEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<VagaEntity> vagas = new HashSet<>();
+    private Set<VagaEntity> vagas;
 }

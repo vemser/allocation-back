@@ -1,10 +1,10 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.alunoDTO.AlunoCreateDTO;
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
+import br.com.allocation.dto.alunodto.AlunoCreateDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.reservaAlocacaodto.ReservaAlocacaoCreateDTO;
+import br.com.allocation.dto.tecnologiadto.TecnologiaCreateDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.SituacaoAllocation;
@@ -34,14 +34,7 @@ public class AlunoService {
 
         ProgramaEntity programa = programaService.findById(alunoCreate.getIdPrograma());
         alunoEntity.setPrograma(programa);
-        for (var tecnologia : alunoCreate.getTecnologias()) {
-            if (tecnologiaService.findByName(tecnologia) == null) {
-                TecnologiaCreateDTO tecnologiaCreateDTO = new TecnologiaCreateDTO();
-                tecnologiaCreateDTO.setNome(tecnologia);
-                tecnologiaService.create(tecnologiaCreateDTO);
-            }
-        }
-
+        criarNovaTec(alunoCreate);
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreate.getTecnologias()));
         alunoEntity.setSituacaoAllocation(SituacaoAllocation.DISPONIVEL);
         alunoEntity = alunoRepository.save(alunoEntity);
@@ -57,12 +50,23 @@ public class AlunoService {
 
         AlunoEntity alunoEntity = converterEntity(alunoCreateDTO);
         ProgramaEntity programa = programaService.findById(alunoCreateDTO.getIdPrograma());
+        criarNovaTec(alunoCreateDTO);
         alunoEntity.setTecnologias(tecnologiaService.findBySet(alunoCreateDTO.getTecnologias()));
         alunoEntity.setPrograma(programa);
         alunoEntity.setSituacaoAllocation(alunoCreateDTO.getSituacao());
         alunoEntity.setIdAluno(idAluno);
 
         return converterEmDTO(alunoRepository.save(alunoEntity));
+    }
+
+    private void criarNovaTec(AlunoCreateDTO alunoCreateDTO) {
+        for (var tecnologia : alunoCreateDTO.getTecnologias()) {
+            if (tecnologiaService.findByName(tecnologia) == null) {
+                TecnologiaCreateDTO tecnologiaCreateDTO = new TecnologiaCreateDTO();
+                tecnologiaCreateDTO.setNome(tecnologia);
+                tecnologiaService.create(tecnologiaCreateDTO);
+            }
+        }
     }
 
     public PageDTO<AlunoDTO> listar(Integer pagina, Integer tamanho) {

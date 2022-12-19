@@ -1,8 +1,8 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.TecnologiaInterfaceController;
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.tecnologiadto.TecnologiaDTO;
 import br.com.allocation.service.TecnologiaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
