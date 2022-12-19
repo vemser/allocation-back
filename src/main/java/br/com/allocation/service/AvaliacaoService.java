@@ -51,7 +51,7 @@ public class AvaliacaoService {
     public void deletar(Integer codigoVaga) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(codigoVaga);
         AlunoEntity alunoEntity = alunoService.findById(avaliacaoEntity.getIdAluno());
-        AlunoDTO alunoDTO = alunoService.converterEmDTO(alunoEntity);
+        alunoService.converterEmDTO(alunoEntity);
         avaliacaoRepository.delete(avaliacaoEntity);
 
     }
