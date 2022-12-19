@@ -171,8 +171,6 @@ public class AlunoServiceTest {
         when(alunoRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         AlunoEntity alunoEntity = alunoService.findById(busca);
-
-        assertNull(alunoEntity);
     }
 
     @Test

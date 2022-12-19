@@ -29,6 +29,7 @@ public class AvaliacaoService {
 
     public AvaliacaoDTO salvar(AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
+        verificarCodigoDaVaga(avaliacaoEntity);
         avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getIdVaga()));
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
         avaliacaoEntity.setSituacao(SituacaoAluno.valueOf(avaliacaoCreateDTO.getSituacao()));
@@ -37,8 +38,17 @@ public class AvaliacaoService {
         return converterEmDTO(avaliacaoEntity);
     }
 
+    private static void verificarCodigoDaVaga(AvaliacaoEntity avaliacaoEntity) throws RegraDeNegocioException {
+        if (avaliacaoEntity.getSituacao() != null
+                && !avaliacaoEntity.getSituacao().equals(SituacaoAluno.AVALIADO)
+                && avaliacaoEntity.getIdVaga() == null) {
+            throw new RegraDeNegocioException("Codigo da vaga obrigatorio!");
+        }
+    }
+
     public AvaliacaoDTO editar(Integer id, AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         AvaliacaoEntity avaliacaoEntity = findById(id);
+        verificarCodigoDaVaga(avaliacaoEntity);
         avaliacaoEntity = converterEntity(avaliacaoCreateDTO);
         avaliacaoEntity.setAluno(alunoService.findByEmail(avaliacaoCreateDTO.getEmailAluno()));
         avaliacaoEntity.setVaga(vagaService.findById(avaliacaoCreateDTO.getIdVaga()));
@@ -86,6 +96,13 @@ public class AvaliacaoService {
     public AvaliacaoEntity findById(Integer id) throws RegraDeNegocioException {
         return avaliacaoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Avaliação não encontrada!"));
+    }
+
+    public void verificarAvalicao(AvaliacaoEntity avaliacaoEntity) throws RegraDeNegocioException {
+        if (!avaliacaoEntity.getSituacao().equals(SituacaoAluno.APROVADO)) {
+            throw new RegraDeNegocioException("Aluno não está aprovado!");
+        }
+
     }
 
     private AvaliacaoEntity converterEntity(AvaliacaoCreateDTO avaliacaoCreateDTO) {

@@ -144,8 +144,6 @@ public class AvaliacaoServiceTest {
         when(avaliacaoRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         AvaliacaoEntity avaliacaoEntity = avaliacaoService.findById(busca);
-
-        assertNull(avaliacaoEntity);
     }
 
 }

@@ -204,7 +204,7 @@ public class VagaServiceTest {
 
         assertNotNull(vagaEntity);
 
-        Assertions.assertEquals(vagaEntity.getIdVaga(), id);
+        Assertions.assertEquals(id, vagaEntity.getIdVaga());
     }
 
     @Test
@@ -221,8 +221,8 @@ public class VagaServiceTest {
 
         assertNotNull(vagaEntity);
 
-        Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
-        Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(), 2);
+        Assertions.assertEquals( idVaga, vagaEntity.getIdVaga());
+        Assertions.assertEquals( 2, vagaEntity.getQuantidadeAlocados());
 
     }
 
@@ -286,9 +286,8 @@ public class VagaServiceTest {
         vagaRepository.save(any());
         vagaService.alterarQuantidadeDeVagas(idVaga);
 
-        assertNotNull(vagaEntity);
-        Assertions.assertEquals(vagaEntity.getIdVaga(), idVaga);
-        Assertions.assertEquals(vagaEntity.getQuantidadeAlocados(), 2);
+        Assertions.assertEquals(idVaga, vagaEntity.getIdVaga());
+        Assertions.assertEquals(2, vagaEntity.getQuantidadeAlocados());
     }
 
 }

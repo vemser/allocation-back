@@ -26,12 +26,12 @@ public class UsuarioCreateDTO {
     private String email;
 
     @NotBlank(message = "senha não pode ser vazio ou nulo.")
-    @Schema(description = "senha do usuario ", example = "pqasde12@")
+    @Schema(description = "senha do usuario", example = "pqasde12@")
     @Size(min = 8, max = 25)
     private String senha;
 
     @NotBlank(message = "senha não pode ser vazio ou nulo.")
-    @Schema(description = "confirmação de senha ", example = "pqasde12@")
+    @Schema(description = "confirmação de senha", example = "pqasde12@")
     @Size(min = 8, max = 25)
     private String senhaIgual;
 
