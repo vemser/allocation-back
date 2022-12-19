@@ -1,12 +1,12 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.AuthInterfaceController;
-import br.com.allocation.dto.loginDTO.LoginDTO;
-import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
-import br.com.allocation.dto.usuarioDTO.FileDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
+import br.com.allocation.dto.logindto.LoginDTO;
+import br.com.allocation.dto.logindto.LoginWithIdDTO;
+import br.com.allocation.dto.usuariodto.FileDTO;
+import br.com.allocation.dto.usuariodto.UsuarioCreateDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.usuariodto.UsuarioSenhaDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.security.TokenService;

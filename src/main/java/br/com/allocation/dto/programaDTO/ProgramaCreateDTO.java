@@ -1,4 +1,4 @@
-package br.com.allocation.dto.programaDTO;
+package br.com.allocation.dto.programadto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

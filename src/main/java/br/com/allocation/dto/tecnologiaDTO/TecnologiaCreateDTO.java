@@ -1,4 +1,4 @@
-package br.com.allocation.dto.tecnologiaDTO;
+package br.com.allocation.dto.tecnologiadto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

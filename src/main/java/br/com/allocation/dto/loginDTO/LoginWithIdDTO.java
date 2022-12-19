@@ -1,4 +1,4 @@
-package br.com.allocation.dto.loginDTO;
+package br.com.allocation.dto.logindto;
 
 import br.com.allocation.entity.CargoEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;

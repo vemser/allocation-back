@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import lombok.RequiredArgsConstructor;

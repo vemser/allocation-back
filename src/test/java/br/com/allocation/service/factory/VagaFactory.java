@@ -1,7 +1,7 @@
 package br.com.allocation.service.factory;
 
-import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.vagadto.VagaCreateDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.entity.VagaEntity;
 import br.com.allocation.enums.Situacao;
 

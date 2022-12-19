@@ -1,4 +1,4 @@
-package br.com.allocation.dto.alunoDTO;
+package br.com.allocation.dto.alunodto;
 
 import br.com.allocation.enums.Area;
 import br.com.allocation.enums.SituacaoAllocation;

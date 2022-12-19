@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.programaDTO.ProgramaCreateDTO;
-import br.com.allocation.dto.programaDTO.ProgramaDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.programadto.ProgramaCreateDTO;
+import br.com.allocation.dto.programadto.ProgramaDTO;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.enums.Situacao;
 import br.com.allocation.exceptions.RegraDeNegocioException;
@@ -38,22 +38,22 @@ public class ProgramaService {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ProgramaEntity> paginaRepository = programaRepository.findAll(pageRequest);
 
-        List<ProgramaDTO> ClientePagina = paginaRepository.getContent().stream()
+        List<ProgramaDTO> clientePagina = paginaRepository.getContent().stream()
                 .map(x -> objectMapper.convertValue(x, ProgramaDTO.class))
                 .toList();
 
-        return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
+        return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, clientePagina);
     }
 
     public PageDTO<ProgramaDTO> listarPorNome(Integer pagina, Integer tamanho, String nome) {
         PageRequest pageRequest = PageRequest.of(pagina, tamanho);
         Page<ProgramaEntity> paginaRepository = programaRepository.findAllByNomeContainingIgnoreCase(nome, pageRequest);
 
-        List<ProgramaDTO> ClientePagina = paginaRepository.getContent().stream()
+        List<ProgramaDTO> clientePagina = paginaRepository.getContent().stream()
                 .map(x -> objectMapper.convertValue(x, ProgramaDTO.class))
                 .toList();
 
-        return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, ClientePagina);
+        return new PageDTO<>(paginaRepository.getTotalElements(), paginaRepository.getTotalPages(), pagina, tamanho, clientePagina);
     }
 
     public PageDTO<ProgramaDTO> listarPorId(Integer idPrograma) throws RegraDeNegocioException {

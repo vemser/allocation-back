@@ -1,9 +1,9 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.clienteDTO.ClienteDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.vagaDTO.VagaCreateDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.clientedto.ClienteDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.vagadto.VagaCreateDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.entity.ClienteEntity;
 import br.com.allocation.entity.ProgramaEntity;
 import br.com.allocation.entity.VagaEntity;

@@ -1,4 +1,4 @@
-package br.com.allocation.dto.cargoDTO;
+package br.com.allocation.dto.cargodto;
 
 import lombok.Data;
 

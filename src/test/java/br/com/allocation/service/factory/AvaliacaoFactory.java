@@ -1,6 +1,6 @@
 package br.com.allocation.service.factory;
 
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoCreateDTO;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.enums.SituacaoAluno;
 import br.com.allocation.enums.TipoAvaliacao;

@@ -1,8 +1,8 @@
-package br.com.allocation.dto.reservaAlocacaoDTO;
+package br.com.allocation.dto.reservaAlocacaodto;
 
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.enums.SituacaoAllocation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
