@@ -1,6 +1,6 @@
 package br.com.allocation.service.factory;
 
-import br.com.allocation.dto.reservaAlocacaoDTO.ReservaAlocacaoCreateDTO;
+import br.com.allocation.dto.reservaAlocacaodto.ReservaAlocacaoCreateDTO;
 import br.com.allocation.entity.ReservaAlocacaoEntity;
 import br.com.allocation.enums.SituacaoAllocation;
 

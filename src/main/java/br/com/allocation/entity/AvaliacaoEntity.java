@@ -70,6 +70,6 @@ public class AvaliacaoEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "avaliacao", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Set<ReservaAlocacaoEntity> reservasAlocacoes = new HashSet<>();
+    private Set<ReservaAlocacaoEntity> reservasAlocacoes;
 
 }

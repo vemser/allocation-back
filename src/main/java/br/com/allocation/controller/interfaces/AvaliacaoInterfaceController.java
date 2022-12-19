@@ -1,8 +1,8 @@
 package br.com.allocation.controller.interfaces;
 
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoCreateDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

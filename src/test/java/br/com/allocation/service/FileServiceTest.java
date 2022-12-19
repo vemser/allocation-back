@@ -1,6 +1,6 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.usuarioDTO.FileDTO;
+import br.com.allocation.dto.usuariodto.FileDTO;
 import br.com.allocation.entity.FileEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.exceptions.RegraDeNegocioException;

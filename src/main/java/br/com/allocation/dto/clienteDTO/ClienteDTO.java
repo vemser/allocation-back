@@ -1,4 +1,4 @@
-package br.com.allocation.dto.clienteDTO;
+package br.com.allocation.dto.clientedto;
 
 import br.com.allocation.enums.Situacao;
 import lombok.AllArgsConstructor;

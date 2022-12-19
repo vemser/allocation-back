@@ -1,4 +1,4 @@
-package br.com.allocation.dto.pageDTO;
+package br.com.allocation.dto.pagedto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

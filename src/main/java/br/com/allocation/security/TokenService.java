@@ -1,6 +1,6 @@
 package br.com.allocation.security;
 
-import br.com.allocation.dto.loginDTO.LoginDTO;
+import br.com.allocation.dto.logindto.LoginDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import io.jsonwebtoken.Claims;

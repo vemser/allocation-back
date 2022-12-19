@@ -1,12 +1,12 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.cargoDTO.CargoDTO;
-import br.com.allocation.dto.loginDTO.LoginWithIdDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioCargosDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioSenhaDTO;
+import br.com.allocation.dto.cargodto.CargoDTO;
+import br.com.allocation.dto.logindto.LoginWithIdDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.usuariodto.UsuarioCargosDTO;
+import br.com.allocation.dto.usuariodto.UsuarioCreateDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.usuariodto.UsuarioSenhaDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Cargos;

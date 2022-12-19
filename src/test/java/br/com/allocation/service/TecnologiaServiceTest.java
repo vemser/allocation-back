@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaCreateDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.tecnologiadto.TecnologiaCreateDTO;
+import br.com.allocation.dto.tecnologiadto.TecnologiaDTO;
 import br.com.allocation.entity.TecnologiaEntity;
 import br.com.allocation.repository.TecnologiaRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;

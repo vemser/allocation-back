@@ -72,5 +72,5 @@ public class AlunoEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
-    private Set<ReservaAlocacaoEntity> reservaAlocacaos = new HashSet<>();
+    private Set<ReservaAlocacaoEntity> reservaAlocacaos;
 }

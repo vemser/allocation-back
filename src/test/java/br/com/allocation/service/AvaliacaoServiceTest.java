@@ -1,8 +1,8 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoCreateDTO;
-import br.com.allocation.dto.avaliacaoDTO.AvaliacaoDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoCreateDTO;
+import br.com.allocation.dto.avaliacaodto.AvaliacaoDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
 import br.com.allocation.entity.AlunoEntity;
 import br.com.allocation.entity.AvaliacaoEntity;
 import br.com.allocation.entity.VagaEntity;

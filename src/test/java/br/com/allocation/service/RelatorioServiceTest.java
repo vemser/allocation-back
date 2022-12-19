@@ -1,10 +1,10 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.cargoDTO.CargoDTO;
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
+import br.com.allocation.dto.cargodto.CargoDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.factory.AlunoFactory;
 import br.com.allocation.service.factory.VagaFactory;

@@ -1,9 +1,9 @@
 package br.com.allocation.service;
 
-import br.com.allocation.dto.alunoDTO.AlunoDTO;
-import br.com.allocation.dto.tecnologiaDTO.TecnologiaDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
-import br.com.allocation.dto.vagaDTO.VagaDTO;
+import br.com.allocation.dto.alunodto.AlunoDTO;
+import br.com.allocation.dto.tecnologiadto.TecnologiaDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
+import br.com.allocation.dto.vagadto.VagaDTO;
 import br.com.allocation.entity.CargoEntity;
 import br.com.allocation.entity.UsuarioEntity;
 import br.com.allocation.enums.Area;

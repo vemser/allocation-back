@@ -1,9 +1,9 @@
 package br.com.allocation.controller;
 
 import br.com.allocation.controller.interfaces.UsuarioInterfaceController;
-import br.com.allocation.dto.pageDTO.PageDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioCreateDTO;
-import br.com.allocation.dto.usuarioDTO.UsuarioDTO;
+import br.com.allocation.dto.pagedto.PageDTO;
+import br.com.allocation.dto.usuariodto.UsuarioCreateDTO;
+import br.com.allocation.dto.usuariodto.UsuarioDTO;
 import br.com.allocation.enums.Cargos;
 import br.com.allocation.exceptions.RegraDeNegocioException;
 import br.com.allocation.service.FileService;

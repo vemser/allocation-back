@@ -1,4 +1,4 @@
-package br.com.allocation.dto.programaDTO;
+package br.com.allocation.dto.programadto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
